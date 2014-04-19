@@ -9,12 +9,13 @@ package naftoreiclag.village;
 import naftoreiclag.village.slide.GuiNode;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-public class Application
+//I named this class "Main" just so java newbies can find the
+//main method faster! Aren't I so nice? :)
+
+public class Main
 {
 	public void run()
 	{
@@ -25,6 +26,7 @@ public class Application
 			@Override
 			void sendStuffToGPU()
 			{
+				renderGL();
 			}
 		};
 		
@@ -41,7 +43,6 @@ public class Application
 		while (!Display.isCloseRequested())
 		{
 			graphics.updateDisplay();
-			renderGL();
 		}
 		
 		if(Display.isCloseRequested())
@@ -66,9 +67,10 @@ public class Application
             
     }
 
+	// This is where the magic begins
 	public static void main(String[] args)
 	{
-		Application application = new Application();
-		application.run();
+		Main a = new Main();
+		a.run();
 	}
 }
