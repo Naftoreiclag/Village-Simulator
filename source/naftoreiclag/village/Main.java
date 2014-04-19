@@ -7,7 +7,6 @@
 package naftoreiclag.village;
 
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -35,15 +34,21 @@ public class Main
 		try
 		{
 			init();
-		} catch (LWJGLException e)
+		}
+		catch (LWJGLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		// We are using VBOs
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
 
+		// Reserve spots for the data
+		vertHand = glGenBuffers();
+		colorHand = glGenBuffers();
+		indexHand = glGenBuffers();
+		
 		sendData();
 		
 		while(!Display.isCloseRequested())
@@ -57,9 +62,16 @@ public class Main
 			Display.sync(60);
 		}
 
+		// We are no longer using VBOs
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+		
+		// Free up memory that we used
+		glDeleteBuffers(vertHand);
+		glDeleteBuffers(colorHand);
+		glDeleteBuffers(indexHand);
 
+		// Blow up display
 		Display.destroy();
 	}
 
@@ -87,20 +99,24 @@ public class Main
 		indices.flip();
 
 		// Vertex Sending ======
-		vertHand = glGenBuffers(); // Reserve a spot for the data
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand); // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send date
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send data
 
-		colorHand = glGenBuffers();
-		glBindBuffer(GL_ARRAY_BUFFER, colorHand);
-		glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		indexHand = glGenBuffers();
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, colorHand);  // Select this spot as an array buffer
+		glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW); // Send data
+		
+		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff
+		
+		/*
+		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
+		 *  ELEMENT_ARRAY is used to denote an array full of "pointers" to 
+		 *  another array.
+		 */
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Stop selecting stuff
 	}
 
 	private void drawData()
