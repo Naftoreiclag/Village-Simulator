@@ -26,6 +26,10 @@ public class Main
 	int dispW = 640;
 	int dispH = 480;
 	
+	int vertHand;
+	int colorHand;
+	int indexHand;
+	
 	public void run()
 	{
 		try
@@ -39,12 +43,14 @@ public class Main
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
+
+		sendData();
 		
 		while(!Display.isCloseRequested())
 		{
 			clearScreen();
-
-			vboTest();
+			
+			drawData();
 
 			Display.update();
 
@@ -57,7 +63,7 @@ public class Main
 		Display.destroy();
 	}
 
-	public void vboTest()
+	public void sendData()
 	{
 		// Vertexes
 		FloatBuffer verts = BufferUtils.createFloatBuffer(9);
@@ -80,26 +86,32 @@ public class Main
 		indices.put((short) 2);
 		indices.flip();
 
-		//
-		int vertHand = glGenBuffers();
-		int colorHand = glGenBuffers();
-		int indexHand = glGenBuffers();
+		// Vertex Sending ======
+		vertHand = glGenBuffers(); // Reserve a spot for the data
+		glBindBuffer(GL_ARRAY_BUFFER, vertHand); // Select this spot as an array buffer
+		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send date
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+		colorHand = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, colorHand);
+		glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		indexHand = glGenBuffers();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+	private void drawData()
+	{
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand);
-		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW);
 		glVertexPointer(3, GL_FLOAT, 3 * 4, 0L);
 
 		glBindBuffer(GL_ARRAY_BUFFER, colorHand);
-		glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW);
 		glColorPointer(3, GL_FLOAT, 3 * 4, 0L);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
-
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0L);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 
 	static void clearScreen()
