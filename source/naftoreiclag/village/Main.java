@@ -30,8 +30,10 @@ public class Main
 	int dispH = 480;
 	
 	int vertHand;
-	int colorHand;
+	int texHand;
 	int indexHand;
+	
+	Texture texture = null;
 	
 	public void run()
 	{
@@ -46,17 +48,16 @@ public class Main
 
 		// We are using VBOs
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		// Reserve spots for the data
 		vertHand = glGenBuffers();
-		colorHand = glGenBuffers();
+		texHand = glGenBuffers();
 		indexHand = glGenBuffers();
 		
 		sendData();
 
-		Texture texture =
-		null;
+		
 		try
 		{
 			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/debug.png"));
@@ -77,12 +78,12 @@ public class Main
 		}
 
 		// We are no longer using VBOs
-		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 		// Free up memory that we used
 		glDeleteBuffers(vertHand);
-		glDeleteBuffers(colorHand);
+		glDeleteBuffers(texHand);
 		glDeleteBuffers(indexHand);
 
 		// Blow up display (Destroy it!)
@@ -99,11 +100,11 @@ public class Main
 		verts.flip();
 		
 		// Colors
-		FloatBuffer colors = BufferUtils.createFloatBuffer(9);
-		colors.put(1).put(0).put(0);
-		colors.put(0).put(1).put(0);
-		colors.put(0).put(0).put(1);
-		colors.flip();
+		FloatBuffer texes = BufferUtils.createFloatBuffer(6);
+		texes.put(0).put(1);
+		texes.put(1).put(1);
+		texes.put(1).put(0);
+		texes.flip();
 
 		// Indices
 		ShortBuffer indices = BufferUtils.createShortBuffer(3);
@@ -116,8 +117,8 @@ public class Main
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand); // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send data
 
-		glBindBuffer(GL_ARRAY_BUFFER, colorHand);  // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW); // Send data
+		glBindBuffer(GL_ARRAY_BUFFER, texHand);  // Select this spot as an array buffer
+		glBufferData(GL_ARRAY_BUFFER, texes, GL_STATIC_DRAW); // Send data
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 		
@@ -135,13 +136,17 @@ public class Main
 
 	private void drawData()
 	{
+		texture.bind();
+		
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand);
 		glVertexPointer(3, GL_FLOAT, 3 * 4, 0L);
 
-		glBindBuffer(GL_ARRAY_BUFFER, colorHand);
-		glColorPointer(3, GL_FLOAT, 3 * 4, 0L);
+		glBindBuffer(GL_ARRAY_BUFFER, texHand);
+		glTexCoordPointer(3, GL_FLOAT, 3 * 4, 0L);
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		
+		// texture.unbind();
 	}
 
 	static void clearScreen()
