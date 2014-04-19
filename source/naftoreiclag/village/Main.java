@@ -6,6 +6,7 @@
 
 package naftoreiclag.village;
 
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
@@ -13,6 +14,9 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -50,7 +54,17 @@ public class Main
 		indexHand = glGenBuffers();
 		
 		sendData();
-		
+
+		Texture texture =
+		null;
+		try
+		{
+			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/debug.png"));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
 		while(!Display.isCloseRequested())
 		{
 			clearScreen();
@@ -71,7 +85,7 @@ public class Main
 		glDeleteBuffers(colorHand);
 		glDeleteBuffers(indexHand);
 
-		// Blow up display
+		// Blow up display (Destroy it!)
 		Display.destroy();
 	}
 
@@ -105,7 +119,7 @@ public class Main
 		glBindBuffer(GL_ARRAY_BUFFER, colorHand);  // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW); // Send data
 		
-		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff
+		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 		
 		/*
 		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
@@ -116,7 +130,7 @@ public class Main
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Stop selecting stuff
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 	}
 
 	private void drawData()
