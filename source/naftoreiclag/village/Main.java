@@ -16,6 +16,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -47,6 +48,7 @@ public class Main
 		{
 			e.printStackTrace();
 		}
+		glEnable(GL_TEXTURE_2D);
 
 		// We are using VBOs
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -140,6 +142,8 @@ public class Main
 	{
 		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 		
+		glPushMatrix();
+		
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand);
 		glVertexPointer(3, GL_FLOAT, 0, 0);
 
@@ -147,6 +151,8 @@ public class Main
 		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		
+		glPopMatrix();
 	}
 
 	static void clearScreen()
