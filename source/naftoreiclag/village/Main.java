@@ -6,6 +6,8 @@
 
 package naftoreiclag.village;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -60,7 +62,7 @@ public class Main
 		
 		try
 		{
-			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/debug.png"));
+			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File("resources/debug.png")));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -116,10 +118,10 @@ public class Main
 		// Vertex Sending ======
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand); // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send data
+		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 
 		glBindBuffer(GL_ARRAY_BUFFER, texHand);  // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, texes, GL_STATIC_DRAW); // Send data
-		
 		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 		
 		/*
@@ -136,17 +138,15 @@ public class Main
 
 	private void drawData()
 	{
-		texture.bind();
+		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 		
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand);
-		glVertexPointer(3, GL_FLOAT, 3 * 4, 0L);
+		glVertexPointer(3, GL_FLOAT, 0, 0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, texHand);
-		glTexCoordPointer(3, GL_FLOAT, 3 * 4, 0L);
+		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3);
-		
-		// texture.unbind();
 	}
 
 	static void clearScreen()
