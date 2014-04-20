@@ -16,10 +16,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -48,6 +46,8 @@ public class Main
 		{
 			e.printStackTrace();
 		}
+		
+		// Enable textures
 		glEnable(GL_TEXTURE_2D);
 
 		// We are using VBOs
@@ -60,7 +60,6 @@ public class Main
 		indexHand = glGenBuffers();
 		
 		sendData();
-
 		
 		try
 		{
@@ -155,7 +154,7 @@ public class Main
 		glPopMatrix();
 	}
 
-	static void clearScreen()
+	private void clearScreen()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -179,7 +178,7 @@ public class Main
 	// This is where the magic begins
 	public static void main(String[] args)
 	{
-		Main a = new Main();
-		a.run();
+		Main m = new Main();
+		m.run();
 	}
 }
