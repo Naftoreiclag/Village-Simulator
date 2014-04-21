@@ -21,6 +21,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.util.glu.GLU.*;
 
 //I named this class "Main" just so java newbies can find the
 //main method faster! Aren't I so nice? :)
@@ -58,6 +59,16 @@ public class Main
 		vertHand = glGenBuffers();
 		texHand = glGenBuffers();
 		indexHand = glGenBuffers();
+
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		//gluPerspective((float) 60, 640f / 480f, 0.01f, 200);
+		
+		//glEnable(GL_DEPTH_TEST);
 		
 		sendData();
 		
@@ -71,8 +82,10 @@ public class Main
 
 		while(!Display.isCloseRequested())
 		{
-			clearScreen();
+			// Clear the screen ===
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			
+			// Draw data
 			drawData();
 
 			Display.update();
@@ -133,7 +146,6 @@ public class Main
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
-		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 	}
 
@@ -152,17 +164,6 @@ public class Main
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		
 		glPopMatrix();
-	}
-
-	private void clearScreen()
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
 	}
 
 	public void init() throws LWJGLException
