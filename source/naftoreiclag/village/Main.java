@@ -34,7 +34,6 @@ public class Main
 	int dispH = 480;
 	
 	int geomHand;
-	int texHand;
 	int indexHand;
 	
 	MapData map;
@@ -77,7 +76,6 @@ public class Main
 
 		// Reserve spots for the data
 		geomHand = glGenBuffers();
-		texHand = glGenBuffers();
 		indexHand = glGenBuffers();
 		
 		// Upload data to GPU
@@ -114,7 +112,6 @@ public class Main
 		
 		// Free up memory that we used
 		glDeleteBuffers(geomHand);
-		glDeleteBuffers(texHand);
 		glDeleteBuffers(indexHand);
 
 		// Blow up display (Destroy it!)
@@ -123,21 +120,13 @@ public class Main
 
 	public void sendData()
 	{
-		// Vertexes
-		FloatBuffer verts = BufferUtils.createFloatBuffer(12);
-		verts.put(-0.5f).put(-0.5f).put(-0.5f);
-		verts.put(+0.5f).put(-0.5f).put(-0.5f);
-		verts.put(+0.5f).put(+0.5f).put(-0.5f);
-		verts.put(-0.5f).put(+0.5f).put(-0.5f);
-		verts.flip();
-		
-		// Texture
-		FloatBuffer texes = BufferUtils.createFloatBuffer(8);
-		texes.put(0).put(1);
-		texes.put(1).put(1);
-		texes.put(1).put(0);
-		texes.put(0).put(0);
-		texes.flip();
+		// Geometry
+		FloatBuffer geom = BufferUtils.createFloatBuffer(20);
+		geom.put(-0.5f).put(-0.5f).put(-0.5f).put(0.0f).put(1.0f);
+		geom.put(+0.5f).put(-0.5f).put(-0.5f).put(1.0f).put(1.0f);
+		geom.put(+0.5f).put(+0.5f).put(-0.5f).put(1.0f).put(0.0f);
+		geom.put(-0.5f).put(+0.5f).put(-0.5f).put(0.0f).put(0.0f);
+		geom.flip();
 
 		// Indices
 		ShortBuffer indices = BufferUtils.createShortBuffer(6);
@@ -151,10 +140,7 @@ public class Main
 
 		// Vertex Sending ======
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send data
-
-		glBindBuffer(GL_ARRAY_BUFFER, texHand);  // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, texes, GL_STATIC_DRAW); // Send data
+		glBufferData(GL_ARRAY_BUFFER, geom, GL_STATIC_DRAW); // Send data
 		
 		/*
 		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
@@ -173,10 +159,8 @@ public class Main
 		glPushMatrix();
 		
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand);
-		glVertexPointer(3, GL_FLOAT, 0, 0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, texHand);
-		glTexCoordPointer(2, GL_FLOAT, 0, 0);
+		glVertexPointer(3, GL_FLOAT, 5 << 2, 0 << 2);
+		glTexCoordPointer(2, GL_FLOAT, 5 << 2, 3 << 2);
 		
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0L);
 		
