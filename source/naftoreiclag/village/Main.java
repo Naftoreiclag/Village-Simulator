@@ -33,7 +33,7 @@ public class Main
 	int dispW = 640;
 	int dispH = 480;
 	
-	int vertHand;
+	int geomHand;
 	int texHand;
 	int indexHand;
 	
@@ -76,7 +76,7 @@ public class Main
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		// Reserve spots for the data
-		vertHand = glGenBuffers();
+		geomHand = glGenBuffers();
 		texHand = glGenBuffers();
 		indexHand = glGenBuffers();
 		
@@ -113,7 +113,7 @@ public class Main
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 		// Free up memory that we used
-		glDeleteBuffers(vertHand);
+		glDeleteBuffers(geomHand);
 		glDeleteBuffers(texHand);
 		glDeleteBuffers(indexHand);
 
@@ -132,11 +132,9 @@ public class Main
 		verts.flip();
 		
 		// Texture
-		FloatBuffer texes = BufferUtils.createFloatBuffer(12);
+		FloatBuffer texes = BufferUtils.createFloatBuffer(8);
 		texes.put(0).put(1);
 		texes.put(1).put(1);
-		texes.put(1).put(0);
-		texes.put(0).put(1);
 		texes.put(1).put(0);
 		texes.put(0).put(0);
 		texes.flip();
@@ -152,7 +150,7 @@ public class Main
 		indices.flip();
 
 		// Vertex Sending ======
-		glBindBuffer(GL_ARRAY_BUFFER, vertHand); // Select this spot as an array buffer
+		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send data
 
 		glBindBuffer(GL_ARRAY_BUFFER, texHand);  // Select this spot as an array buffer
@@ -174,7 +172,7 @@ public class Main
 		
 		glPushMatrix();
 		
-		glBindBuffer(GL_ARRAY_BUFFER, vertHand);
+		glBindBuffer(GL_ARRAY_BUFFER, geomHand);
 		glVertexPointer(3, GL_FLOAT, 0, 0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, texHand);
