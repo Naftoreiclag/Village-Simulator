@@ -149,11 +149,11 @@ public class Main
 		// Vertex Sending ======
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand); // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send data
-		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
+		//glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 
 		glBindBuffer(GL_ARRAY_BUFFER, texHand);  // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, texes, GL_STATIC_DRAW); // Send data
-		glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
+		//glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 		
 		/*
 		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
@@ -163,7 +163,7 @@ public class Main
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 	}
 
 	private void drawData()
@@ -178,9 +178,7 @@ public class Main
 		glBindBuffer(GL_ARRAY_BUFFER, texHand);
 		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 		
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		
-		//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0L);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0L);
 		
 		glPopMatrix();
 	}
