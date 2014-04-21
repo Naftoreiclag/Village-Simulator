@@ -103,13 +103,12 @@ public class Main
 			int dx = Mouse.getDX();
 			int dy = Mouse.getDY();
 			
-			cam.yaw += dx;
-			cam.pitch += dy;
+			cam.yaw += dx * 0.05f;
+			cam.pitch += dy * 0.05f;
 			
 			// Clear the screen ===
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			
-			cam.look();
 			
 			// Draw data
 			drawData();
@@ -168,7 +167,7 @@ public class Main
 		
 		
 		
-		/*
+		
 		// Map data
 		map = new MapData();
 		
@@ -181,7 +180,7 @@ public class Main
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, map.convertToIndices(), GL_STATIC_DRAW); // Send data
 	
-		*/
+		
 	}
 
 	private void drawData()
@@ -189,6 +188,7 @@ public class Main
 		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 		
 		glPushMatrix();
+		cam.look();
 		
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand);
 		glVertexPointer(3, GL_FLOAT, 5 << 2, 0 << 2);
@@ -196,7 +196,7 @@ public class Main
 		
 		//31 * 31 * 
 		
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0L);
+		glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
 		
 		glPopMatrix();
 	}
