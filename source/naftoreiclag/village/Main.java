@@ -66,9 +66,9 @@ public class Main
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		//gluPerspective((float) 60, 640f / 480f, 0.01f, 200);
+		gluPerspective(60f, 640f / 480f, 0.01f, 200);
 		
-		//glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 		
 		sendData();
 		
@@ -110,9 +110,9 @@ public class Main
 	{
 		// Vertexes
 		FloatBuffer verts = BufferUtils.createFloatBuffer(9);
-		verts.put(-0.5f).put(-0.5f).put(0.0f);
-		verts.put(+0.5f).put(-0.5f).put(0.0f);
-		verts.put(+0.5f).put(+0.5f).put(0.0f);
+		verts.put(-0.5f).put(-0.5f).put(-0.5f);
+		verts.put(+0.5f).put(-0.5f).put(-0.5f);
+		verts.put(+0.5f).put(+0.5f).put(-0.5f);
 		verts.flip();
 		
 		// Colors
