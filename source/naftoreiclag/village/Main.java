@@ -16,6 +16,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -59,7 +60,7 @@ public class Main
 
 		// Lookie lookie
 		gluPerspective(60f, 640f / 480f, 0.01f, 200);
-		//gluLookAt(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
+		// Params: eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz
 		gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
 		// Enable three-dee
@@ -83,7 +84,7 @@ public class Main
 		// Load textures
 		try
 		{
-			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File("resources/stars_green.png")));
+			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File("resources/debug.png")));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -118,24 +119,31 @@ public class Main
 	public void sendData()
 	{
 		// Vertexes
-		FloatBuffer verts = BufferUtils.createFloatBuffer(9);
+		FloatBuffer verts = BufferUtils.createFloatBuffer(12);
 		verts.put(-0.5f).put(-0.5f).put(-0.5f);
 		verts.put(+0.5f).put(-0.5f).put(-0.5f);
 		verts.put(+0.5f).put(+0.5f).put(-0.5f);
+		verts.put(-0.5f).put(+0.5f).put(-0.5f);
 		verts.flip();
 		
-		// Colors
-		FloatBuffer texes = BufferUtils.createFloatBuffer(6);
+		// Texture
+		FloatBuffer texes = BufferUtils.createFloatBuffer(12);
 		texes.put(0).put(1);
 		texes.put(1).put(1);
 		texes.put(1).put(0);
+		texes.put(0).put(1);
+		texes.put(0).put(1);
+		texes.put(0).put(0);
 		texes.flip();
 
 		// Indices
-		ShortBuffer indices = BufferUtils.createShortBuffer(3);
+		ShortBuffer indices = BufferUtils.createShortBuffer(6);
 		indices.put((short) 0);
 		indices.put((short) 1);
 		indices.put((short) 2);
+		indices.put((short) 2);
+		indices.put((short) 3);
+		indices.put((short) 0);
 		indices.flip();
 
 		// Vertex Sending ======
@@ -171,6 +179,8 @@ public class Main
 		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		
+		//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0L);
 		
 		glPopMatrix();
 	}
