@@ -10,10 +10,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -37,6 +39,8 @@ public class Main
 	int indexHand;
 	
 	MapData map;
+	
+	CameraTest cam;
 	
 	Texture texture = null;
 	
@@ -64,6 +68,8 @@ public class Main
 		// Params: eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz
 		gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
+		cam = new CameraTest();
+		
 		// Enable three-dee
 		glEnable(GL_DEPTH_TEST);
 		
@@ -89,14 +95,21 @@ public class Main
 		{
 			e.printStackTrace();
 		}
-		
-		// Map data
-		map = new MapData();
 
+		Mouse.setGrabbed(true);
+		
 		while(!Display.isCloseRequested())
 		{
+			int dx = Mouse.getDX();
+			int dy = Mouse.getDY();
+			
+			cam.yaw += dx;
+			cam.pitch += dy;
+			
 			// Clear the screen ===
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			
+			cam.look();
 			
 			// Draw data
 			drawData();
@@ -120,6 +133,8 @@ public class Main
 
 	public void sendData()
 	{
+		
+		
 		// Geometry
 		FloatBuffer geom = BufferUtils.createFloatBuffer(20);
 		geom.put(-0.5f).put(-0.5f).put(-0.5f).put(0.0f).put(1.0f);
@@ -129,13 +144,13 @@ public class Main
 		geom.flip();
 
 		// Indices
-		ShortBuffer indices = BufferUtils.createShortBuffer(6);
-		indices.put((short) 0);
-		indices.put((short) 1);
-		indices.put((short) 2);
-		indices.put((short) 0);
-		indices.put((short) 2);
-		indices.put((short) 3);
+		IntBuffer indices = BufferUtils.createIntBuffer(6);
+		indices.put(0);
+		indices.put(1);
+		indices.put(2);
+		indices.put(0);
+		indices.put(2);
+		indices.put(3);
 		indices.flip();
 
 		// Vertex Sending ======
@@ -150,6 +165,23 @@ public class Main
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
+		
+		
+		
+		/*
+		// Map data
+		map = new MapData();
+		
+		map.loadDataFromFile("foobar");
+		
+
+		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
+		glBufferData(GL_ARRAY_BUFFER, map.convertToGeometry(), GL_STATIC_DRAW); // Send data
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, map.convertToIndices(), GL_STATIC_DRAW); // Send data
+	
+		*/
 	}
 
 	private void drawData()
@@ -162,7 +194,9 @@ public class Main
 		glVertexPointer(3, GL_FLOAT, 5 << 2, 0 << 2);
 		glTexCoordPointer(2, GL_FLOAT, 5 << 2, 3 << 2);
 		
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0L);
+		//31 * 31 * 
+		
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0L);
 		
 		glPopMatrix();
 	}
