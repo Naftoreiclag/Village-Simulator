@@ -66,7 +66,7 @@ public class Main
 		// Lookie lookie
 		gluPerspective(60f, 640f / 480f, 0.01f, 200);
 		// Params: eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz
-		gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		// gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
 		cam = new CameraTest();
 		
@@ -104,7 +104,7 @@ public class Main
 			int dy = Mouse.getDY();
 			
 			cam.yaw += dx * 0.05f;
-			cam.pitch += dy * 0.05f;
+			cam.pitch -= dy * 0.05f;
 			
 			// Clear the screen ===
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -132,50 +132,19 @@ public class Main
 
 	public void sendData()
 	{
+		// Map data
+		map = new MapData();
 		
-		
-		// Geometry
-		FloatBuffer geom = BufferUtils.createFloatBuffer(20);
-		geom.put(-0.5f).put(-0.5f).put(-0.5f).put(0.0f).put(1.0f);
-		geom.put(+0.5f).put(-0.5f).put(-0.5f).put(1.0f).put(1.0f);
-		geom.put(+0.5f).put(+0.5f).put(-0.5f).put(1.0f).put(0.0f);
-		geom.put(-0.5f).put(+0.5f).put(-0.5f).put(0.0f).put(0.0f);
-		geom.flip();
+		map.loadDataFromFile("foobar");
 
-		// Indices
-		IntBuffer indices = BufferUtils.createIntBuffer(6);
-		indices.put(0);
-		indices.put(1);
-		indices.put(2);
-		indices.put(0);
-		indices.put(2);
-		indices.put(3);
-		indices.flip();
-
-		// Vertex Sending ======
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, geom, GL_STATIC_DRAW); // Send data
+		glBufferData(GL_ARRAY_BUFFER, map.convertToGeometry(), GL_STATIC_DRAW); // Send data
 		
 		/*
 		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
 		 *  ELEMENT_ARRAY is used to denote an array full of "pointers" to 
 		 *  another array.
 		 */
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
-		
-		
-		
-		
-		// Map data
-		map = new MapData();
-		
-		map.loadDataFromFile("foobar");
-		
-
-		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, map.convertToGeometry(), GL_STATIC_DRAW); // Send data
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, map.convertToIndices(), GL_STATIC_DRAW); // Send data

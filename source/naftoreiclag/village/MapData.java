@@ -40,7 +40,7 @@ public class MapData
 		{
 			for(int z = 0; z < size; ++ z)
 			{
-				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(x / ((float) size)).put(z / ((float) size));
+				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(x).put(z);
 			}
 		}
 		
