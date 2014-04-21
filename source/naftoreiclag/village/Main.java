@@ -37,6 +37,8 @@ public class Main
 	int texHand;
 	int indexHand;
 	
+	MapData map;
+	
 	Texture texture = null;
 	
 	public void run()
@@ -89,6 +91,9 @@ public class Main
 		{
 			e.printStackTrace();
 		}
+		
+		// Map data
+		map = new MapData();
 
 		while(!Display.isCloseRequested())
 		{
@@ -132,7 +137,7 @@ public class Main
 		texes.put(1).put(1);
 		texes.put(1).put(0);
 		texes.put(0).put(1);
-		texes.put(0).put(1);
+		texes.put(1).put(0);
 		texes.put(0).put(0);
 		texes.flip();
 
@@ -141,19 +146,17 @@ public class Main
 		indices.put((short) 0);
 		indices.put((short) 1);
 		indices.put((short) 2);
+		indices.put((short) 0);
 		indices.put((short) 2);
 		indices.put((short) 3);
-		indices.put((short) 0);
 		indices.flip();
 
 		// Vertex Sending ======
 		glBindBuffer(GL_ARRAY_BUFFER, vertHand); // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, verts, GL_STATIC_DRAW); // Send data
-		//glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 
 		glBindBuffer(GL_ARRAY_BUFFER, texHand);  // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, texes, GL_STATIC_DRAW); // Send data
-		//glBindBuffer(GL_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 		
 		/*
 		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
@@ -163,7 +166,6 @@ public class Main
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Stop selecting stuff for ARRAY_BUFFER
 	}
 
 	private void drawData()
@@ -187,7 +189,6 @@ public class Main
 	{
 		Display.setDisplayMode(new DisplayMode(dispW, dispH));
 		Display.setFullscreen(false);
-		//Display.setResizable(true);
 		Display.create();
 		
 		glViewport(0, 0, dispW, dispH);
