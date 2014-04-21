@@ -16,6 +16,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -47,11 +48,27 @@ public class Main
 		{
 			e.printStackTrace();
 		}
+
+		// Enable projection
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		
+		// Enable something else
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		// Lookie lookie
+		gluPerspective(60f, 640f / 480f, 0.01f, 200);
+		//gluLookAt(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
+		gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		
+		// Enable three-dee
+		glEnable(GL_DEPTH_TEST);
 		
 		// Enable textures
 		glEnable(GL_TEXTURE_2D);
 
-		// We are using VBOs
+		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -59,22 +76,14 @@ public class Main
 		vertHand = glGenBuffers();
 		texHand = glGenBuffers();
 		indexHand = glGenBuffers();
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
 		
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
-		gluPerspective(60f, 640f / 480f, 0.01f, 200);
-		
-		glEnable(GL_DEPTH_TEST);
-		
+		// Upload data to GPU
 		sendData();
 		
+		// Load textures
 		try
 		{
-			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File("resources/debug.png")));
+			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File("resources/stars_green.png")));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
