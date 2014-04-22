@@ -80,6 +80,12 @@ public class Main
 		
 		// Enable culling
 	    glEnable(GL_CULL_FACE);
+	    
+	    // Enable Lighting
+	    glEnable(GL_LIGHTING);
+	    glEnable(GL_LIGHT0);
+	    glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(1.0f, 1.0f, 1.0f, 1));
+	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(1.0f, 1.0f, 1.0f, 1.0f));
 
 		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -157,6 +163,14 @@ public class Main
 		// Blow up display (Destroy it!)
 		Display.destroy();
 	}
+	
+	public FloatBuffer floatBuffy(float ... data)
+	{
+		FloatBuffer f = BufferUtils.createFloatBuffer(data.length);
+		f.put(data);
+		f.flip();
+		return f;
+	}
 
 	public void sendData()
 	{
@@ -202,10 +216,12 @@ public class Main
 		
 		glPushMatrix();
 		cam.look();
+	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 3.0f, 0.0f, 0.0f));
 		
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand);
-		glVertexPointer(3, GL_FLOAT, 5 << 2, 0 << 2);
-		glTexCoordPointer(2, GL_FLOAT, 5 << 2, 3 << 2);
+		glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
+		glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
+		glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
 		
 		//31 * 31 * 
 		

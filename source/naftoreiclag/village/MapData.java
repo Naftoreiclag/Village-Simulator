@@ -56,13 +56,13 @@ public class MapData
 	
 	public FloatBuffer convertToGeometry()
 	{
-		FloatBuffer geo = BufferUtils.createFloatBuffer(size * size * 5);
+		FloatBuffer geo = BufferUtils.createFloatBuffer(size * size * 8);
 		
 		for(int x = 0; x < size; ++ x)
 		{
 			for(int z = 0; z < size; ++ z)
 			{
-				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(x / 2f).put(z / 2f);
+				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(0f).put(1f).put(0f).put(x / 2f).put(z / 2f);
 			}
 		}
 		
