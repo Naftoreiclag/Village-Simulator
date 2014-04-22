@@ -43,6 +43,7 @@ public class Main
 	
 	CameraTest cam;
 	
+	Texture debug = null;
 	Texture texture = null;
 	
 	public void run()
@@ -91,14 +92,10 @@ public class Main
 		// Upload data to GPU
 		sendData();
 		
+		debug = loadImage("resources/debug.png");
+		
 		// Load textures
-		try
-		{
-			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File("resources/debug.png")));
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		texture = loadImage("donotinclude/hunkofgrassscalled.png");
 
 		Mouse.setGrabbed(true);
 		
@@ -181,6 +178,22 @@ public class Main
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, map.convertToIndices(), GL_STATIC_DRAW); // Send data
 	
 		
+	}
+	
+	private Texture loadImage(String path)
+	{
+		Texture texture = debug;
+		
+		// Load textures
+		try
+		{
+			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File(path)));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return texture;
 	}
 
 	private void drawData()
