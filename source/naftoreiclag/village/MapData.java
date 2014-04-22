@@ -93,7 +93,7 @@ public class MapData
 				int dl = posToLin(dlx, dlz);
 				int dr = posToLin(drx, drz);
 				
-				ind.put(dl).put(dr).put(ur).put(dl).put(ur).put(ul);
+				ind.put(ur).put(dr).put(dl).put(ul).put(ur).put(dl);
 			}
 		}
 		

@@ -76,6 +76,9 @@ public class Main
 		
 		// Enable textures
 		glEnable(GL_TEXTURE_2D);
+		
+		// Enable culling
+	    glEnable(GL_CULL_FACE);
 
 		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
