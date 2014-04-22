@@ -5,3 +5,4 @@ bin/*.*
 *.classpath
 hs_err*
 source/tests/*.*
+donotinclude/*.*
