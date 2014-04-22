@@ -15,6 +15,7 @@ import java.nio.ShortBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -100,6 +101,33 @@ public class Main
 		
 		while(!Display.isCloseRequested())
 		{
+			// Camera stuff ===
+
+			if(Keyboard.isKeyDown(Keyboard.KEY_A))
+			{
+				cam.goLeft();
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_D))
+			{
+				cam.goRight();
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_W))
+			{
+				cam.goForward();
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_S))
+			{
+				cam.goBack();
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE))
+			{
+				cam.goUp();
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+			{
+				cam.goDown();
+			}
+
 			int dx = Mouse.getDX();
 			int dy = Mouse.getDY();
 			
