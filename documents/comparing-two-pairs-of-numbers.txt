@@ -1,0 +1,63 @@
+// A - B
+// C - D
+
+// If either value is greater than both of the other values, then that line posesses the largest number.
+
+if a>c
+{
+    // A > C
+    if a>d
+    {
+        // A > C
+        // A > D
+        return AB
+    }
+    else
+    {
+        // A > C
+        // D > A
+        if d>b
+        {
+            // A > C
+            // D > A
+            // D > B
+            return CD
+        }
+        else
+        {
+            // A > C
+            // D > A
+            // B > D
+            return AB
+        }
+    }
+}
+else
+{
+    // C > A
+    if c>b
+    {
+        // C > A
+        // C > B
+        return CD
+    }
+    else
+    {
+        // C > A
+        // B > C
+        if b>d
+        {
+            // C > A
+            // B > C
+            // B > D
+            return AB
+        }
+        else
+        {
+            // C > A
+            // B > C
+            // D > B
+            return CD
+        }
+    }
+}
