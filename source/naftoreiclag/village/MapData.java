@@ -6,10 +6,14 @@
 
 package naftoreiclag.village;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 
@@ -21,6 +25,7 @@ public class MapData
 	
 	public void loadDataFromFile(String filename)
 	{
+		/*
 		Random r = new Random();
 		
 		for(int x = 0; x < size; ++ x)
@@ -28,6 +33,23 @@ public class MapData
 			for(int z = 0; z < size; ++ z)
 			{
 				value[x][z] = r.nextFloat();
+			}
+		}
+		*/
+		
+		BufferedImage img = null;
+		try
+		{
+			img = ImageIO.read(new File("saves/heightmap.png"));
+		} catch (IOException e)
+		{
+		}
+		
+		for(int x = 0; x < size; ++ x)
+		{
+			for(int z = 0; z < size; ++ z)
+			{
+				value[x][z] = ((float) (img.getRGB(x, z) & 0x000000FF)) / 256f;
 			}
 		}
 	}
@@ -66,10 +88,10 @@ public class MapData
 				int drx = x + 1;
 				int drz = z + 1;
 				
-				int ul = ulx + (ulz * size);
-				int ur = urx + (urz * size);
-				int dl = dlx + (dlz * size);
-				int dr = drx + (drz * size);
+				int ul = posToLin(ulx, ulz);
+				int ur = posToLin(urx, urz);
+				int dl = posToLin(dlx, dlz);
+				int dr = posToLin(drx, drz);
 				
 				ind.put(dl).put(dr).put(ur).put(dl).put(ur).put(ul);
 			}
@@ -78,5 +100,10 @@ public class MapData
 		ind.flip();
 		
 		return ind;
+	}
+	
+	private int posToLin(int x, int z)
+	{
+		return x + (z * size);
 	}
 }
