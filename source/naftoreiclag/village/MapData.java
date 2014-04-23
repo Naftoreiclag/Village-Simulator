@@ -16,6 +16,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.util.vector.Vector3f;
 
 public class MapData
 {
@@ -58,11 +59,31 @@ public class MapData
 	{
 		FloatBuffer geo = BufferUtils.createFloatBuffer(size * size * 8);
 		
+		// Standard sizes for horizontal and vertical scale
+		float horzu = 1.0f;
+		float vertu = 1.0f;
+		
 		for(int x = 0; x < size; ++ x)
 		{
 			for(int z = 0; z < size; ++ z)
 			{
-				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(0f).put(1f).put(0f).put(x / 2f).put(z / 2f);
+				float xdiff = value[x < size - 1 ? x + 1 : x][z] - value[x > 0 ? x - 1 : x][z];
+				if(x == 0 || x == size - 1) // if we are on the edge, we only have one sample, so we double the data to imitate having two.
+				{
+					xdiff *= 2;
+				}
+				
+				float zdiff = value[x][z < size - 1 ? z + 1 : z] - value[x][z > 0 ? z - 1 : z];
+				if(z == 0 || z == size - 1)
+				{
+					zdiff *= 2;
+				}
+				
+				Vector3f normal = new Vector3f(-xdiff * vertu, 2 * horzu, zdiff * vertu);
+				
+				normal.normalise();
+				
+				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(normal.x).put(normal.y).put(normal.z).put(x / 2f).put(z / 2f);
 			}
 		}
 		

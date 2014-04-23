@@ -82,10 +82,10 @@ public class Main
 	    glEnable(GL_CULL_FACE);
 	    
 	    // Enable Lighting
-	    glEnable(GL_LIGHTING);
-	    glEnable(GL_LIGHT0);
-	    glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(1.0f, 1.0f, 1.0f, 1));
-	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(1.0f, 1.0f, 1.0f, 1.0f));
+	    //glEnable(GL_LIGHTING);
+	    //glEnable(GL_LIGHT0);
+	    //glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(1.0f, 1.0f, 1.0f, 1));
+	    //glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(1.0f, 1.0f, 1.0f, 1.0f));
 
 		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -101,7 +101,7 @@ public class Main
 		debug = loadImage("resources/debug.png");
 		
 		// Load textures
-		texture = loadImage("donotinclude/hunkofgrassscalled.png");
+		texture = loadImage("donotinclude/nicegrassscaled.png");
 
 		Mouse.setGrabbed(true);
 		
@@ -216,7 +216,7 @@ public class Main
 		
 		glPushMatrix();
 		cam.look();
-	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 3.0f, 0.0f, 0.0f));
+	    //glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 3.0f, 0.0f, 0.0f));
 		
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand);
 		glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
@@ -224,8 +224,9 @@ public class Main
 		glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
 		
 		//31 * 31 * 
-		
+		glEnable(GL_NORMALIZE);
 		glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
+		//glDisable(GL_NORMALIZE);
 		
 		glPopMatrix();
 	}
