@@ -25,8 +25,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.util.glu.GLU.*;
 
-//I named this class "Main" just so java newbies can find the
-//main method faster! Aren't I so nice? :)
+// I named this class "Main" just so java newbies can find the
+// main method faster! Aren't I so nice? :)
 
 public class Main
 {
@@ -56,18 +56,12 @@ public class Main
 			e.printStackTrace();
 		}
 
-		// Enable projection
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		
 		// Enable something else
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-
-		// Lookie lookie
-		gluPerspective(60f, 640f / 480f, 0.01f, 200);
 		
 		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam.doOpenGLStuff();
 		
 		// Enable three-dee
 		glEnable(GL_DEPTH_TEST);
