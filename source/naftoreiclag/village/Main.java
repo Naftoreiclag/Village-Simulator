@@ -38,7 +38,7 @@ public class Main
 	DebugCam cam;
 	
 	Texture debug = null;
-	Texture texture = null;
+	Texture grass_tex = null;
 	
 	float sunDir = 0.2f;
 	
@@ -110,7 +110,7 @@ public class Main
 	{
 		// Load textures
 		debug = loadImage("resources/debug.png");
-		texture = loadImage("resources/grass.png");
+		grass_tex = loadImage("resources/grass.png");
 	}
 
 	private void uploadVBOData()
@@ -167,7 +167,7 @@ public class Main
 
 	private void input()
 	{
-		//sunDir += 0.1;
+		sunDir += 0.1;
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_G))
 		{
@@ -200,7 +200,7 @@ public class Main
 		glPushMatrix();
 		cam.applyMatrix();
 	
-	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 1.0f, (float) Math.sin(sunDir), 0.0f));
+	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 1.5f, (float) Math.sin(sunDir), 0.0f));
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 		float lolx = 5.0f;
 		float loly = 5.0f;
@@ -216,7 +216,7 @@ public class Main
 			{
 				drawNormals();
 			}
-			glBindTexture(GL_TEXTURE_2D, debug.getTextureID());
+			glBindTexture(GL_TEXTURE_2D, grass_tex.getTextureID());
 			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
 			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
 			glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
