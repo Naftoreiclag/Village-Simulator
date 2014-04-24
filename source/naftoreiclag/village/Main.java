@@ -98,7 +98,7 @@ public class Main
 		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 		
 		//
-		glShadeModel(GL_FLAT);
+		//glShadeModel(GL_FLAT);
 	}
 
 	private void loadTextures()

@@ -67,27 +67,21 @@ public class MapData
 		{
 			for(int z = 0; z < size; ++ z)
 			{
-				float xdiff = value[x < size - 1 ? x + 1 : x][z] - value[x > 0 ? x - 1 : x][z];
+				float xdiff = value[x > 0 ? x - 1 : x][z] - value[x < size - 1 ? x + 1 : x][z];
 				if(x == 0 || x == size - 1) // if we are on the edge, we only have one sample, so we double the data to imitate having two.
 				{
 					xdiff *= 2;
 				}
 				
-				float zdiff = value[x][z < size - 1 ? z + 1 : z] - value[x][z > 0 ? z - 1 : z];
+				float zdiff = value[x][z > 0 ? z - 1 : z] - value[x][z < size - 1 ? z + 1 : z];
 				if(z == 0 || z == size - 1)
 				{
 					zdiff *= 2;
 				}
 				
-				Vector3f normal = new Vector3f(-xdiff * vertu, 2 * horzu, zdiff * vertu);
+				Vector3f normal = new Vector3f(xdiff * vertu, 2 * horzu, zdiff * vertu);
 				
 				normal.normalise();
-				
-				/*
-				normal.x = 0.0f;
-				normal.y = 1.0f;
-				normal.z = 0.0f;
-				*/
 				
 				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(normal.x).put(normal.y).put(normal.z).put(x / 2f).put(z / 2f);
 			}
