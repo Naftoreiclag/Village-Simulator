@@ -13,6 +13,7 @@ import java.io.IOException;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.util.glu.Sphere;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -56,12 +57,18 @@ public class Main3
 	
 	private void input()
 	{
+		cam.handleUserInput();
 	}
 
 	private void render()
 	{
 		glBegin(GL_TRIANGLES);
 		glEnd();
+		
+		renderSphere(0.0f, 0.0f, 0.0f, 1.0f);
+
+		Display.update();
+		Display.sync(60);
 	}
 
 	private void loadTextures()
@@ -102,6 +109,9 @@ public class Main3
 		
 		// Enable textures
 		glEnable(GL_TEXTURE_2D);
+		
+		//
+		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 	}
 
 	private void uploadVBOData()
@@ -117,12 +127,22 @@ public class Main3
 	private void setupCamera()
 	{
 		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam.doLWJGLStuff();
 		cam.doOpenGLStuff();
 	}
 
 	private void cleanup()
 	{
 		Display.destroy();
+	}
+	
+	private void renderSphere(float x, float y, float z, float radius)
+	{
+		glPushMatrix();
+		glTranslatef(x, y, z);
+		Sphere s = new Sphere();
+		s.draw(radius, 16, 16);
+		glPopMatrix();
 	}
 	
 	private Texture loadImage(String path)

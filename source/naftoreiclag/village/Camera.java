@@ -6,11 +6,11 @@
 
 package naftoreiclag.village;
 
+import org.lwjgl.input.Mouse;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.util.glu.GLU.*;
-
-import org.lwjgl.input.Mouse;
 
 public abstract class Camera
 {
@@ -38,7 +38,6 @@ public abstract class Camera
 	
 	public void doLWJGLStuff()
 	{
-		Mouse.setGrabbed(true);
 	}
 	
 	public void doOpenGLStuff()
