@@ -45,16 +45,7 @@ public class Main
 	public void run()
 	{
 		setupLWJGLDisplay();
-
-		// Enable something else
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		
-		// Enable three-dee
-		glEnable(GL_DEPTH_TEST);
-		
-		// Enable textures
-		glEnable(GL_TEXTURE_2D);
+		setupOpenGL();
 		
 		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
 		cam.doOpenGLStuff();
@@ -115,6 +106,22 @@ public class Main
 		Display.destroy();
 	}
 	
+	private void setupOpenGL()
+	{
+		// Enable something else
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		
+		// Enable three-dee
+		glEnable(GL_DEPTH_TEST);
+		
+		// Enable textures
+		glEnable(GL_TEXTURE_2D);
+		
+		//
+		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
+	}
+
 	public void doLightSetup()
 	{
 		glEnable(GL_LIGHTING);
