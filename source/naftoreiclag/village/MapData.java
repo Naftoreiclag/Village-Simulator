@@ -56,12 +56,17 @@ public class MapData
 		{
 			for(int z = 0; z < size; ++ z)
 			{
-				//     A 
-				//
-				// C   M   D
-				//       P
-				//     B   N
+				/*
+				 *     A                X ->
+				 *                    
+				 * C   M   D          Z
+				 *       P            |
+				 *     B   N          V
+				 *
+				 * M is the point defined by x, z
+				 */
 				
+				// Calculate height of these points ===
 				
 				float m = map[x][z];
 				float c = map[x > 0 ? x - 1 : x][z];
@@ -69,11 +74,12 @@ public class MapData
 				float a = map[x][z > 0 ? z - 1 : z];
 				float b = map[x][z < size - 1 ? z + 1 : z];
 				float n = map[x < size - 1 ? x + 1 : x][z < size - 1 ? z + 1 : z];
+				float p = (m + n + d + b) / 4.0f;
 				
-				// Calculate differences in height
+				// Calculate normals for M ===
 				
 				float cd_d = c - d;
-				if(x == 0 || x == size - 1) // if we are on the edge, we only have one sample, so we double the data to imitate having two.
+				if(x == 0 || x == size - 1)
 				{
 					cd_d *= 2;
 				}
@@ -83,38 +89,34 @@ public class MapData
 				{
 					ab_d *= 2;
 				}
-				
-				float mn_d = m - n;
-				float bd_d = b - d;
-				if(x == size - 1 || z == size - 1)
-				{
-					mn_d *= 2;
-					bd_d *= 2;
-				}
-				
-				Vector3f m2d = new Vector3f(0, d - m, vertu);
-				Vector3f m2b = new Vector3f(vertu, b - m, 0);
-				Vector3f b2n = new Vector3f(0, n - b, vertu);
-				Vector3f d2n = new Vector3f(vertu, n - d, 0);
-				
-				Vector3f nn_1 = new Vector3f();
-				Vector3f nn_2 = new Vector3f();
-				
-				Vector3f.cross(m2d, m2b, nn_1);
-				Vector3f.cross(b2n, d2n, nn_2);
-				
-				Vector3f n_n = new Vector3f();
-				Vector3f.add(nn_1, nn_2, n_n);
-				n_n.normalise();
-				
+
 				Vector3f m_n = new Vector3f(cd_d * vertu, 2 * horzu, ab_d * vertu);
 				m_n.normalise();
+
+				// Add M to data ===
 				
 				verts.put(x).put(m).put(z).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
 				
-				float p = (m + n + d + b) / 4.0f;
+				// Calculate normals for P ===
+				
+				Vector3f m2d = new Vector3f(vertu, d - m, 0);
+				Vector3f m2b = new Vector3f(0, b - m, vertu);
+				Vector3f b2n = new Vector3f(vertu, n - b, 0);
+				Vector3f d2n = new Vector3f(0, n - d, vertu);
+				
+				Vector3f p_n_1 = new Vector3f();
+				Vector3f p_n_2 = new Vector3f();
+				
+				Vector3f.cross(m2b, m2d, p_n_1);
+				Vector3f.cross(d2n, b2n, p_n_2);
+				
+				Vector3f p_n = new Vector3f();
+				Vector3f.add(p_n_1, p_n_2, p_n);
+				p_n.normalise();
 
-				verts.put(x + 0.5f).put(p).put(z + 0.5f).put(n_n.x).put(n_n.y).put(n_n.z).put(x + 0.5f).put(z + 0.5f);
+				// Add P to data ===
+				
+				verts.put(x + 0.5f).put(p).put(z + 0.5f).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
 		
@@ -135,27 +137,11 @@ public class MapData
 				//   P
 				// B   N
 				
-				int ulx = x;
-				int ulz = z;
-				int urx = x + 1;
-				int urz = z;
-				int dlx = x;
-				int dlz = z + 1;
-				int drx = x + 1;
-				int drz = z + 1;
-				
-				int mi = posToLin(ulx, ulz);
-				int di = posToLin(urx, urz);
-				int bi = posToLin(dlx, dlz);
-				int ni = posToLin(drx, drz);
+				int mi = posToLin(x    , z    );
+				int di = posToLin(x + 1, z    );
+				int bi = posToLin(x    , z + 1);
+				int ni = posToLin(x + 1, z + 1);
 				int pi = mi + 1;
-				
-				/*
-				float m = map[ulx][ulz];
-				float d = map[urx][urz];
-				float b = map[dlx][dlz];
-				float n = map[drx][drz];
-				*/
 				
 				ind.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
 			}
@@ -164,50 +150,6 @@ public class MapData
 		ind.flip();
 		
 		return ind;
-	}
-	
-	private boolean magicCompare(float a, float b, float c, float d)
-	{
-		return Math.abs(a - b) < Math.abs(c - d);
-		/*
-		
-		if(a > c)
-		{
-		    if(a > d)
-		    {
-		        return true;
-		    }
-		    else
-		    {
-		        if(d > b)
-		        {
-		            return false;
-		        }
-		        else
-		        {
-		            return true;
-		        }
-		    }
-		}
-		else
-		{
-		    if(c > b)
-		    {
-		        return false;
-		    }
-		    else
-		    {
-		        if(b > d)
-		        {
-		            return true;
-		        }
-		        else
-		        {
-		            return false;
-		        }
-		    }
-		}*/
-		
 	}
 	
 	private int posToLin(int x, int z)

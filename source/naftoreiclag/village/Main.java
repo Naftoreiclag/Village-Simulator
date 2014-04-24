@@ -17,6 +17,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.Sphere;
+import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -180,6 +181,15 @@ public class Main
 		}
 		showNormals = Keyboard.isKeyDown(Keyboard.KEY_F);
 		
+		if(showNormals)
+		{
+			cam.speed = 0.02f;
+		}
+		else
+		{
+			cam.speed = 0.2f;
+		}
+		
 		cam.handleUserInput();
 	}
 
@@ -201,7 +211,11 @@ public class Main
 	
 		glPushMatrix();
 			//glRotatef(roaty, 0.0f, 1.0f, 0.0f);
-		
+
+			if(showNormals)
+			{
+				drawNormals();
+			}
 			glBindTexture(GL_TEXTURE_2D, debug.getTextureID());
 			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
 			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
@@ -211,10 +225,6 @@ public class Main
 			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
 			glDrawElements(GL_TRIANGLES, 31 * 31 * 12, GL_UNSIGNED_INT, 0L);
 			
-			if(showNormals)
-			{
-				drawNormals();
-			}
 		glPopMatrix();
 		
 		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
@@ -255,14 +265,12 @@ public class Main
 		//geo.flip();
 		
 		float scale = 0.5f;
-		
+
+		glDisable(GL_LIGHTING);
 		glBegin(GL_LINES);
+		glColor3f(0.0f, 0.0f, 0.0f);
 		for(int i = 0; i < 32 * 32 * 8 * 2; i += 8)
 		{
-			//renderSphere(geo.get(i), geo.get(i + 1), geo.get(i + 2), 0.5f);
-			
-			
-			
 			float x = geo.get(i + 0);
 			float y = geo.get(i + 1);
 			float z = geo.get(i + 2);
@@ -273,7 +281,91 @@ public class Main
 			glVertex3f(x, y, z);
 			glVertex3f(x + nx, y + ny, z + nz);
 		}
+		float size = 32;
+		float horzu = 1.0f;
+		float vertu = 1.0f;
+		for(int x = 0; x < size; ++ x)
+		{
+			for(int z = 0; z < size; ++ z)
+			{
+				/*
+				 *     A                X ->
+				 *                    
+				 * C   M   D          Z
+				 *       P            |
+				 *     B   N          V
+				 *
+				 * M is the point defined by x, z
+				 */
+				
+				// Calculate height of these points ===
+				
+				float m = map.map[x][z];
+				float c = map.map[x > 0 ? x - 1 : x][z];
+				float d = map.map[x < size - 1 ? x + 1 : x][z];
+				float a = map.map[x][z > 0 ? z - 1 : z];
+				float b = map.map[x][z < size - 1 ? z + 1 : z];
+				float n = map.map[x < size - 1 ? x + 1 : x][z < size - 1 ? z + 1 : z];
+				float p = (m + n + d + b) / 4.0f;
+				
+				// Calculate normals for M ===
+				
+				float cd_d = c - d;
+				if(x == 0 || x == size - 1)
+				{
+					cd_d *= 2;
+				}
+				
+				float ab_d = a - b;
+				if(z == 0 || z == size - 1)
+				{
+					ab_d *= 2;
+				}
+
+				Vector3f m_n = new Vector3f(cd_d * vertu, 2 * horzu, ab_d * vertu);
+				m_n.normalise();
+
+				// Add M to data ===
+
+				/*
+				glVertex3f(x, m, z);
+				glVertex3f(x + m_n.x, m + m_n.y, z + m_n.z);
+				*/
+				
+				// Calculate normals for P ===
+				
+				Vector3f m2d = new Vector3f(vertu, d - m, 0);
+				Vector3f m2b = new Vector3f(0, b - m, vertu);
+				Vector3f b2n = new Vector3f(vertu, n - b, 0);
+				Vector3f d2n = new Vector3f(0, n - d, vertu);
+				
+				Vector3f p_n_1 = new Vector3f();
+				Vector3f p_n_2 = new Vector3f();
+				
+				Vector3f.cross(m2b, m2d, p_n_1);
+				Vector3f.cross(d2n, b2n, p_n_2);
+				
+				Vector3f p_n = new Vector3f();
+				Vector3f.add(p_n_1, p_n_2, p_n);
+				p_n.normalise();
+
+				// Add P to data ===
+
+				glColor3f(1.0f, 1.0f, 0.0f);
+				glVertex3f(x + 0.5f, p, z + 0.5f);
+				glVertex3f(x + 0.5f + p_n_1.x, p + p_n_1.y, z + 0.5f + p_n_1.z);
+				glVertex3f(x + 0.5f, p, z + 0.5f);
+				glVertex3f(x + 0.5f + p_n_2.x, p + p_n_2.y, z + 0.5f + p_n_2.z);
+				
+
+				glColor3f(1.0f, 0.0f, 0.0f);
+				glVertex3f(x + 0.5f, p, z + 0.5f);
+				glVertex3f(x + 0.5f + p_n.x, p + p_n.y, z + 0.5f + p_n.z);
+			}
+		}
 		glEnd();
+		glEnable(GL_LIGHTING);
+		glColor3f(1.0f, 1.0f, 1.0f);
 	}
 
 	private Texture loadImage(String path)
