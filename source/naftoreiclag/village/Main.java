@@ -52,17 +52,8 @@ public class Main
 		cam.doOpenGLStuff();
 	    
 	    doLightSetup();
-
-		// Enable vertex buffer objects
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-		// Reserve spots for the data
-		geomHand = glGenBuffers();
-		indexHand = glGenBuffers();
 		
-		// Upload data to GPU
-		sendData();
+		uploadVBOData();
 		
 		// Ugly test shading
 		glShadeModel(GL_FLAT);
@@ -149,8 +140,16 @@ public class Main
 		return f;
 	}
 
-	public void sendData()
+	public void uploadVBOData()
 	{
+		// Enable vertex buffer objects
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		// Reserve spots for the data
+		geomHand = glGenBuffers();
+		indexHand = glGenBuffers();
+		
 		// Map data
 		map = new MapData();
 		
