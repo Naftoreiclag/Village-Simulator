@@ -22,7 +22,7 @@ public class MapData
 {
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;
-	float vertu = 32.0f;
+	float vertu = 5.0f;
 	
 	int size = 32;
 	
