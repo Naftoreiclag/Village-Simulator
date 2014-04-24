@@ -53,15 +53,17 @@ public class Main
 		
 		while(!Display.isCloseRequested())
 		{
-			// Camera stuff ===
-
-			cam.handleUserInput();
-			
-			
 			input();
 			render();
 		}
 
+		cleanup();
+		
+		System.exit(0);
+	}
+	
+	private void cleanup()
+	{
 		// We are no longer using VBOs
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -73,7 +75,7 @@ public class Main
 		// Blow up display (Destroy it!)
 		Display.destroy();
 	}
-	
+
 	private void setupCamera()
 	{
 		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
@@ -83,8 +85,7 @@ public class Main
 
 	private void input()
 	{
-		// TODO Auto-generated method stub
-		
+		cam.handleUserInput();
 	}
 
 	private void loadTextures()
