@@ -50,17 +50,17 @@ public class MapData
 	public FloatBuffer convertToGeometry()
 	{
 		// Size squared x floats per vertex x addition of middle vertex
-		FloatBuffer verts = BufferUtils.createFloatBuffer(size * size * 8);
+		FloatBuffer verts = BufferUtils.createFloatBuffer(size * size * 8 * 2);
 		
 		for(int x = 0; x < size; ++ x)
 		{
 			for(int z = 0; z < size; ++ z)
 			{
-				//    A 
+				//     A 
 				//
-				// C  M  D
-				//
-				//    B  N
+				// C   M   D
+				//       P
+				//     B   N
 				
 				
 				float m = map[x][z];
@@ -88,11 +88,13 @@ public class MapData
 				
 				normal.normalise();
 				
-				verts.put(x).put(map[x][z] - 2.0f).put(z).put(normal.x).put(normal.y).put(normal.z).put(x).put(z);
+				verts.put(x).put(m).put(z).put(normal.x).put(normal.y).put(normal.z).put(x).put(z);
 				
 				// Middley point ===
 				
-				//verts.put(((float) x) + 0.5f).put(map[x][z] - 2.0f).put(((float) z) + 0.5f).put(normal.x).put(normal.y).put(normal.z).put(x).put(z);
+				float p = (m + n + d + b) / 4.0f;
+
+				verts.put(x + 0.5f).put(p).put(z + 0.5f).put(normal.x).put(normal.y).put(normal.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
 		
@@ -103,12 +105,16 @@ public class MapData
 	
 	public IntBuffer convertToIndices()
 	{
-		IntBuffer ind = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 6);
+		IntBuffer ind = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
 
 		for(int x = 0; x < size - 1; ++ x)
 		{
 			for(int z = 0; z < size - 1; ++ z)
 			{
+				// M   D
+				//   P
+				// B   N
+				
 				int ulx = x;
 				int ulz = z;
 				int urx = x + 1;
@@ -118,24 +124,20 @@ public class MapData
 				int drx = x + 1;
 				int drz = z + 1;
 				
-				int a = posToLin(ulx, ulz);
-				int c = posToLin(urx, urz);
-				int d = posToLin(dlx, dlz);
-				int b = posToLin(drx, drz);
+				int mi = posToLin(ulx, ulz);
+				int di = posToLin(urx, urz);
+				int bi = posToLin(dlx, dlz);
+				int ni = posToLin(drx, drz);
+				int pi = mi + 1;
 				
-				float af = map[ulx][ulz];
-				float bf = map[urx][urz];
-				float cf = map[dlx][dlz];
-				float df = map[drx][drz];
+				/*
+				float m = map[ulx][ulz];
+				float d = map[urx][urz];
+				float b = map[dlx][dlz];
+				float n = map[drx][drz];
+				*/
 				
-				if(magicCompare(af, bf, cf, df))
-				{
-					ind.put(a).put(d).put(c).put(b).put(c).put(d);
-				}
-				else
-				{
-					ind.put(a).put(d).put(b).put(a).put(b).put(c);
-				}
+				ind.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
 			}
 		}
 		
@@ -190,6 +192,6 @@ public class MapData
 	
 	private int posToLin(int x, int z)
 	{
-		return x + (z * size);
+		return (x + (z * size)) * 2;
 	}
 }
