@@ -167,7 +167,7 @@ public class Main
 
 	private void input()
 	{
-		sunDir += 0.1;
+		//sunDir += 0.1;
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_G))
 		{
@@ -223,7 +223,7 @@ public class Main
 			glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
 			
 			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
-			glDrawElements(GL_TRIANGLES, 31 * 31 * 12, GL_UNSIGNED_INT, 0L);
+			glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
 			
 		glPopMatrix();
 		

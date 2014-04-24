@@ -49,8 +49,8 @@ public class MapData
 	
 	public FloatBuffer convertToGeometry()
 	{
-		// Size squared x floats per vertex x addition of middle vertex
-		FloatBuffer verts = BufferUtils.createFloatBuffer(size * size * 8 * 2);
+		// Size squared x floats per vertex
+		FloatBuffer verts = BufferUtils.createFloatBuffer(size * size * 8);
 		
 		for(int x = 0; x < size; ++ x)
 		{
@@ -73,8 +73,6 @@ public class MapData
 				float d = map[x < size - 1 ? x + 1 : x][z];
 				float a = map[x][z > 0 ? z - 1 : z];
 				float b = map[x][z < size - 1 ? z + 1 : z];
-				float n = map[x < size - 1 ? x + 1 : x][z < size - 1 ? z + 1 : z];
-				float p = (m + n + d + b) / 4.0f;
 				
 				// Calculate normals for M ===
 				
@@ -96,27 +94,6 @@ public class MapData
 				// Add M to data ===
 				
 				verts.put(x).put(m).put(z).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
-				
-				// Calculate normals for P ===
-
-				Vector3f m2d = new Vector3f(vertu, d - m, 0);
-				Vector3f m2b = new Vector3f(0, b - m, vertu);
-				Vector3f b2n = new Vector3f(vertu, n - b, 0);
-				Vector3f d2n = new Vector3f(0, n - d, vertu);
-
-				Vector3f p_n_1 = new Vector3f();
-				Vector3f p_n_2 = new Vector3f();
-				
-				Vector3f.cross(m2b, m2d, p_n_1);
-				Vector3f.cross(d2n, b2n, p_n_2);
-				
-				Vector3f p_n = new Vector3f();
-				Vector3f.add(p_n_1, p_n_2, p_n);
-				p_n.normalise();
-
-				// Add P to data ===
-				
-				verts.put(x + 0.5f).put(p).put(z + 0.5f).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
 		
@@ -134,16 +111,37 @@ public class MapData
 			for(int z = 0; z < size - 1; ++ z)
 			{
 				// M   D
-				//   P
+				//    
 				// B   N
 				
 				int mi = posToLin(x    , z    );
 				int di = posToLin(x + 1, z    );
 				int bi = posToLin(x    , z + 1);
 				int ni = posToLin(x + 1, z + 1);
-				int pi = mi + 1;
 				
-				ind.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
+				float m = map[x    ][z    ];
+				float d = map[x + 1][z    ];
+				float b = map[x    ][z + 1];
+				float n = map[x + 1][z + 1];
+				
+				double mbn = flatness(m, b, n);
+				double bnd = flatness(b, n, d);
+				double ndm = flatness(n, d, m);
+				double dmb = flatness(d, m, b);
+				
+				double flat = smallest(mbn, bnd, ndm, dmb);
+				
+				if(mbn == flat || ndm == flat)
+				{
+					ind.put(mi).put(bi).put(ni).put(ni).put(di).put(mi);
+				}
+				else
+				{
+					ind.put(bi).put(ni).put(di).put(di).put(mi).put(bi);
+				}
+				
+				//ind.put(mi).put(bi).put(ni).put(bi).put(ni).put(di).put(ni).put(di).put(mi).put(di).put(mi).put(bi);
+				//ind.put(mi).put(bi).put(ni).put(ni).put(di).put(mi);
 			}
 		}
 		
@@ -152,8 +150,118 @@ public class MapData
 		return ind;
 	}
 	
+	private double smallest(double a, double b, double c, double d)
+	{
+		if(a < b)
+		{
+			// A < B
+			
+			if(a < c)
+			{
+				// A < B
+				// A < C
+				
+				if(a < d)
+				{
+					// A < B
+					// A < C
+					// A < D
+					
+					return a;
+				}
+				else
+				{
+					// A < B
+					// A < C
+					// D < A
+					
+					return d;
+				}
+			}
+			else
+			{
+				// A < B
+				// C < A
+				
+				if(c < d)
+				{
+					// A < B
+					// C < A
+					// C < D
+					
+					return c;
+				}
+				else
+				{
+					// A < B
+					// C < A
+					// D < C
+					
+					return d;
+				}
+			}
+		}
+		else
+		{
+			// B < A
+			
+			if(b < c)
+			{
+				// B < A
+				// B < C
+				
+				if(b < d)
+				{
+					// B < A
+					// B < C
+					// B < D
+					
+					return b;
+				}
+				else
+				{
+					// B < A
+					// B < C
+					// D < B
+					
+					return d;
+				}
+			}
+			else
+			{
+				// B < A
+				// C < B
+				
+				if(c < d)
+				{
+					// B < A
+					// C < B
+					// C < D
+					
+					return c;
+				}
+				else
+				{
+					// B < A
+					// C < B
+					// D < C
+					
+					return d;
+				}
+			}
+		}
+		
+	}
+	
+	private double flatness(float a, float b, float c)
+	{
+		float mean = (a + b + c) / 3.0f;
+		
+		return Math.abs(mean - a) + Math.abs(mean - b) + Math.abs(mean - c);
+	}
+	
 	private int posToLin(int x, int z)
 	{
-		return (x + (z * size)) * 2;
+		return (x + (z * size)) * 1;
 	}
 }
