@@ -48,21 +48,17 @@ public class Main
 		setupOpenGL();
 		loadTextures();
 		
+		uploadVBOData();
+
+	    setupLights();
+	    
 		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
 		cam.doOpenGLStuff();
 	    
-	    doLightSetup();
 		
-		uploadVBOData();
 		
 		// Ugly test shading
 		glShadeModel(GL_FLAT);
-
-
-		Mouse.setGrabbed(true);
-		
-		//
-		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 		
 		while(!Display.isCloseRequested())
 		{
@@ -118,7 +114,7 @@ public class Main
 		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 	}
 
-	public void doLightSetup()
+	public void setupLights()
 	{
 		glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
