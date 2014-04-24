@@ -60,37 +60,24 @@ public class Main
 		System.exit(0);
 	}
 	
-	private void cleanup()
+	private void setupLWJGLDisplay()
 	{
-		// We are no longer using VBOs
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		try
+		{
+			Display.setDisplayMode(new DisplayMode(640, 480));
+			Display.setFullscreen(false);
+			Display.setVSyncEnabled(true);
+			Display.create();
+		}
+		catch(LWJGLException e)
+		{
+			e.printStackTrace();
+			
+			Display.destroy();
+			System.exit(1);
+		}
 		
-		// Free up memory that we used
-		glDeleteBuffers(geomHand);
-		glDeleteBuffers(indexHand);
-
-		// Blow up display (Destroy it!)
-		Display.destroy();
-	}
-
-	private void setupCamera()
-	{
-		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
-		cam.doLWJGLStuff();
-		cam.doOpenGLStuff();
-	}
-
-	private void input()
-	{
-		cam.handleUserInput();
-	}
-
-	private void loadTextures()
-	{
-		// Load textures
-		debug = loadImage("resources/debug.png");
-		texture = loadImage("donotinclude/eeeeeeenicegrassscaled.png");
+		glViewport(0, 0, 640, 480);
 	}
 
 	private void setupOpenGL()
@@ -109,34 +96,19 @@ public class Main
 		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 	}
 
-	public void setupLights()
+	private void loadTextures()
 	{
-		glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-        
-        glEnable(GL_COLOR_MATERIAL);
-        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-        
-        glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.6f, 0.6f, 0.6f, 1.0f));
-        glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
-        glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
-        
-	}
-	
-	public FloatBuffer floatBuffy(float ... data)
-	{
-		FloatBuffer f = BufferUtils.createFloatBuffer(data.length);
-		f.put(data);
-		f.flip();
-		return f;
+		// Load textures
+		debug = loadImage("resources/debug.png");
+		texture = loadImage("donotinclude/eeeeeeenicegrassscaled.png");
 	}
 
-	public void uploadVBOData()
+	private void uploadVBOData()
 	{
 		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
+	
 		// Reserve spots for the data
 		geomHand = glGenBuffers();
 		indexHand = glGenBuffers();
@@ -145,7 +117,7 @@ public class Main
 		map = new MapData();
 		
 		map.loadDataFromFile("foobar");
-
+	
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
 		glBufferData(GL_ARRAY_BUFFER, map.convertToGeometry(), GL_STATIC_DRAW); // Send data
 		
@@ -160,7 +132,93 @@ public class Main
 	
 		
 	}
+
+	private void setupLights()
+	{
+		glEnable(GL_LIGHTING);
+	    glEnable(GL_LIGHT0);
+	    
+	    glEnable(GL_COLOR_MATERIAL);
+	    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	    
+	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.6f, 0.6f, 0.6f, 1.0f));
+	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+	    
+	}
+
+	private void setupCamera()
+	{
+		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam.doLWJGLStuff();
+		cam.doOpenGLStuff();
+	}
+
+	private void input()
+	{
+		cam.handleUserInput();
+	}
+
+	private void render()
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		
+		glPushMatrix();
+		cam.applyMatrix();
 	
+	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 1.0f, 0.0f, 0.0f));
+		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
+		float lolx = 5.0f;
+		float loly = 5.0f;
+		float lolz = 5.0f;
+		
+		renderSphere(lolx, loly + 2.0f, lolz, 1.0f);
+		renderAxes(0.0f, 0.0f, 0.0f);
+	
+		glPushMatrix();
+			//glRotatef(roaty, 0.0f, 1.0f, 0.0f);
+		
+			glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
+			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
+			glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
+			glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
+			
+			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
+			glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
+		glPopMatrix();
+		
+		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
+	
+		glPopMatrix();
+	
+		Display.update();
+	
+		Display.sync(60);
+	}
+
+	private void cleanup()
+	{
+		// We are no longer using VBOs
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		
+		// Free up memory that we used
+		glDeleteBuffers(geomHand);
+		glDeleteBuffers(indexHand);
+
+		// Blow up display (Destroy it!)
+		Display.destroy();
+	}
+
+	private FloatBuffer floatBuffy(float ... data)
+	{
+		FloatBuffer f = BufferUtils.createFloatBuffer(data.length);
+		f.put(data);
+		f.flip();
+		return f;
+	}
+
 	private Texture loadImage(String path)
 	{
 		Texture texture = debug;
@@ -177,44 +235,6 @@ public class Main
 		return texture;
 	}
 
-	private void render()
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		
-		glPushMatrix();
-		cam.applyMatrix();
-
-	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 1.0f, 0.0f, 0.0f));
-		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
-		float lolx = 5.0f;
-		float loly = 5.0f;
-		float lolz = 5.0f;
-		
-		renderSphere(lolx, loly + 2.0f, lolz, 1.0f);
-		renderAxes(0.0f, 0.0f, 0.0f);
-
-		glPushMatrix();
-			//glRotatef(roaty, 0.0f, 1.0f, 0.0f);
-		
-			glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
-			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
-			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
-			glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
-			glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
-			
-			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
-			glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
-		glPopMatrix();
-		
-		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
-
-		glPopMatrix();
-
-		Display.update();
-
-		Display.sync(60);
-	}
-	
 	private void renderAxes(float x, float y, float z)
 	{
 		glPushMatrix();
@@ -255,26 +275,6 @@ public class Main
 		glPopMatrix();
 	}
 
-	public void setupLWJGLDisplay()
-	{
-		try
-		{
-			Display.setDisplayMode(new DisplayMode(640, 480));
-			Display.setFullscreen(false);
-			Display.setVSyncEnabled(true);
-			Display.create();
-		}
-		catch(LWJGLException e)
-		{
-			e.printStackTrace();
-			
-			Display.destroy();
-			System.exit(1);
-		}
-		
-		glViewport(0, 0, 640, 480);
-	}
-	
 	// This is where the magic begins
 	public static void main(String[] args)
 	{
