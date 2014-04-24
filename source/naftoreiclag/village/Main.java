@@ -38,7 +38,7 @@ public class Main
 	
 	MapData map;
 	
-	CameraTest cam;
+	DebugCam cam;
 	
 	Texture debug = null;
 	Texture texture = null;
@@ -67,7 +67,7 @@ public class Main
 		// Lookie lookie
 		gluPerspective(60f, 640f / 480f, 0.01f, 200);
 		
-		cam = new CameraTest();
+		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
 		
 		// Enable three-dee
 		glEnable(GL_DEPTH_TEST);
@@ -106,40 +106,10 @@ public class Main
 			
 			// Camera stuff ===
 
-			if(Keyboard.isKeyDown(Keyboard.KEY_A))
-			{
-				cam.goLeft();
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_D))
-			{
-				cam.goRight();
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_W))
-			{
-				cam.goForward();
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_S))
-			{
-				cam.goBack();
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE))
-			{
-				cam.goUp();
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-			{
-				cam.goDown();
-			}
-
-			int dx = Mouse.getDX();
-			int dy = Mouse.getDY();
-			
-			cam.yaw += dx * 0.05f;
-			cam.pitch -= dy * 0.05f;
+			cam.handleUserInput();
 			
 			// Clear the screen ===
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
 			
 			// Draw data
 			drawData();
@@ -224,7 +194,7 @@ public class Main
 	private void drawData()
 	{
 		glPushMatrix();
-		cam.look();
+		cam.applyMatrix();
 
 	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 1.0f, 0.0f, 0.0f));
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike

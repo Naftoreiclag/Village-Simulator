@@ -67,7 +67,7 @@ public class Main3
 		glBegin(GL_TRIANGLES);
 		glEnd();
 		
-		renderSphere(0.0f, 0.0f, 0.0f, 1.0f);
+		renderSphere(0.0f, -10.0f, 0.0f, 1.0f);
 
 		Display.update();
 		Display.sync(60);
