@@ -44,14 +44,7 @@ public class Main
 	
 	public void run()
 	{
-		try
-		{
-			init();
-		}
-		catch (LWJGLException e)
-		{
-			e.printStackTrace();
-		}
+		setupLWJGLDisplay();
 
 		// Enable something else
 		glMatrixMode(GL_MODELVIEW);
@@ -254,7 +247,7 @@ public class Main
 		glPopMatrix();
 	}
 
-	public void init() throws LWJGLException
+	public void setupLWJGLDisplay()
 	{
 		try
 		{
