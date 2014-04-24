@@ -40,8 +40,6 @@ public class Main
 	Texture debug = null;
 	Texture texture = null;
 	
-	float roaty = 0f;
-	
 	public void run()
 	{
 		setupLWJGLDisplay();
@@ -53,27 +51,15 @@ public class Main
 	    setupLights();
 	    setupCamera();
 		
-		// Ugly test shading
-		glShadeModel(GL_FLAT);
-		
 		while(!Display.isCloseRequested())
 		{
-			roaty += 0.2f;
-			
 			// Camera stuff ===
 
 			cam.handleUserInput();
 			
-			// Clear the screen ===
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			
 			input();
-			
 			render();
-
-			Display.update();
-
-			Display.sync(60);
 		}
 
 		// We are no longer using VBOs
@@ -91,6 +77,7 @@ public class Main
 	private void setupCamera()
 	{
 		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam.doLWJGLStuff();
 		cam.doOpenGLStuff();
 	}
 
@@ -193,6 +180,8 @@ public class Main
 
 	private void render()
 	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		
 		glPushMatrix();
 		cam.applyMatrix();
 
@@ -221,6 +210,10 @@ public class Main
 		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
 
 		glPopMatrix();
+
+		Display.update();
+
+		Display.sync(60);
 	}
 	
 	private void renderAxes(float x, float y, float z)
