@@ -124,6 +124,7 @@ public class MapData
 				
 				// Calculate normals for P ===
 
+				/*
 				Vector3f m2d = new Vector3f(vertu, d - m, 0);
 				Vector3f m2b = new Vector3f(0, b - m, vertu);
 				Vector3f b2n = new Vector3f(vertu, n - b, 0);
@@ -138,6 +139,9 @@ public class MapData
 				Vector3f p_n = new Vector3f();
 				Vector3f.add(p_n_1, p_n_2, p_n);
 				p_n.normalise();
+				*/
+				
+				Vector3f p_n = m_n;
 
 				// Add P to data ===
 				
