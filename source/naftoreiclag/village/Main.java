@@ -41,6 +41,9 @@ public class Main
 	
 	float sunDir = 0.2f;
 	
+	boolean wireFrame;
+	boolean showNormals;
+	
 	public void run()
 	{
 		setupLWJGLDisplay();
@@ -167,12 +170,15 @@ public class Main
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_G))
 		{
+			wireFrame = true;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 		else
 		{
+			wireFrame = false;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
+		showNormals = Keyboard.isKeyDown(Keyboard.KEY_F);
 		
 		cam.handleUserInput();
 	}
@@ -205,7 +211,10 @@ public class Main
 			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
 			glDrawElements(GL_TRIANGLES, 31 * 31 * 12, GL_UNSIGNED_INT, 0L);
 			
-			drawNormals();
+			if(showNormals)
+			{
+				drawNormals();
+			}
 		glPopMatrix();
 		
 		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
