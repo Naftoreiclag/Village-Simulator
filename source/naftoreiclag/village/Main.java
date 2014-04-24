@@ -186,7 +186,7 @@ public class Main
 		glPushMatrix();
 			//glRotatef(roaty, 0.0f, 1.0f, 0.0f);
 		
-			glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+			glBindTexture(GL_TEXTURE_2D, debug.getTextureID());
 			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
 			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
 			glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);

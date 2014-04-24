@@ -83,7 +83,7 @@ public class MapData
 				
 				normal.normalise();
 				
-				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(normal.x).put(normal.y).put(normal.z).put(x / 2f).put(z / 2f);
+				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(normal.x).put(normal.y).put(normal.z).put(x).put(z);
 			}
 		}
 		
@@ -137,6 +137,9 @@ public class MapData
 	
 	private boolean magicCompare(float a, float b, float c, float d)
 	{
+		//return Math.abs(a - b) > Math.abs(c - d);
+		
+		
 		if(a > c)
 		{
 		    if(a > d)
@@ -173,6 +176,7 @@ public class MapData
 		        }
 		    }
 		}
+		
 	}
 	
 	private int posToLin(int x, int z)
