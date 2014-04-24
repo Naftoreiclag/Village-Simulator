@@ -38,6 +38,8 @@ public class Main
 	Texture debug = null;
 	Texture texture = null;
 	
+	float sunDir = 0.0f;
+	
 	public void run()
 	{
 		setupLWJGLDisplay();
@@ -107,6 +109,7 @@ public class Main
 	{
 		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	
 		// Reserve spots for the data
@@ -156,6 +159,8 @@ public class Main
 
 	private void input()
 	{
+		sunDir += 0.1;
+		
 		cam.handleUserInput();
 	}
 
@@ -166,7 +171,7 @@ public class Main
 		glPushMatrix();
 		cam.applyMatrix();
 	
-	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(1.0f, 1.0f, 0.0f, 0.0f));
+	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 1.0f, (float) Math.sin(sunDir), 0.0f));
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 		float lolx = 5.0f;
 		float loly = 5.0f;
@@ -201,6 +206,7 @@ public class Main
 	{
 		// We are no longer using VBOs
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 		// Free up memory that we used
