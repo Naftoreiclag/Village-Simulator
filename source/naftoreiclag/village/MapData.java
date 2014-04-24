@@ -98,12 +98,12 @@ public class MapData
 				verts.put(x).put(m).put(z).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
 				
 				// Calculate normals for P ===
-				
+
 				Vector3f m2d = new Vector3f(vertu, d - m, 0);
 				Vector3f m2b = new Vector3f(0, b - m, vertu);
 				Vector3f b2n = new Vector3f(vertu, n - b, 0);
 				Vector3f d2n = new Vector3f(0, n - d, vertu);
-				
+
 				Vector3f p_n_1 = new Vector3f();
 				Vector3f p_n_2 = new Vector3f();
 				
