@@ -51,11 +51,7 @@ public class Main
 		uploadVBOData();
 
 	    setupLights();
-	    
-		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
-		cam.doOpenGLStuff();
-	    
-		
+	    setupCamera();
 		
 		// Ugly test shading
 		glShadeModel(GL_FLAT);
@@ -71,8 +67,9 @@ public class Main
 			// Clear the screen ===
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			
-			// Draw data
-			drawData();
+			input();
+			
+			render();
 
 			Display.update();
 
@@ -91,6 +88,18 @@ public class Main
 		Display.destroy();
 	}
 	
+	private void setupCamera()
+	{
+		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam.doOpenGLStuff();
+	}
+
+	private void input()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void loadTextures()
 	{
 		// Load textures
@@ -182,7 +191,7 @@ public class Main
 		return texture;
 	}
 
-	private void drawData()
+	private void render()
 	{
 		glPushMatrix();
 		cam.applyMatrix();
