@@ -46,6 +46,7 @@ public class Main
 	{
 		setupLWJGLDisplay();
 		setupOpenGL();
+		loadTextures();
 		
 		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
 		cam.doOpenGLStuff();
@@ -66,9 +67,6 @@ public class Main
 		// Ugly test shading
 		glShadeModel(GL_FLAT);
 
-		// Load textures
-		debug = loadImage("resources/debug.png");
-		texture = loadImage("donotinclude/eeeeeeenicegrassscaled.png");
 
 		Mouse.setGrabbed(true);
 		
@@ -106,6 +104,13 @@ public class Main
 		Display.destroy();
 	}
 	
+	private void loadTextures()
+	{
+		// Load textures
+		debug = loadImage("resources/debug.png");
+		texture = loadImage("donotinclude/eeeeeeenicegrassscaled.png");
+	}
+
 	private void setupOpenGL()
 	{
 		// Enable something else
