@@ -1,3 +1,9 @@
+/* Copyright (c) 2014 "Naftoreiclag" https://github.com/Naftoreiclag
+ *
+ * Distributed under the MIT License (http://opensource.org/licenses/mit-license.html)
+ * See accompanying file LICENSE
+ */
+
 package naftoreiclag.village;
 
 import java.io.File;
@@ -10,18 +16,26 @@ import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.util.glu.GLU.*;
+
+//I named this class "Main" just so java newbies can find the
+//main method faster! Aren't I so nice? :)
 public class Main3
 {
 	MapData map;
+	
+	DebugCam cam;
 	
 	Texture debug = null;
 	Texture texture = null;
 	
 	private void run()
 	{
-		loadTextures();
 		setupLWJGLDisplay();
 		setupOpenGL();
+		loadTextures();
 		
 		uploadVBOData();
 		
@@ -46,7 +60,8 @@ public class Main3
 
 	private void render()
 	{
-		
+		glBegin(GL_TRIANGLES);
+		glEnd();
 	}
 
 	private void loadTextures()
@@ -74,6 +89,19 @@ public class Main3
 
 	private void setupOpenGL()
 	{
+		// Enable projection
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		
+		// Enable something else
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		
+		// Enable three-dee
+		glEnable(GL_DEPTH_TEST);
+		
+		// Enable textures
+		glEnable(GL_TEXTURE_2D);
 	}
 
 	private void uploadVBOData()
@@ -88,6 +116,8 @@ public class Main3
 
 	private void setupCamera()
 	{
+		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam.doOpenGLStuff();
 	}
 
 	private void cleanup()
