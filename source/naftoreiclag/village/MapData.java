@@ -70,31 +70,51 @@ public class MapData
 				float b = map[x][z < size - 1 ? z + 1 : z];
 				float n = map[x < size - 1 ? x + 1 : x][z < size - 1 ? z + 1 : z];
 				
-				// Actual point ===
+				// Calculate differences in height
 				
-				float xdiff = c - d;
+				float cd_d = c - d;
 				if(x == 0 || x == size - 1) // if we are on the edge, we only have one sample, so we double the data to imitate having two.
 				{
-					xdiff *= 2;
+					cd_d *= 2;
 				}
 				
-				float zdiff = a - b;
+				float ab_d = a - b;
 				if(z == 0 || z == size - 1)
 				{
-					zdiff *= 2;
+					ab_d *= 2;
 				}
 				
-				Vector3f normal = new Vector3f(xdiff * vertu, 2 * horzu, zdiff * vertu);
+				float mn_d = m - n;
+				float bd_d = b - d;
+				if(x == size - 1 || z == size - 1)
+				{
+					mn_d *= 2;
+					bd_d *= 2;
+				}
 				
-				normal.normalise();
+				Vector3f m2d = new Vector3f(0, d - m, vertu);
+				Vector3f m2b = new Vector3f(vertu, b - m, 0);
+				Vector3f b2n = new Vector3f(0, n - b, vertu);
+				Vector3f d2n = new Vector3f(vertu, n - d, 0);
 				
-				verts.put(x).put(m).put(z).put(normal.x).put(normal.y).put(normal.z).put(x).put(z);
+				Vector3f nn_1 = new Vector3f();
+				Vector3f nn_2 = new Vector3f();
 				
-				// Middley point ===
+				Vector3f.cross(m2d, m2b, nn_1);
+				Vector3f.cross(b2n, d2n, nn_2);
+				
+				Vector3f n_n = new Vector3f();
+				Vector3f.add(nn_1, nn_2, n_n);
+				n_n.normalise();
+				
+				Vector3f m_n = new Vector3f(cd_d * vertu, 2 * horzu, ab_d * vertu);
+				m_n.normalise();
+				
+				verts.put(x).put(m).put(z).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
 				
 				float p = (m + n + d + b) / 4.0f;
 
-				verts.put(x + 0.5f).put(p).put(z + 0.5f).put(normal.x).put(normal.y).put(normal.z).put(x + 0.5f).put(z + 0.5f);
+				verts.put(x + 0.5f).put(p).put(z + 0.5f).put(n_n.x).put(n_n.y).put(n_n.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
 		

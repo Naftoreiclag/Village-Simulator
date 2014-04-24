@@ -13,6 +13,7 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.Sphere;
@@ -164,6 +165,15 @@ public class Main
 	{
 		//sunDir += 0.1;
 		
+		if(Keyboard.isKeyDown(Keyboard.KEY_G))
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+		
 		cam.handleUserInput();
 	}
 
@@ -193,7 +203,7 @@ public class Main
 			glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
 			
 			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
-			glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
+			glDrawElements(GL_TRIANGLES, 31 * 31 * 12, GL_UNSIGNED_INT, 0L);
 			
 			drawNormals();
 		glPopMatrix();
@@ -235,17 +245,21 @@ public class Main
 		FloatBuffer geo = map.convertToGeometry();
 		//geo.flip();
 		
+		float scale = 0.5f;
+		
 		glBegin(GL_LINES);
-		for(int i = 0; i < 32 * 32 * 8; i += 8)
+		for(int i = 0; i < 32 * 32 * 8 * 2; i += 8)
 		{
 			//renderSphere(geo.get(i), geo.get(i + 1), geo.get(i + 2), 0.5f);
+			
+			
 			
 			float x = geo.get(i + 0);
 			float y = geo.get(i + 1);
 			float z = geo.get(i + 2);
-			float nx = geo.get(i + 3);
-			float ny = geo.get(i + 4);
-			float nz = geo.get(i + 5);
+			float nx = geo.get(i + 3) * scale;
+			float ny = geo.get(i + 4) * scale;
+			float nz = geo.get(i + 5) * scale;
 			
 			glVertex3f(x, y, z);
 			glVertex3f(x + nx, y + ny, z + nz);
