@@ -114,6 +114,9 @@ public class Main3
 		
 		//
 		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
+		
+		//
+		glViewport(0, 0, 640, 480);
 	}
 
 	private void uploadVBOData()

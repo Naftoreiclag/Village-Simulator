@@ -30,9 +30,6 @@ import static org.lwjgl.util.glu.GLU.*;
 
 public class Main
 {
-	int dispW = 640;
-	int dispH = 480;
-	
 	int geomHand;
 	int indexHand;
 	
@@ -60,14 +57,14 @@ public class Main
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		
-		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
-		cam.doOpenGLStuff();
-		
 		// Enable three-dee
 		glEnable(GL_DEPTH_TEST);
 		
 		// Enable textures
 		glEnable(GL_TEXTURE_2D);
+		
+		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam.doOpenGLStuff();
 	    
 	    doLightSetup();
 
@@ -259,11 +256,22 @@ public class Main
 
 	public void init() throws LWJGLException
 	{
-		Display.setDisplayMode(new DisplayMode(dispW, dispH));
-		Display.setFullscreen(false);
-		Display.create();
+		try
+		{
+			Display.setDisplayMode(new DisplayMode(640, 480));
+			Display.setFullscreen(false);
+			Display.setVSyncEnabled(true);
+			Display.create();
+		}
+		catch(LWJGLException e)
+		{
+			e.printStackTrace();
+			
+			Display.destroy();
+			System.exit(1);
+		}
 		
-		glViewport(0, 0, dispW, dispH);
+		glViewport(0, 0, 640, 480);
 	}
 	
 	// This is where the magic begins
