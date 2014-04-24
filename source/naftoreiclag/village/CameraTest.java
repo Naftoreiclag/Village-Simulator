@@ -6,7 +6,7 @@
 
 package naftoreiclag.village;
 
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
 
 public class CameraTest
 {
@@ -21,42 +21,49 @@ public class CameraTest
 
 	public void look()
 	{
-		GL11.glRotatef(pitch, 1.0f, 0.0f, 0.0f);
-		GL11.glRotatef(yaw, 0.0f, 1.0f, 0.0f);
-		GL11.glTranslatef(x, y, z);
+		// Magic?
+		glPushAttrib(GL_TRANSFORM_BIT);
+		
+		// Normal stuff
+		glRotatef(pitch, 1.0f, 0.0f, 0.0f);
+		glRotatef(yaw, 0.0f, 1.0f, 0.0f);
+		glTranslatef(-x, -y, -z);
+		
+		// Counter magic
+		glPopAttrib();
 	}
 	
 	public void goLeft()
 	{
-		x -= speed * (float) Math.sin(Math.toRadians(yaw - 90));
-		z += speed * (float) Math.cos(Math.toRadians(yaw - 90));
+		x += speed * (float) Math.sin(Math.toRadians(yaw - 90));
+		z -= speed * (float) Math.cos(Math.toRadians(yaw - 90));
 	}
 
 	public void goRight()
 	{
-		x -= speed * (float) Math.sin(Math.toRadians(yaw + 90));
-		z += speed * (float) Math.cos(Math.toRadians(yaw + 90));
+		x += speed * (float) Math.sin(Math.toRadians(yaw + 90));
+		z -= speed * (float) Math.cos(Math.toRadians(yaw + 90));
 	}
 
 	public void goForward()
 	{
-		x -= speed * (float) Math.sin(Math.toRadians(yaw));
-		z += speed * (float) Math.cos(Math.toRadians(yaw));
+		x += speed * (float) Math.sin(Math.toRadians(yaw));
+		z -= speed * (float) Math.cos(Math.toRadians(yaw));
 	}
 
 	public void goBack()
 	{
-		x += speed * (float) Math.sin(Math.toRadians(yaw));
-		z -= speed * (float) Math.cos(Math.toRadians(yaw));
+		x -= speed * (float) Math.sin(Math.toRadians(yaw));
+		z += speed * (float) Math.cos(Math.toRadians(yaw));
 	}
 	
 	public void goUp()
 	{
-		y -= speed;
+		y += speed;
 	}
 	
 	public void goDown()
 	{
-		y += speed;
+		y -= speed;
 	}
 }

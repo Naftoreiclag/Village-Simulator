@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -19,8 +17,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.glu.Sphere;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -45,6 +42,8 @@ public class Main
 	
 	Texture debug = null;
 	Texture texture = null;
+	
+	float roaty = 0f;
 	
 	public void run()
 	{
@@ -79,13 +78,20 @@ public class Main
 		glEnable(GL_TEXTURE_2D);
 		
 		// Enable culling
-	    glEnable(GL_CULL_FACE);
+	    //glEnable(GL_CULL_FACE);
 	    
 	    // Enable Lighting
-	    //glEnable(GL_LIGHTING);
-	    //glEnable(GL_LIGHT0);
-	    //glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(1.0f, 1.0f, 1.0f, 1));
-	    //glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(1.0f, 1.0f, 1.0f, 1.0f));
+	    /*
+	    glEnable(GL_LIGHTING);
+	    glEnable(GL_LIGHT0);
+        glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(0.4f, 0.4f, 0.4f, 1.0f));
+	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(1.0f, 1.0f, 1.0f, 1.0f));
+	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+	    */
+	    
+	    //glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(0.4f, 0.4f, 0.4f, 1.0f));
+	    
+	    doLightSetup();
 
 		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -98,15 +104,24 @@ public class Main
 		// Upload data to GPU
 		sendData();
 		
+		// Ugly test shading
+		glShadeModel(GL_FLAT);
+		//glPolygonMode(GL_FRONT, GL_LINE);
+		
 		debug = loadImage("resources/debug.png");
 		
 		// Load textures
-		texture = loadImage("donotinclude/nicegrassscaled.png");
+		texture = loadImage("donotinclude/eeeeeeenicegrassscaled.png");
 
 		Mouse.setGrabbed(true);
 		
+		//
+		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
+		
 		while(!Display.isCloseRequested())
 		{
+			roaty += 0.2f;
+			
 			// Camera stuff ===
 
 			if(Keyboard.isKeyDown(Keyboard.KEY_A))
@@ -142,7 +157,7 @@ public class Main
 			
 			// Clear the screen ===
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-			
+
 			
 			// Draw data
 			drawData();
@@ -162,6 +177,20 @@ public class Main
 
 		// Blow up display (Destroy it!)
 		Display.destroy();
+	}
+	
+	public void doLightSetup()
+	{
+		glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        
+        glEnable(GL_COLOR_MATERIAL);
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+        
+        glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.6f, 0.6f, 0.6f, 1.0f));
+        glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+        glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+        
 	}
 	
 	public FloatBuffer floatBuffy(float ... data)
@@ -212,22 +241,73 @@ public class Main
 
 	private void drawData()
 	{
-		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
-		
 		glPushMatrix();
 		cam.look();
-	    //glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 3.0f, 0.0f, 0.0f));
+
+	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(0.0f, 1.0f, 0.0f, 0.0f));
+		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
+		float lolx = 5.0f;
+		float loly = 5.0f;
+		float lolz = 5.0f;
 		
-		glBindBuffer(GL_ARRAY_BUFFER, geomHand);
-		glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
-		glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
-		glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
+		renderSphere(lolx, loly + 2.0f, lolz, 1.0f);
+		renderAxes(0.0f, 0.0f, 0.0f);
+
+		glPushMatrix();
+			//glRotatef(roaty, 0.0f, 1.0f, 0.0f);
 		
-		//31 * 31 * 
-		glEnable(GL_NORMALIZE);
-		glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
-		//glDisable(GL_NORMALIZE);
+			glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
+			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
+			glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
+			glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
+			
+			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
+			glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
+		glPopMatrix();
 		
+		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
+
+		glPopMatrix();
+	}
+	
+	private void renderAxes(float x, float y, float z)
+	{
+		glPushMatrix();
+		glTranslatef(x, y, z);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+		
+		float thic = 0.5f;
+		
+		glColor3f(1.0f, 0.0f, 0.0f);
+		for(float ox = 0.0f; ox < 10.0f; ox += 1.0f)
+		{
+			renderSphere(x + ox, y, z, thic);
+		}
+		glColor3f(0.0f, 1.0f, 0.0f);
+		for(float oy = 0.0f; oy < 10.0f; oy += 1.0f)
+		{
+			renderSphere(x, y + oy, z, thic);
+		}
+		glColor3f(0.0f, 0.0f, 1.0f);
+		for(float oz = 0.0f; oz < 10.0f; oz += 1.0f)
+		{
+			renderSphere(x, y, z + oz, thic);
+		}
+		glColor3f(1.0f, 1.0f, 1.0f);
+		
+		
+		glPopMatrix();
+	}
+	
+
+	private void renderSphere(float x, float y, float z, float radius)
+	{
+		glPushMatrix();
+		glTranslatef(x, y, z);
+		Sphere s = new Sphere();
+		s.draw(radius, 16, 16);
 		glPopMatrix();
 	}
 

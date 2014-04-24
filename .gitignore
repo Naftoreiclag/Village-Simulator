@@ -6,3 +6,4 @@ bin/*.*
 hs_err*
 source/tests/*.*
 donotinclude/*.*
+/bin

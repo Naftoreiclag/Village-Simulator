@@ -83,6 +83,12 @@ public class MapData
 				
 				normal.normalise();
 				
+				/*
+				normal.x = 0.0f;
+				normal.y = 1.0f;
+				normal.z = 0.0f;
+				*/
+				
 				geo.put(x - 16).put(value[x][z] - 2.0f).put(z - 16).put(normal.x).put(normal.y).put(normal.z).put(x / 2f).put(z / 2f);
 			}
 		}
