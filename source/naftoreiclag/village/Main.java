@@ -223,7 +223,7 @@ public class Main
 			glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
 			
 			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
-			glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
+			glDrawElements(GL_TRIANGLES, 31 * 31 * 12, GL_UNSIGNED_INT, 0L);
 			
 		glPopMatrix();
 		
@@ -263,6 +263,9 @@ public class Main
 	{
 		FloatBuffer geo = map.convertToGeometry();
 		//geo.flip();
+
+		float horzu = map.horzu;
+		float vertu = map.vertu;
 		
 		float scale = 0.5f;
 
@@ -282,8 +285,6 @@ public class Main
 			glVertex3f(x + nx, y + ny, z + nz);
 		}
 		float size = 32;
-		float horzu = 1.0f;
-		float vertu = 1.0f;
 		for(int x = 0; x < size; ++ x)
 		{
 			for(int z = 0; z < size; ++ z)
@@ -352,15 +353,15 @@ public class Main
 				// Add P to data ===
 
 				glColor3f(1.0f, 1.0f, 0.0f);
-				glVertex3f(x + 0.5f, p, z + 0.5f);
-				glVertex3f(x + 0.5f + p_n_1.x, p + p_n_1.y, z + 0.5f + p_n_1.z);
-				glVertex3f(x + 0.5f, p, z + 0.5f);
-				glVertex3f(x + 0.5f + p_n_2.x, p + p_n_2.y, z + 0.5f + p_n_2.z);
+				glVertex3f(((x + 0.5f) * horzu), (p * vertu), ((z + 0.5f) * horzu));
+				glVertex3f(((x + 0.5f) * horzu) + p_n_1.x, (p * vertu) + p_n_1.y, ((z + 0.5f) * horzu) + p_n_1.z);
+				glVertex3f(((x + 0.5f) * horzu), (p * vertu), ((z + 0.5f) * horzu));
+				glVertex3f(((x + 0.5f) * horzu) + p_n_2.x, (p * vertu) + p_n_2.y, ((z + 0.5f) * horzu) + p_n_2.z);
 				
 
 				glColor3f(1.0f, 0.0f, 0.0f);
-				glVertex3f(x + 0.5f, p, z + 0.5f);
-				glVertex3f(x + 0.5f + p_n.x, p + p_n.y, z + 0.5f + p_n.z);
+				glVertex3f(((x + 0.5f) * horzu), (p * vertu), ((z + 0.5f) * horzu));
+				glVertex3f(((x + 0.5f) * horzu) + p_n.x, (p * vertu) + p_n.y, ((z + 0.5f) * horzu) + p_n.z);
 			}
 		}
 		glEnd();
