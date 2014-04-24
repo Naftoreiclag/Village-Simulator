@@ -75,7 +75,7 @@ public class MapData
 				float b = map[x][z < size - 1 ? z + 1 : z];
 				float n = map[x < size - 1 ? x + 1 : x][z < size - 1 ? z + 1 : z];
 				float p = (m + n + d + b) / 4.0f;
-				/*
+				
 				double mbn = flatness(m, b, n);
 				double bnd = flatness(b, n, d);
 				double ndm = flatness(n, d, m);
@@ -85,21 +85,21 @@ public class MapData
 				
 				if(mbn == flat)
 				{
-					p = (m + b + n) / 3.0f;
+					p = (m + n) / 2.0f;
 				}
 				else if(bnd == flat)
 				{
-					p = (b + n + d) / 3.0f;
+					p = (b + d) / 2.0f;
 				}
 				else if(ndm == flat)
 				{
-					p = (n + d + m) / 3.0f;
+					p = (n + m) / 2.0f;
 				}
 				else if(dmb == flat)
 				{
-					p = (d + m + b) / 3.0f;
+					p = (d + b) / 2.0f;
 				}
-				*/
+				
 				
 				// Calculate normals for M ===
 				
