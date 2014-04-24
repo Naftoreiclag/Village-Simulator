@@ -66,8 +66,6 @@ public class Main
 
 		// Lookie lookie
 		gluPerspective(60f, 640f / 480f, 0.01f, 200);
-		// Params: eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz
-		// gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		
 		cam = new CameraTest();
 		
@@ -76,20 +74,6 @@ public class Main
 		
 		// Enable textures
 		glEnable(GL_TEXTURE_2D);
-		
-		// Enable culling
-	    //glEnable(GL_CULL_FACE);
-	    
-	    // Enable Lighting
-	    /*
-	    glEnable(GL_LIGHTING);
-	    glEnable(GL_LIGHT0);
-        glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(0.4f, 0.4f, 0.4f, 1.0f));
-	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(1.0f, 1.0f, 1.0f, 1.0f));
-	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
-	    */
-	    
-	    //glLightModel(GL_LIGHT_MODEL_AMBIENT, floatBuffy(0.4f, 0.4f, 0.4f, 1.0f));
 	    
 	    doLightSetup();
 
@@ -106,11 +90,9 @@ public class Main
 		
 		// Ugly test shading
 		glShadeModel(GL_FLAT);
-		//glPolygonMode(GL_FRONT, GL_LINE);
-		
-		debug = loadImage("resources/debug.png");
-		
+
 		// Load textures
+		debug = loadImage("resources/debug.png");
 		texture = loadImage("donotinclude/eeeeeeenicegrassscaled.png");
 
 		Mouse.setGrabbed(true);
