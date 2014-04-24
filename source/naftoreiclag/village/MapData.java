@@ -22,7 +22,7 @@ public class MapData
 {
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 2.0f;
-	float vertu = 2.0f;
+	float vertu = 1.0f;
 	
 	int size = 32;
 	
@@ -120,7 +120,7 @@ public class MapData
 
 				// Add M to data ===
 				
-				verts.put(x * vertu).put(m * horzu).put(z * vertu).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
+				verts.put(x * horzu).put(m * vertu).put(z * horzu).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
 				
 				// Calculate normals for P ===
 
@@ -141,7 +141,7 @@ public class MapData
 
 				// Add P to data ===
 				
-				verts.put((x + 0.5f) * vertu).put(p * horzu).put((z + 0.5f) * vertu).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
+				verts.put((x + 0.5f) * horzu).put(p * vertu).put((z + 0.5f) * horzu).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
 		
