@@ -194,6 +194,8 @@ public class Main
 			
 			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
 			glDrawElements(GL_TRIANGLES, 31 * 31 * 6, GL_UNSIGNED_INT, 0L);
+			
+			drawNormals();
 		glPopMatrix();
 		
 		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
@@ -226,6 +228,29 @@ public class Main
 		f.put(data);
 		f.flip();
 		return f;
+	}
+	
+	private void drawNormals()
+	{
+		FloatBuffer geo = map.convertToGeometry();
+		//geo.flip();
+		
+		glBegin(GL_LINES);
+		for(int i = 0; i < 32 * 32 * 8; i += 8)
+		{
+			//renderSphere(geo.get(i), geo.get(i + 1), geo.get(i + 2), 0.5f);
+			
+			float x = geo.get(i + 0);
+			float y = geo.get(i + 1);
+			float z = geo.get(i + 2);
+			float nx = geo.get(i + 3);
+			float ny = geo.get(i + 4);
+			float nz = geo.get(i + 5);
+			
+			glVertex3f(x, y, z);
+			glVertex3f(x + nx, y + ny, z + nz);
+		}
+		glEnd();
 	}
 
 	private Texture loadImage(String path)
