@@ -109,18 +109,70 @@ public class MapData
 				int drx = x + 1;
 				int drz = z + 1;
 				
-				int ul = posToLin(ulx, ulz);
-				int ur = posToLin(urx, urz);
-				int dl = posToLin(dlx, dlz);
-				int dr = posToLin(drx, drz);
+				int a = posToLin(ulx, ulz);
+				int c = posToLin(urx, urz);
+				int d = posToLin(dlx, dlz);
+				int b = posToLin(drx, drz);
 				
-				ind.put(ur).put(dr).put(dl).put(ul).put(ur).put(dl);
+				float af = value[ulx][ulz];
+				float bf = value[urx][urz];
+				float cf = value[dlx][dlz];
+				float df = value[drx][drz];
+				
+				if(magicCompare(af, bf, cf, df))
+				{
+					ind.put(a).put(d).put(c).put(b).put(c).put(d);
+				}
+				else
+				{
+					ind.put(a).put(d).put(b).put(a).put(b).put(c);
+				}
 			}
 		}
 		
 		ind.flip();
 		
 		return ind;
+	}
+	
+	private boolean magicCompare(float a, float b, float c, float d)
+	{
+		if(a > c)
+		{
+		    if(a > d)
+		    {
+		        return true;
+		    }
+		    else
+		    {
+		        if(d > b)
+		        {
+		            return false;
+		        }
+		        else
+		        {
+		            return true;
+		        }
+		    }
+		}
+		else
+		{
+		    if(c > b)
+		    {
+		        return false;
+		    }
+		    else
+		    {
+		        if(b > d)
+		        {
+		            return true;
+		        }
+		        else
+		        {
+		            return false;
+		        }
+		    }
+		}
 	}
 	
 	private int posToLin(int x, int z)

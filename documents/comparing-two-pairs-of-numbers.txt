@@ -1,6 +1,12 @@
 // A - B
 // C - D
 
+// A   C
+//   X
+// D   B
+
+// (A = upper left) (B = lower right)
+
 // If either value is greater than both of the other values, then that line posesses the largest number.
 
 if a>c
