@@ -21,8 +21,8 @@ import org.lwjgl.util.vector.Vector3f;
 public class MapData
 {
 	// Standard sizes for horizontal and vertical scale
-	float horzu = 2.0f;
-	float vertu = 1.0f;
+	float horzu = 1.0f;
+	float vertu = 32.0f;
 	
 	int size = 32;
 	

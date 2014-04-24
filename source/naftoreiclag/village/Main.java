@@ -103,6 +103,9 @@ public class Main
 		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 		
 		//
+		glEnable(GL_POLYGON_SMOOTH);
+		
+		//
 		//glShadeModel(GL_FLAT);
 	}
 
