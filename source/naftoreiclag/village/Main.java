@@ -38,7 +38,7 @@ public class Main
 	Texture debug = null;
 	Texture texture = null;
 	
-	float sunDir = 0.0f;
+	float sunDir = 0.2f;
 	
 	public void run()
 	{
@@ -96,13 +96,16 @@ public class Main
 		
 		//
 		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
+		
+		//
+		glShadeModel(GL_FLAT);
 	}
 
 	private void loadTextures()
 	{
 		// Load textures
 		debug = loadImage("resources/debug.png");
-		texture = loadImage("donotinclude/eeeeeeenicegrassscaled.png");
+		texture = loadImage("resources/grass.png");
 	}
 
 	private void uploadVBOData()
@@ -159,7 +162,7 @@ public class Main
 
 	private void input()
 	{
-		sunDir += 0.1;
+		//sunDir += 0.1;
 		
 		cam.handleUserInput();
 	}
