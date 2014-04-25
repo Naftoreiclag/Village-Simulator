@@ -151,10 +151,10 @@ public class MapData
 				float n = map[x + 1][z + 1];
 				
 				mb.addQuad(
-						/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 0.0f, 0.0f,
-						/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 0.0f, 1.0f,
-						/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 1.0f, 1.0f,
-						/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 1.0f, 0.0f);
+						/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z,
+						/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1,
+						/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
+						/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    );
 			}
 		}
 		

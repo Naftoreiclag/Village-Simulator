@@ -31,18 +31,17 @@ public class ModelBuilder
 		int ai = -1;
 		int bi = -1;
 		int ci = -1;
-		
 		for(int index = 0; index < vertices.size(); ++ index)
 		{
-			if(vertices.get(index).equals(a))
+			if(vertices.get(index).same(a))
 			{
 				ai = index;
 			}
-			if(vertices.get(index).equals(b))
+			if(vertices.get(index).same(b))
 			{
 				bi = index;
 			}
-			if(vertices.get(index).equals(c))
+			if(vertices.get(index).same(c))
 			{
 				ci = index;
 			}
@@ -104,6 +103,8 @@ public class ModelBuilder
 		}
 		m.putIndices(i, triangles.size() * 3);
 		
+		System.out.println(vertices.size());
+		
 		return m;
 	}
 	
@@ -126,9 +127,15 @@ public class ModelBuilder
 			this.texY = texY;
 		}
 		
-		public boolean equals(Vertex other)
+		private boolean vComp(Vector3f a, Vector3f b)
 		{
-			return other.x == this.x && other.y == this.y && other.z == this.z&& other.normal.equals(this.normal) && other.texX == this.texX && other.texY == this.texY;
+			//return true;
+			return a.x == b.x && a.y == b.y && a.z == b.z;
+		}
+		
+		public boolean same(Vertex other)
+		{
+			return other.x == this.x && other.y == this.y && other.z == this.z && vComp(other.normal, this.normal) && other.texX == this.texX && other.texY == this.texY;
 		}
 	}
 	
