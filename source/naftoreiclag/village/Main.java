@@ -197,7 +197,7 @@ public class Main
 		map = new MapData();
 		
 		map.loadDataFromFile("foobar");
-		map.makeModelAlt();
+		map.makeModelFancy();
 		map.rock.setTexture(grass_tex.getTextureID());
 	
 		map.rock.upload();

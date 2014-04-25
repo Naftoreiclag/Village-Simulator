@@ -81,10 +81,10 @@ public class MapData
 				float b = map[x    ][z + 1];
 				float n = map[x + 1][z + 1];
 				
-				double mbn = flatness(m, b, n);
-				double bnd = flatness(b, n, d);
-				double ndm = flatness(n, d, m);
-				double dmb = flatness(d, m, b);
+				double mbn = steepness(m, b, n);
+				double bnd = steepness(b, n, d);
+				double ndm = steepness(n, d, m);
+				double dmb = steepness(d, m, b);
 				/*
 				double flat = smallest(mbn, bnd, ndm, dmb);
 				
@@ -129,6 +129,77 @@ public class MapData
 		
 		grass.putVerts(topVertsBuff);
 		grass.putIndices(topIntBuff, inde.size());
+	}
+	
+	public void makeModelFancy()
+	{
+		ModelBuilder mb_rock = new ModelBuilder();
+		ModelBuilder mb_grass = new ModelBuilder();
+
+		double steepThres = 0.5;
+		
+		for(int x = 0; x < size - 1; ++ x)
+		{
+			for(int z = 0; z < size - 1; ++ z)
+			{
+				// M  0  D
+				//
+				// 2  P  3
+				//
+				// B  1  N
+				
+				float m = map[x    ][z    ];
+				float d = map[x + 1][z    ];
+				float b = map[x    ][z + 1];
+				float n = map[x + 1][z + 1];
+				
+				double mbn = steepness(m, b, n);
+				double bnd = steepness(b, n, d);
+				double ndm = steepness(n, d, m);
+				double dmb = steepness(d, m, b);
+				
+				double flat = smallest(mbn, bnd, ndm, dmb);
+				
+				if(mbn == flat || ndm == flat)
+				{
+					if(mbn < steepThres)
+					{
+						mb_grass.addTriangle(
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1, 
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1);
+					}
+					if(ndm < steepThres)
+					{
+						mb_grass.addTriangle(
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    );
+					}
+				}
+				else
+				{
+					if(bnd < steepThres)
+					{
+						mb_grass.addTriangle(
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    );
+					}
+					if(dmb < steepThres)
+					{
+						mb_grass.addTriangle(
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    ,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1);
+					}
+				}
+				
+				
+			}
+		}
+		
+		rock = mb_grass.bake();
 	}
 	
 	public void makeModelAlt()
@@ -190,10 +261,10 @@ public class MapData
 				float n = map[x < size - 1 ? x + 1 : x][z < size - 1 ? z + 1 : z];
 				float p = (m + n + d + b) / 4.0f;
 				
-				double mbn = flatness(m, b, n);
-				double bnd = flatness(b, n, d);
-				double ndm = flatness(n, d, m);
-				double dmb = flatness(d, m, b);
+				double mbn = steepness(m, b, n);
+				double bnd = steepness(b, n, d);
+				double ndm = steepness(n, d, m);
+				double dmb = steepness(d, m, b);
 				
 				double flat = smallest(mbn, bnd, ndm, dmb);
 				
@@ -290,7 +361,7 @@ public class MapData
 		return a<b?(a<c?(a<d?a:d):(c<d?c:d)):(b<c?(b<d?b:d):(c<d?c:d));
 	}
 	
-	private double flatness(float a, float b, float c)
+	private double steepness(float a, float b, float c)
 	{
 		float mean = (a + b + c) / 3.0f;
 		
