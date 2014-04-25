@@ -46,6 +46,7 @@ public class Main
 	
 	boolean wireFrame;
 	boolean showNormals;
+	boolean showAxes;
 	
 	int testShader;
 	int shaderVert;
@@ -243,6 +244,7 @@ public class Main
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 		showNormals = Keyboard.isKeyDown(Keyboard.KEY_F);
+		showAxes = Keyboard.isKeyDown(Keyboard.KEY_H);
 		
 		if(showNormals)
 		{
@@ -266,8 +268,11 @@ public class Main
 	
 			// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 1.5f, (float) Math.sin(sunDir), 0.0f));
-			
-			renderAxes(0.0f, 0.0f, 0.0f);
+
+			if(showAxes)
+			{
+				renderAxes(0.0f, 0.0f, 0.0f);
+			}
 		
 			if(showNormals)
 			{
