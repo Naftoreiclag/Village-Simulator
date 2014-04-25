@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -57,7 +59,76 @@ public class MapData
 	
 	public void makeGrassModel()
 	{
+		List<Float> vert = new ArrayList<Float>();
+		List<Integer> inde = new ArrayList<Integer>();
 		
+		List<Triangle> trias = new ArrayList<Triangle>();
+		
+		boolean[][][] included = new boolean[size - 1][size - 1][4];
+
+		for(int x = 0; x < size - 1; ++ x)
+		{
+			for(int z = 0; z < size - 1; ++ z)
+			{
+				// M  0  D
+				//
+				// 2  P  3
+				//
+				// B  1  N
+				
+				float m = map[x    ][z    ];
+				float d = map[x + 1][z    ];
+				float b = map[x    ][z + 1];
+				float n = map[x + 1][z + 1];
+				
+				double mbn = flatness(m, b, n);
+				double bnd = flatness(b, n, d);
+				double ndm = flatness(n, d, m);
+				double dmb = flatness(d, m, b);
+				/*
+				double flat = smallest(mbn, bnd, ndm, dmb);
+				
+				if(mbn == flat)
+				{
+					p = (m + n) / 2.0f;
+				}
+				else if(bnd == flat)
+				{
+					p = (b + d) / 2.0f;
+				}
+				else if(ndm == flat)
+				{
+					p = (n + m) / 2.0f;
+				}
+				else if(dmb == flat)
+				{
+					p = (d + b) / 2.0f;
+				}
+				*/
+				
+				double flatThresh = 0.5;
+				
+				included[x][z][0] = mbn < flatThresh;
+				included[x][z][1] = mbn < flatThresh;
+				included[x][z][2] = mbn < flatThresh;
+				included[x][z][3] = mbn < flatThresh;
+			}
+		}
+		
+		IntBuffer topIntBuff = BufferUtils.createIntBuffer(inde.size());
+		for(int f : inde)
+		{
+			topIntBuff.put(f);
+		}
+		
+		FloatBuffer topVertsBuff = BufferUtils.createFloatBuffer(vert.size());
+		for(float f : vert)
+		{
+			topVertsBuff.put(f);
+		}
+		
+		grass.putVerts(topVertsBuff);
+		grass.putIndices(topIntBuff, inde.size());
 	}
 	
 	public void makeModel()
