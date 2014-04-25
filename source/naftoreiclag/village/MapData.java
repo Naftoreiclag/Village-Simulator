@@ -131,6 +131,36 @@ public class MapData
 		grass.putIndices(topIntBuff, inde.size());
 	}
 	
+	public void makeModelAlt()
+	{
+		ModelBuilder mb = new ModelBuilder();
+
+		for(int x = 0; x < size - 1; ++ x)
+		{
+			for(int z = 0; z < size - 1; ++ z)
+			{
+				// M  0  D
+				//
+				// 2  P  3
+				//
+				// B  1  N
+				
+				float m = map[x    ][z    ];
+				float d = map[x + 1][z    ];
+				float b = map[x    ][z + 1];
+				float n = map[x + 1][z + 1];
+				
+				mb.addQuad(
+						(x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 0.0f, 0.0f,
+						(x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 1.0f, 0.0f,
+						(x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 0.0f, 1.0f,
+						(x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), 1.0f, 1.0f);
+			}
+		}
+		
+		rock = mb.bake();
+	}
+	
 	public void makeModel()
 	{
 		// Size squared x floats per vertex x addition of middle vertex
