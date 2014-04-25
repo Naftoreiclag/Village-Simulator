@@ -6,9 +6,12 @@
 
 package naftoreiclag.village;
 
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
 
 public class ModelBuilder
@@ -66,8 +69,6 @@ public class ModelBuilder
 			vertices.add(c);
 		}
 		
-		// note to self: bring 6 diet cokes downstairs
-		
 		triangles.add(new Triangle(ai, bi, ci));
 	}
 	
@@ -79,6 +80,27 @@ public class ModelBuilder
 	{
 		this.addTriangle(x1, y1, z1, normal1, texX1, texY1, x2, y2, z2, normal2, texX2, texY2, x3, y3, z3, normal3, texX3, texY3);
 		this.addTriangle(x1, y1, z1, normal1, texX1, texY1, x3, y3, z3, normal3, texX3, texY3, x4, y4, z4, normal4, texX4, texY4);
+	}
+	
+	public Model bake()
+	{
+		Model m = new Model();
+		
+		FloatBuffer v = BufferUtils.createFloatBuffer(vertices.size() * 8);
+		for(Vertex f : vertices)
+		{
+			v.put(f.x).put(f.y).put(f.z).put(f.normal.x).put(f.normal.y).put(f.normal.z).put(f.texX).put(f.texY);
+		}
+		m.putVerts(v);
+		
+		IntBuffer i = BufferUtils.createIntBuffer(triangles.size() * 3);
+		for(Triangle t : triangles)
+		{
+			i.put(t.a).put(t.b).put(t.c);
+		}
+		m.putIndices(i, triangles.size() * 3);
+		
+		return m;
 	}
 	
 	private class Vertex
