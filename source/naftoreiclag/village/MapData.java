@@ -19,6 +19,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class MapData
 {
+	Model itself;
+	
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;
 	float vertu = 5.0f;
@@ -26,6 +28,11 @@ public class MapData
 	int size = 32;
 	
 	public float[][] map = new float[size][size];
+	
+	public MapData()
+	{
+		itself = new Model();
+	}
 	
 	public void loadDataFromFile(String filename)
 	{
@@ -46,10 +53,10 @@ public class MapData
 		}
 	}
 	
-	public FloatBuffer convertToGeometry()
+	public void convertToGeometry()
 	{
 		// Size squared x floats per vertex x addition of middle vertex
-		FloatBuffer verts = BufferUtils.createFloatBuffer(size * size * 8 * 2);
+		itself.verts = BufferUtils.createFloatBuffer(size * size * 8 * 2);
 		
 		for(int x = 0; x < size; ++ x)
 		{
@@ -119,11 +126,11 @@ public class MapData
 
 				// Add M to data ===
 				
-				verts.put(x * horzu).put(m * vertu).put(z * horzu).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
+				itself.verts.put(x * horzu).put(m * vertu).put(z * horzu).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
 				
 				// Calculate normals for P ===
 
-				/*
+				
 				Vector3f m2d = new Vector3f(vertu, d - m, 0);
 				Vector3f m2b = new Vector3f(0, b - m, vertu);
 				Vector3f b2n = new Vector3f(vertu, n - b, 0);
@@ -138,24 +145,22 @@ public class MapData
 				Vector3f p_n = new Vector3f();
 				Vector3f.add(p_n_1, p_n_2, p_n);
 				p_n.normalise();
-				*/
 				
-				Vector3f p_n = m_n;
+				
+				//Vector3f p_n = m_n;
 
 				// Add P to data ===
 				
-				verts.put((x + 0.5f) * horzu).put(p * vertu).put((z + 0.5f) * horzu).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
+				itself.verts.put((x + 0.5f) * horzu).put(p * vertu).put((z + 0.5f) * horzu).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
 		
-		verts.flip();
-		
-		return verts;
+		itself.verts.flip();
 	}
 	
-	public IntBuffer convertToIndices()
+	public void convertToIndices()
 	{
-		IntBuffer ind = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
+		itself.indices = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
 
 		for(int x = 0; x < size - 1; ++ x)
 		{
@@ -171,116 +176,65 @@ public class MapData
 				int ni = posToLin(x + 1, z + 1);
 				int pi = mi + 1;
 				
-				ind.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
+				itself.indices.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
 			}
 		}
 		
-		ind.flip();
-		
-		return ind;
+		itself.indices.flip();
 	}
 	
 	private double smallest(double a, double b, double c, double d)
 	{
 		if(a < b)
 		{
-			// A < B
-			
 			if(a < c)
 			{
-				// A < B
-				// A < C
-				
 				if(a < d)
 				{
-					// A < B
-					// A < C
-					// A < D
-					
 					return a;
 				}
 				else
 				{
-					// A < B
-					// A < C
-					// D < A
-					
 					return d;
 				}
 			}
 			else
 			{
-				// A < B
-				// C < A
-				
 				if(c < d)
 				{
-					// A < B
-					// C < A
-					// C < D
-					
 					return c;
 				}
 				else
 				{
-					// A < B
-					// C < A
-					// D < C
-					
 					return d;
 				}
 			}
 		}
 		else
 		{
-			// B < A
-			
 			if(b < c)
 			{
-				// B < A
-				// B < C
-				
 				if(b < d)
 				{
-					// B < A
-					// B < C
-					// B < D
-					
 					return b;
 				}
 				else
 				{
-					// B < A
-					// B < C
-					// D < B
-					
 					return d;
 				}
 			}
 			else
 			{
-				// B < A
-				// C < B
-				
 				if(c < d)
 				{
-					// B < A
-					// C < B
-					// C < D
-					
 					return c;
 				}
 				else
 				{
-					// B < A
-					// C < B
-					// D < C
-					
 					return d;
 				}
 			}
 		}
-		
 	}
 	
 	private double flatness(float a, float b, float c)

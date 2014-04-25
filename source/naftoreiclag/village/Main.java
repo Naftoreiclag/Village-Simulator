@@ -204,9 +204,12 @@ public class Main
 		map = new MapData();
 		
 		map.loadDataFromFile("foobar");
+		map.convertToGeometry();
+		map.convertToIndices();
+		
 	
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, map.convertToGeometry(), GL_STATIC_DRAW); // Send data
+		glBufferData(GL_ARRAY_BUFFER, map.itself.verts, GL_STATIC_DRAW); // Send data
 		
 		/*
 		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
@@ -215,7 +218,7 @@ public class Main
 		 */
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, map.convertToIndices(), GL_STATIC_DRAW); // Send data
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, map.itself.indices, GL_STATIC_DRAW); // Send data
 	
 		
 	}
@@ -271,7 +274,6 @@ public class Main
 
 	private void render()
 	{
-		glUseProgram(testShader);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		
 		glPushMatrix();
@@ -309,7 +311,6 @@ public class Main
 		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
 	
 		glPopMatrix();
-		glUseProgram(0);
 	
 		Display.update();
 	
@@ -341,7 +342,7 @@ public class Main
 	
 	private void drawNormals()
 	{
-		FloatBuffer geo = map.convertToGeometry();
+		FloatBuffer geo = map.itself.verts;
 		//geo.flip();
 
 		float horzu = map.horzu;
@@ -495,7 +496,6 @@ public class Main
 		glPopMatrix();
 	}
 	
-
 	private void renderSphere(float x, float y, float z, float radius)
 	{
 		glPushMatrix();
