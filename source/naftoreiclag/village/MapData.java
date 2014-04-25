@@ -19,7 +19,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class MapData
 {
-	Model itself;
+	Model rock;
+	Model grass;
 	
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;
@@ -31,7 +32,8 @@ public class MapData
 	
 	public MapData()
 	{
-		itself = new Model();
+		rock = new Model();
+		grass = new Model();
 	}
 	
 	public void loadDataFromFile(String filename)
@@ -51,6 +53,11 @@ public class MapData
 				map[x][z] = ((float) (img.getRGB(x, z) & 0x000000FF)) / 256f;
 			}
 		}
+	}
+	
+	public void makeGrassModel()
+	{
+		
 	}
 	
 	public void makeModel()
@@ -154,7 +161,7 @@ public class MapData
 			}
 		}
 		
-		itself.putVerts(verts);
+		rock.putVerts(verts);
 		
 		IntBuffer indices = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
 
@@ -176,7 +183,7 @@ public class MapData
 			}
 		}
 		
-		itself.putIndices(indices, ((size - 1) * (size - 1)) * 12);
+		rock.putIndices(indices, ((size - 1) * (size - 1)) * 12);
 	}
 	
 	private double smallest(double a, double b, double c, double d)
