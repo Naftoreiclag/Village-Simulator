@@ -129,7 +129,6 @@ public class MapData
 				verts.put(x * horzu).put(m * vertu).put(z * horzu).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
 				
 				// Calculate normals for P ===
-
 				
 				Vector3f m2d = new Vector3f(vertu, d - m, 0);
 				Vector3f m2b = new Vector3f(0, b - m, vertu);
@@ -173,7 +172,7 @@ public class MapData
 				int ni = posToLin(x + 1, z + 1);
 				int pi = mi + 1;
 				
-				indices.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
+				indices.put(pi).put(mi).put(di).put(pi).put(di).put(ni).put(pi).put(ni).put(bi).put(pi).put(bi).put(mi);
 			}
 		}
 		

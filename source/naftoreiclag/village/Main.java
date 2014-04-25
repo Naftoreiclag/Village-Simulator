@@ -108,8 +108,8 @@ public class Main
 		//
 		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 		
-		//
-		glEnable(GL_POLYGON_SMOOTH);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 		
 		//
 		//glShadeModel(GL_FLAT);
