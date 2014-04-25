@@ -37,9 +37,10 @@ public class Main
 	
 	DebugCam cam;
 	
-	Texture debug = null;
-	Texture grass_tex = null;
-	Texture rock_tex = null;
+	Texture tex_debug = null;
+	Texture tex_grass = null;
+	Texture tex_rock = null;
+	Texture tex_moss = null;
 	
 	float sunDir = 0.2f;
 	
@@ -118,9 +119,10 @@ public class Main
 	private void loadTextures()
 	{
 		// Load textures
-		debug = loadImage("resources/debug.png");
-		grass_tex = loadImage("resources/grass_1.png");
-		rock_tex = loadImage("donotinclude/rock128.png");
+		tex_debug = loadImage("resources/debug.png");
+		tex_grass = loadImage("resources/grass_1.png");
+		tex_rock = loadImage("resources/roughrock.png");
+		tex_moss = loadImage("resources/moss.png");
 	}
 
 	private void loadShaders()
@@ -198,8 +200,8 @@ public class Main
 		
 		map.loadDataFromFile("foobar");
 		map.makeModelFancy();
-		map.grass.setTexture(grass_tex.getTextureID());
-		map.rock.setTexture(rock_tex.getTextureID());
+		map.grass.setTexture(tex_moss.getTextureID());
+		map.rock.setTexture(tex_rock.getTextureID());
 	
 		map.grass.upload();
 		map.rock.upload();
@@ -415,7 +417,7 @@ public class Main
 
 	private Texture loadImage(String path)
 	{
-		Texture texture = debug;
+		Texture texture = tex_debug;
 		
 		// Load textures
 		try
