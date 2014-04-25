@@ -223,8 +223,6 @@ public class MapData
 				Vector3f.add(p_n_1, p_n_2, p_n);
 				p_n.normalise();
 				
-				
-				//Vector3f p_n = m_n;
 
 				// Add P to data ===
 				
