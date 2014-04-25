@@ -23,6 +23,7 @@ public class MapData
 {
 	Model grass;
 	Model rock;
+	Model sidegrass;
 	
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;
@@ -190,6 +191,7 @@ public class MapData
 		
 		ModelBuilder mb_rock = new ModelBuilder();
 		ModelBuilder mb_grass = new ModelBuilder();
+		ModelBuilder mb_sidegrass = new ModelBuilder();
 
 		double steepThres = 0.15;
 		float texS = 0.5f;
@@ -204,15 +206,24 @@ public class MapData
 				//
 				// B  1  N
 				
-				float m = map[x    ][z    ];
-				float b = map[x    ][z + 1];
-				float n = map[x + 1][z + 1];
-				float d = map[x + 1][z    ];
+				int mx = x;
+				int mz = z;
+				int bx = x;
+				int bz = z + 1;
+				int nx = x + 1;
+				int nz = z + 1;
+				int dx = x + 1;
+				int dz = z;
 				
-				ModelBuilder.Vertex mV = new ModelBuilder.Vertex((x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS);
-				ModelBuilder.Vertex bV = new ModelBuilder.Vertex((x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS);
-				ModelBuilder.Vertex nV = new ModelBuilder.Vertex((x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS);
-				ModelBuilder.Vertex dV = new ModelBuilder.Vertex((x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS);
+				float m = map[mx][mz];
+				float b = map[bx][bz];
+				float n = map[nx][nz];
+				float d = map[dx][dz];
+				
+				ModelBuilder.Vertex mV = new ModelBuilder.Vertex(mx * horzu, m * vertu, mz * horzu, mapNormals[mx][mz], mx * texS, mz * texS);
+				ModelBuilder.Vertex bV = new ModelBuilder.Vertex(bx * horzu, b * vertu, bz * horzu, mapNormals[bx][bz], bx * texS, bz * texS);
+				ModelBuilder.Vertex nV = new ModelBuilder.Vertex(nx * horzu, n * vertu, nz * horzu, mapNormals[nx][nz], nx * texS, nz * texS);
+				ModelBuilder.Vertex dV = new ModelBuilder.Vertex(dx * horzu, d * vertu, dz * horzu, mapNormals[dx][dz], dx * texS, dz * texS);
 				
 				double mbn = steepness(m, b, n);
 				double bnd = steepness(b, n, d);
@@ -235,7 +246,6 @@ public class MapData
 							// NDM is flat
 							
 							mb_grass.addTriangle(nV, dV, mV);
-							
 						}
 						else
 						{
@@ -243,6 +253,17 @@ public class MapData
 							// NDM is steep
 							
 							mb_rock.addTriangle(nV, dV, mV);
+							
+							float mbnA = (m + b + n) / 3.0f;
+							float ndmA = (n + d + m) / 3.0f;
+							
+							if(mbnA > ndmA)
+							{
+							}
+							else
+							{
+								
+							}
 						}
 					}
 					else
@@ -257,6 +278,9 @@ public class MapData
 							// NDM is flat
 							
 							mb_grass.addTriangle(nV, dV, mV);
+							
+							float mbnA = (m + b + n) / 3.0f;
+							float ndmA = (n + d + m) / 3.0f;
 						}
 						else
 						{
@@ -286,6 +310,9 @@ public class MapData
 						{
 							// BND is flat
 							// DMB is steep
+							
+							float mbnA = (m + b + n) / 3.0f;
+							float ndmA = (n + d + m) / 3.0f;
 							
 							mb_rock.addTriangle(dV, mV, bV);
 						}
@@ -317,6 +344,7 @@ public class MapData
 		
 		grass = mb_grass.bake();
 		rock = mb_rock.bake();
+		sidegrass = mb_sidegrass.bake();
 	}
 	
 	public Vector3f straighten(Vector3f a)
