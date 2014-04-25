@@ -31,11 +31,20 @@ public class MapData
 	int size = 32;
 	
 	public float[][] map = new float[size][size];
+	public Vector3f[][] mapNormals = new Vector3f[size][size];
 	
 	public MapData()
 	{
 		grass = new Model();
 		rock = new Model();
+		
+		for(int x = 0; x < size; ++ x)
+		{
+			for(int z = 0; z < size; ++ z)
+			{
+				mapNormals[x][z] = new Vector3f();
+			}
+		}
 	}
 	
 	public void loadDataFromFile(String filename)
@@ -131,8 +140,54 @@ public class MapData
 		rock.putIndices(topIntBuff, inde.size());
 	}
 	
+	public void forceUpdateNormals()
+	{
+		for(int x = 0; x < size; ++ x)
+		{
+			for(int z = 0; z < size; ++ z)
+			{
+				/*
+				 *     A                X ->
+				 *                    
+				 * C   M   D          Z
+				 *       P            |
+				 *     B   N          V
+				 *
+				 * M is the point defined by x, z
+				 */
+				
+				// Calculate height of these points ===
+				
+				float m = map[x][z];
+				float c = map[x > 0 ? x - 1 : x][z];
+				float d = map[x < size - 1 ? x + 1 : x][z];
+				float a = map[x][z > 0 ? z - 1 : z];
+				float b = map[x][z < size - 1 ? z + 1 : z];
+				
+				// Calculate normals for M ===
+				
+				float cd_d = c - d;
+				if(x == 0 || x == size - 1)
+				{
+					cd_d *= 2;
+				}
+				
+				float ab_d = a - b;
+				if(z == 0 || z == size - 1)
+				{
+					ab_d *= 2;
+				}
+
+				mapNormals[x][z].set(cd_d * vertu, 2 * horzu, ab_d * vertu);
+				mapNormals[x][z].normalise();
+			}
+		}
+	}
+	
 	public void makeModelFancy()
 	{
+		forceUpdateNormals();
+		
 		ModelBuilder mb_rock = new ModelBuilder();
 		ModelBuilder mb_grass = new ModelBuilder();
 
@@ -165,30 +220,30 @@ public class MapData
 					if(mbn < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1, 
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1);
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1);
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1, 
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1);
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1);
 					}
 					if(ndm < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    );
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    );
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    );
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    );
 					}
 				}
 				else
@@ -196,30 +251,30 @@ public class MapData
 					if(bnd < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    );
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    );
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    );
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    );
 					}
 					if(dmb < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    ,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1);
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1);
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    ,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1);
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1);
 					}
 				}
 			}

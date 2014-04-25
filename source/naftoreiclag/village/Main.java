@@ -119,7 +119,7 @@ public class Main
 	{
 		// Load textures
 		debug = loadImage("resources/debug.png");
-		grass_tex = loadImage("resources/grass.png");
+		grass_tex = loadImage("resources/grass_1.png");
 		rock_tex = loadImage("donotinclude/rock128.png");
 	}
 
