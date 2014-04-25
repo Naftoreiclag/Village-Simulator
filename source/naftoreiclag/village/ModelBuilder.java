@@ -134,12 +134,12 @@ public class ModelBuilder
 	// Class for storing a single vertex's data
 	public static class Vertex
 	{
-		private float x;
-		private float y;
-		private float z;
-		private Vector3f normal;
-		private float texX;
-		private float texY;
+		public final float x;
+		public final float y;
+		public final float z;
+		public final Vector3f normal;
+		public final float texX;
+		public final float texY;
 		
 		public Vertex(float x, float y, float z, Vector3f normal, float texX, float texY)
 		{
@@ -159,6 +159,9 @@ public class ModelBuilder
 		
 		public boolean same(Vertex other)
 		{
+			// In case this is literally the same object
+			if(this == other) { return true; }
+			// Functionally the same
 			return other.x == this.x && other.y == this.y && other.z == this.z && vComp(other.normal, this.normal) && other.texX == this.texX && other.texY == this.texY;
 		}
 	}

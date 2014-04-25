@@ -227,30 +227,43 @@ public class MapData
 					{
 						// MBN is flat
 						
+						mb_grass.addTriangle(mV, bV, nV);
+						
 						if(ndm < steepThres)
 						{
 							// MBN is flat
 							// NDM is flat
+							
+							mb_grass.addTriangle(nV, dV, mV);
+							
 						}
 						else
 						{
 							// MBN is flat
 							// NDM is steep
+							
+							mb_rock.addTriangle(nV, dV, mV);
 						}
 					}
 					else
 					{
 						// MBN is steep
 						
+						mb_rock.addTriangle(mV, bV, nV);
+						
 						if(ndm < steepThres)
 						{
 							// MBN is steep
 							// NDM is flat
+							
+							mb_grass.addTriangle(nV, dV, mV);
 						}
 						else
 						{
 							// MBN is steep
 							// NDM is steep
+							
+							mb_rock.addTriangle(nV, dV, mV);
 						}
 					}
 				}
@@ -260,94 +273,43 @@ public class MapData
 					{
 						// BND is flat
 						
+						mb_grass.addTriangle(bV, nV, dV);
+						
 						if(dmb < steepThres)
 						{
 							// BND is flat
 							// DMB is flat
+							
+							mb_grass.addTriangle(dV, mV, bV);
 						}
 						else
 						{
 							// BND is flat
 							// DMB is steep
+							
+							mb_rock.addTriangle(dV, mV, bV);
 						}
 					}
 					else
 					{
 						// BND is steep
 						
+						mb_rock.addTriangle(bV, nV, dV);
+						
 						if(dmb < steepThres)
 						{
 							// BND is steep
 							// DMB is flat
+							
+							mb_grass.addTriangle(dV, mV, bV);
 						}
 						else
 						{
 							// BND is steep
 							// DMB is steep
+							
+							mb_rock.addTriangle(dV, mV, bV);
 						}
-					}
-				}
-				
-				if(mbn == flat || ndm == flat)
-				{
-					if(mbn < steepThres)
-					{
-						mb_grass.addTriangle(
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS);
-					}
-					else
-					{
-						mb_rock.addTriangle(
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS);
-					}
-					if(ndm < steepThres)
-					{
-						mb_grass.addTriangle(
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS);
-					}
-					else
-					{
-						mb_rock.addTriangle(
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS);
-					}
-				}
-				else
-				{
-					if(bnd < steepThres)
-					{
-						mb_grass.addTriangle(
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS);
-					}
-					else
-					{
-						mb_rock.addTriangle(
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS);
-					}
-					if(dmb < steepThres)
-					{
-						mb_grass.addTriangle(
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS);
-					}
-					else
-					{
-						mb_rock.addTriangle(
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS);
 					}
 				}
 			}
