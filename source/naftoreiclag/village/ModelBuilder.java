@@ -25,54 +25,60 @@ public class ModelBuilder
 		Vertex b = new Vertex(x2, y2, z2, normal2, texX2, texY2);
 		Vertex c = new Vertex(x3, y3, z3, normal3, texX3, texY3);
 		
-		int ai;
-		int bi;
-		int ci;
-		
-		// TODO: replace these booleans with a short
-		boolean ar = false;
-		boolean br = false;
-		boolean cr = false;
+		int ai = -1;
+		int bi = -1;
+		int ci = -1;
 		
 		for(int index = 0; index < vertices.size(); ++ index)
 		{
 			if(vertices.get(index).equals(a))
 			{
 				ai = index;
-				ar = true;
 			}
 			if(vertices.get(index).equals(b))
 			{
 				bi = index;
-				br = true;
 			}
 			if(vertices.get(index).equals(c))
 			{
 				ci = index;
-				cr = true;
 			}
 			
-			if(ar && br && cr)
+			if(ai != -1 && bi != -1 && ci != -1)
 			{
 				break;
 			}
 		}
 		
-		if(!ar)
+		if(ai == -1)
 		{
 			ai = vertices.size();
 			vertices.add(a);
 		}
-		if(!br)
+		if(bi == -1)
 		{
 			bi = vertices.size();
 			vertices.add(b);
 		}
-		if(!cr)
+		if(ci == -1)
 		{
 			ci = vertices.size();
 			vertices.add(c);
 		}
+		
+		// note to self: bring 6 diet cokes downstairs
+		
+		triangles.add(new Triangle(ai, bi, ci));
+	}
+	
+	public void addQuad(
+			float x1, float y1, float z1, Vector3f normal1, float texX1, float texY1,
+			float x2, float y2, float z2, Vector3f normal2, float texX2, float texY2,
+			float x3, float y3, float z3, Vector3f normal3, float texX3, float texY3,
+			float x4, float y4, float z4, Vector3f normal4, float texX4, float texY4)
+	{
+		this.addTriangle(x1, y1, z1, normal1, texX1, texY1, x2, y2, z2, normal2, texX2, texY2, x3, y3, z3, normal3, texX3, texY3);
+		this.addTriangle(x1, y1, z1, normal1, texX1, texY1, x3, y3, z3, normal3, texX3, texY3, x4, y4, z4, normal4, texX4, texY4);
 	}
 	
 	private class Vertex
