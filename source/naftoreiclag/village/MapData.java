@@ -272,13 +272,14 @@ public class MapData
 							
 							if(mbnA > ndmA)
 							{
-								/*
+								Vector3f foo = new Vector3f(nx - mx, ny - my, nz - mz);
+								Vector3f jut = (Vector3f) Vector3f.cross(mapNormals[mxi][mzi], foo, null).normalise();
+								
 								mb_sidegrass.addQuad(
-										mx, m, mz, normal1, texX1, texY1, 
-										x2, y2, z2, normal2, texX2, texY2, 
-										x3, y3, z3, normal3, texX3, texY3, 
-										x4, y4, z4, normal4, texX4, texY4);
-								*/
+										mx, my, mz, mapNormals[mxi][mzi], 0, 0, 
+										nx, ny, nz, mapNormals[mxi][mzi], 0, 1, 
+										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[mxi][mzi], 1, 1, 
+										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0, 1);
 							}
 							else
 							{

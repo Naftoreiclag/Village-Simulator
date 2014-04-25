@@ -203,9 +203,11 @@ public class Main
 		map.makeModelFancy();
 		map.grass.setTexture(tex_grass.getTextureID());
 		map.rock.setTexture(tex_rock.getTextureID());
+		map.sidegrass.setTexture(tex_moss.getTextureID());
 	
 		map.grass.upload();
 		map.rock.upload();
+		map.sidegrass.upload();
 	}
 
 	private void setupLights()
@@ -281,6 +283,7 @@ public class Main
 			//glDisable(GL_LIGHTING);
 			map.grass.render();
 			map.rock.render();
+			map.sidegrass.render();
 			//glEnable(GL_LIGHTING);
 		
 		glPopMatrix();
