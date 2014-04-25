@@ -78,6 +78,10 @@ public class ModelBuilder
 			float x3, float y3, float z3, Vector3f normal3, float texX3, float texY3,
 			float x4, float y4, float z4, Vector3f normal4, float texX4, float texY4)
 	{
+		// 1  2
+		//    
+		// 4  3
+		
 		this.addTriangle(x1, y1, z1, normal1, texX1, texY1, x2, y2, z2, normal2, texX2, texY2, x3, y3, z3, normal3, texX3, texY3);
 		this.addTriangle(x1, y1, z1, normal1, texX1, texY1, x3, y3, z3, normal3, texX3, texY3, x4, y4, z4, normal4, texX4, texY4);
 	}
