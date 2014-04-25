@@ -120,7 +120,7 @@ public class Main
 	{
 		// Load textures
 		tex_debug = loadImage("resources/debug.png");
-		tex_grass = loadImage("resources/grass_1.png");
+		tex_grass = loadImage("resources/stitchgrass.png");
 		tex_rock = loadImage("resources/roughrock.png");
 		tex_moss = loadImage("resources/moss.png");
 	}
@@ -200,7 +200,7 @@ public class Main
 		
 		map.loadDataFromFile("foobar");
 		map.makeModelFancy();
-		map.grass.setTexture(tex_moss.getTextureID());
+		map.grass.setTexture(tex_grass.getTextureID());
 		map.rock.setTexture(tex_rock.getTextureID());
 	
 		map.grass.upload();

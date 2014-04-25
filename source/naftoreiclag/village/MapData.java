@@ -192,6 +192,7 @@ public class MapData
 		ModelBuilder mb_grass = new ModelBuilder();
 
 		double steepThres = 0.15;
+		float texS = 0.5f;
 		
 		for(int x = 0; x < size - 1; ++ x)
 		{
@@ -220,30 +221,30 @@ public class MapData
 					if(mbn < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1);
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS);
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1);
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS);
 					}
 					if(ndm < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    );
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS);
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    );
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS);
 					}
 				}
 				else
@@ -251,30 +252,30 @@ public class MapData
 					if(bnd < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    );
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS);
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1,
-								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], x + 1, z + 1,
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    );
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS);
 					}
 					if(dmb < steepThres)
 					{
 						mb_grass.addTriangle(
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1);
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS);
 					}
 					else
 					{
 						mb_rock.addTriangle(
-								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], x + 1, z    ,
-								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], x    , z    ,
-								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], x    , z + 1);
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS);
 					}
 				}
 			}
