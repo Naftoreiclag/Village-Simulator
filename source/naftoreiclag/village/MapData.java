@@ -154,8 +154,6 @@ public class MapData
 				itself.verts.put((x + 0.5f) * horzu).put(p * vertu).put((z + 0.5f) * horzu).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
-		
-		itself.verts.flip();
 	}
 	
 	public void convertToIndices()
@@ -179,8 +177,6 @@ public class MapData
 				itself.indices.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
 			}
 		}
-		
-		itself.indices.flip();
 	}
 	
 	private double smallest(double a, double b, double c, double d)

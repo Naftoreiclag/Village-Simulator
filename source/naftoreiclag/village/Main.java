@@ -207,21 +207,9 @@ public class Main
 		map.convertToGeometry();
 		map.convertToIndices();
 		map.itself.setTexture(grass_tex.getTextureID());
-		
+		map.itself.numIndices = 31*31*12;
 	
-		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
-		glBufferData(GL_ARRAY_BUFFER, map.itself.verts, GL_STATIC_DRAW); // Send data
-		
-		/*
-		 *  Note: The difference between ELEMENT_ARRAY and ARRAY is that 
-		 *  ELEMENT_ARRAY is used to denote an array full of "pointers" to 
-		 *  another array.
-		 */
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHand); // Select this spot as an array buffer
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, map.itself.indices, GL_STATIC_DRAW); // Send data
-	
-		
+		map.itself.upload();
 	}
 
 	private void setupLights()
@@ -297,14 +285,7 @@ public class Main
 				drawNormals();
 			}
 			glDisable(GL_LIGHTING);
-			glBindTexture(GL_TEXTURE_2D, rock_tex.getTextureID());
-			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
-			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
-			glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
-			glTexCoordPointer(2, GL_FLOAT, 8 << 2, 6 << 2);
-			
-			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
-			glDrawElements(GL_TRIANGLES, 31 * 31 * 12, GL_UNSIGNED_INT, 0L);
+			map.itself.render();
 			glEnable(GL_LIGHTING);
 			
 		glPopMatrix();
@@ -325,9 +306,7 @@ public class Main
 		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
-		// Free up memory that we used
-		glDeleteBuffers(geomHand);
-		glDeleteBuffers(indexHand);
+		map.itself.cleanup();
 
 		// Blow up display (Destroy it!)
 		Display.destroy();

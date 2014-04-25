@@ -20,6 +20,7 @@ import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.nio.FloatBuffer;
@@ -32,7 +33,7 @@ public class Model
 	public int vertHandle;
 	public int indexHandle;
 	
-	private int numIndices;
+	public int numIndices;
 	
 	public int texId;
 	
@@ -52,10 +53,8 @@ public class Model
 	
 	public void upload()
 	{
-		/*
 		verts.flip();
 		indices.flip();
-		*/
 		
 		vertHandle = glGenBuffers();
 		indexHandle = glGenBuffers();
@@ -86,6 +85,8 @@ public class Model
 	
 	public void cleanup()
 	{
-		
+		// Free up memory that we used
+		glDeleteBuffers(vertHandle);
+		glDeleteBuffers(indexHandle);
 	}
 }
