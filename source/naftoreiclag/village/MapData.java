@@ -56,7 +56,7 @@ public class MapData
 	public void convertToGeometry()
 	{
 		// Size squared x floats per vertex x addition of middle vertex
-		itself.verts = BufferUtils.createFloatBuffer(size * size * 8 * 2);
+		FloatBuffer verts = BufferUtils.createFloatBuffer(size * size * 8 * 2);
 		
 		for(int x = 0; x < size; ++ x)
 		{
@@ -126,7 +126,7 @@ public class MapData
 
 				// Add M to data ===
 				
-				itself.verts.put(x * horzu).put(m * vertu).put(z * horzu).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
+				verts.put(x * horzu).put(m * vertu).put(z * horzu).put(m_n.x).put(m_n.y).put(m_n.z).put(x).put(z);
 				
 				// Calculate normals for P ===
 
@@ -151,14 +151,16 @@ public class MapData
 
 				// Add P to data ===
 				
-				itself.verts.put((x + 0.5f) * horzu).put(p * vertu).put((z + 0.5f) * horzu).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
+				verts.put((x + 0.5f) * horzu).put(p * vertu).put((z + 0.5f) * horzu).put(p_n.x).put(p_n.y).put(p_n.z).put(x + 0.5f).put(z + 0.5f);
 			}
 		}
+		
+		itself.putVerts(verts);
 	}
 	
 	public void convertToIndices()
 	{
-		itself.indices = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
+		IntBuffer indices = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
 
 		for(int x = 0; x < size - 1; ++ x)
 		{
@@ -174,9 +176,11 @@ public class MapData
 				int ni = posToLin(x + 1, z + 1);
 				int pi = mi + 1;
 				
-				itself.indices.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
+				indices.put(pi).put(di).put(mi).put(pi).put(ni).put(di).put(pi).put(bi).put(ni).put(pi).put(mi).put(bi);
 			}
 		}
+		
+		itself.putIndices(indices, ((size - 1) * (size - 1)) * 12);
 	}
 	
 	private double smallest(double a, double b, double c, double d)

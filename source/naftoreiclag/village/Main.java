@@ -33,9 +33,6 @@ import static org.lwjgl.util.glu.GLU.*;
 
 public class Main
 {
-	int geomHand;
-	int indexHand;
-	
 	MapData map;
 	
 	DebugCam cam;
@@ -195,10 +192,6 @@ public class Main
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	
-		// Reserve spots for the data
-		geomHand = glGenBuffers();
-		indexHand = glGenBuffers();
 		
 		// Map data
 		map = new MapData();
@@ -207,7 +200,6 @@ public class Main
 		map.convertToGeometry();
 		map.convertToIndices();
 		map.itself.setTexture(grass_tex.getTextureID());
-		map.itself.numIndices = 31*31*12;
 	
 		map.itself.upload();
 	}
@@ -266,20 +258,14 @@ public class Main
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		
 		glPushMatrix();
-		cam.applyMatrix();
-	
-	    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 1.5f, (float) Math.sin(sunDir), 0.0f));
-		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
-		float lolx = 5.0f;
-		float loly = 5.0f;
-		float lolz = 5.0f;
 		
-		renderSphere(lolx, loly + 2.0f, lolz, 1.0f);
-		renderAxes(0.0f, 0.0f, 0.0f);
+			cam.applyMatrix();
 	
-		glPushMatrix();
-			//glRotatef(roaty, 0.0f, 1.0f, 0.0f);
-
+			// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
+		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 1.5f, (float) Math.sin(sunDir), 0.0f));
+			
+			renderAxes(0.0f, 0.0f, 0.0f);
+		
 			if(showNormals)
 			{
 				drawNormals();
@@ -287,15 +273,10 @@ public class Main
 			glDisable(GL_LIGHTING);
 			map.itself.render();
 			glEnable(GL_LIGHTING);
-			
-		glPopMatrix();
 		
-		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
-	
 		glPopMatrix();
 	
 		Display.update();
-	
 		Display.sync(60);
 	}
 
