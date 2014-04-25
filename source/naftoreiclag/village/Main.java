@@ -271,10 +271,10 @@ public class Main
 			{
 				drawNormals();
 			}
-			glDisable(GL_LIGHTING);
+			//glDisable(GL_LIGHTING);
 			map.grass.render();
 			map.rock.render();
-			glEnable(GL_LIGHTING);
+			//glEnable(GL_LIGHTING);
 		
 		glPopMatrix();
 	

@@ -16,18 +16,22 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class ModelBuilder
 {
+	// Where the data is stored to be baked
 	private List<Vertex> vertices = new ArrayList<Vertex>();
 	private List<Triangle> triangles = new ArrayList<Triangle>();
 	
+	// Add a triangle
 	public void addTriangle(
 			float x1, float y1, float z1, Vector3f normal1, float texX1, float texY1,
 			float x2, float y2, float z2, Vector3f normal2, float texX2, float texY2,
 			float x3, float y3, float z3, Vector3f normal3, float texX3, float texY3)
 	{
+		// Make vertexes from this
 		Vertex a = new Vertex(x1, y1, z1, normal1, texX1, texY1);
 		Vertex b = new Vertex(x2, y2, z2, normal2, texX2, texY2);
 		Vertex c = new Vertex(x3, y3, z3, normal3, texX3, texY3);
 		
+		// Find appropriate indices for these, re-using old ones if possible
 		int ai = -1;
 		int bi = -1;
 		int ci = -1;
@@ -51,7 +55,6 @@ public class ModelBuilder
 				break;
 			}
 		}
-		
 		if(ai == -1)
 		{
 			ai = vertices.size();
@@ -68,9 +71,11 @@ public class ModelBuilder
 			vertices.add(c);
 		}
 		
+		// Add this to our triangles
 		triangles.add(new Triangle(ai, bi, ci));
 	}
 	
+	// Add a quad. Note: this just adds two triangles at once
 	public void addQuad(
 			float x1, float y1, float z1, Vector3f normal1, float texX1, float texY1,
 			float x2, float y2, float z2, Vector3f normal2, float texX2, float texY2,
@@ -85,6 +90,7 @@ public class ModelBuilder
 		this.addTriangle(x1, y1, z1, normal1, texX1, texY1, x3, y3, z3, normal3, texX3, texY3, x4, y4, z4, normal4, texX4, texY4);
 	}
 	
+	// Bakes the data into a usable model. Note: You can bake this more than once if you really want to.
 	public Model bake()
 	{
 		Model m = new Model();
@@ -108,6 +114,7 @@ public class ModelBuilder
 		return m;
 	}
 	
+	// Private class for storing a single vertex's data
 	private class Vertex
 	{
 		private float x;
@@ -139,6 +146,7 @@ public class ModelBuilder
 		}
 	}
 	
+	// Private class for storing a tuple of integers
 	private class Triangle
 	{
 		private int a;
