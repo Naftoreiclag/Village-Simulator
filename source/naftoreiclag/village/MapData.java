@@ -53,7 +53,7 @@ public class MapData
 		}
 	}
 	
-	public void convertToGeometry()
+	public void makeModel()
 	{
 		// Size squared x floats per vertex x addition of middle vertex
 		FloatBuffer verts = BufferUtils.createFloatBuffer(size * size * 8 * 2);
@@ -156,10 +156,7 @@ public class MapData
 		}
 		
 		itself.putVerts(verts);
-	}
-	
-	public void convertToIndices()
-	{
+		
 		IntBuffer indices = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
 
 		for(int x = 0; x < size - 1; ++ x)

@@ -197,8 +197,7 @@ public class Main
 		map = new MapData();
 		
 		map.loadDataFromFile("foobar");
-		map.convertToGeometry();
-		map.convertToIndices();
+		map.makeModel();
 		map.itself.setTexture(grass_tex.getTextureID());
 	
 		map.itself.upload();
