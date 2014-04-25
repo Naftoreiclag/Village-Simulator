@@ -182,56 +182,7 @@ public class MapData
 	
 	private double smallest(double a, double b, double c, double d)
 	{
-		return a < b ?
-		(
-			a < c ?
-			(
-				a < d ?
-				(
-					a
-				)
-				:
-				(
-					d
-				)
-			)
-			:
-			(
-				c < d ?
-				(
-					c
-				)
-				:
-				(
-					d
-				)
-			)
-		)
-		:
-		(
-			b < c ?
-			(
-				b < d ?
-				(
-					b
-				)
-				:
-				(
-					d
-				)
-			)
-			:
-			(
-				c < d ?
-				(
-					c
-				)
-				:
-				(
-					d
-				)
-			)
-		);
+		return a<b?(a<c?(a<d?a:d):(c<d?c:d)):(b<c?(b<d?b:d):(c<d?c:d));
 	}
 	
 	private double flatness(float a, float b, float c)
