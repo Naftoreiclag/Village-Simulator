@@ -21,8 +21,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class MapData
 {
-	Model rock;
 	Model grass;
+	Model rock;
 	
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;
@@ -34,8 +34,8 @@ public class MapData
 	
 	public MapData()
 	{
-		rock = new Model();
 		grass = new Model();
+		rock = new Model();
 	}
 	
 	public void loadDataFromFile(String filename)
@@ -127,8 +127,8 @@ public class MapData
 			topVertsBuff.put(f);
 		}
 		
-		grass.putVerts(topVertsBuff);
-		grass.putIndices(topIntBuff, inde.size());
+		rock.putVerts(topVertsBuff);
+		rock.putIndices(topIntBuff, inde.size());
 	}
 	
 	public void makeModelFancy()
@@ -136,7 +136,7 @@ public class MapData
 		ModelBuilder mb_rock = new ModelBuilder();
 		ModelBuilder mb_grass = new ModelBuilder();
 
-		double steepThres = 0.5;
+		double steepThres = 0.15;
 		
 		for(int x = 0; x < size - 1; ++ x)
 		{
@@ -169,9 +169,23 @@ public class MapData
 								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1, 
 								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1);
 					}
+					else
+					{
+						mb_rock.addTriangle(
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1, 
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1);
+					}
 					if(ndm < steepThres)
 					{
 						mb_grass.addTriangle(
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    );
+					}
+					else
+					{
+						mb_rock.addTriangle(
 								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
 								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
 								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    );
@@ -186,6 +200,13 @@ public class MapData
 								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
 								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    );
 					}
+					else
+					{
+						mb_rock.addTriangle(
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1,
+								/* N */ (x + 1) * horzu, n * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z + 1,
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    );
+					}
 					if(dmb < steepThres)
 					{
 						mb_grass.addTriangle(
@@ -193,13 +214,19 @@ public class MapData
 								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    ,
 								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1);
 					}
+					else
+					{
+						mb_rock.addTriangle(
+								/* D */ (x + 1) * horzu, d * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x + 1, z    ,
+								/* M */ (x    ) * horzu, m * vertu, (z    ) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z    ,
+								/* B */ (x    ) * horzu, b * vertu, (z + 1) * horzu, new Vector3f(0.0f, 0.0f, 0.0f), x    , z + 1);
+					}
 				}
-				
-				
 			}
 		}
 		
-		rock = mb_grass.bake();
+		grass = mb_grass.bake();
+		rock = mb_rock.bake();
 	}
 	
 	public void makeModelAlt()
@@ -229,7 +256,7 @@ public class MapData
 			}
 		}
 		
-		rock = mb.bake();
+		grass = mb.bake();
 	}
 	
 	public void makeModel()
@@ -331,7 +358,7 @@ public class MapData
 			}
 		}
 		
-		rock.putVerts(verts);
+		grass.putVerts(verts);
 		
 		IntBuffer indices = BufferUtils.createIntBuffer(((size - 1) * (size - 1)) * 12);
 
@@ -353,7 +380,7 @@ public class MapData
 			}
 		}
 		
-		rock.putIndices(indices, ((size - 1) * (size - 1)) * 12);
+		grass.putIndices(indices, ((size - 1) * (size - 1)) * 12);
 	}
 	
 	private double smallest(double a, double b, double c, double d)

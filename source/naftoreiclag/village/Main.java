@@ -198,8 +198,10 @@ public class Main
 		
 		map.loadDataFromFile("foobar");
 		map.makeModelFancy();
-		map.rock.setTexture(grass_tex.getTextureID());
+		map.grass.setTexture(grass_tex.getTextureID());
+		map.rock.setTexture(rock_tex.getTextureID());
 	
+		map.grass.upload();
 		map.rock.upload();
 	}
 
@@ -270,6 +272,7 @@ public class Main
 				drawNormals();
 			}
 			glDisable(GL_LIGHTING);
+			map.grass.render();
 			map.rock.render();
 			glEnable(GL_LIGHTING);
 		
@@ -286,7 +289,7 @@ public class Main
 		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
-		map.rock.cleanup();
+		map.grass.cleanup();
 
 		// Blow up display (Destroy it!)
 		Display.destroy();
@@ -302,7 +305,7 @@ public class Main
 	
 	private void drawNormals()
 	{
-		FloatBuffer geo = map.rock.verts;
+		FloatBuffer geo = map.grass.verts;
 		//geo.flip();
 
 		float horzu = map.horzu;
