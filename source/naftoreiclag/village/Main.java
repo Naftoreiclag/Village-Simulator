@@ -6,8 +6,10 @@
 
 package naftoreiclag.village;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
@@ -23,6 +25,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.util.glu.GLU.*;
 
 // I named this class "Main" just so java newbies can find the
@@ -39,17 +42,23 @@ public class Main
 	
 	Texture debug = null;
 	Texture grass_tex = null;
+	Texture rock_tex = null;
 	
 	float sunDir = 0.2f;
 	
 	boolean wireFrame;
 	boolean showNormals;
 	
+	int testShader;
+	int shaderVert;
+	int shaderFrag;
+	
 	public void run()
 	{
 		setupLWJGLDisplay();
 		setupOpenGL();
 		loadTextures();
+		loadShaders();
 		
 		uploadVBOData();
 
@@ -114,6 +123,70 @@ public class Main
 		// Load textures
 		debug = loadImage("resources/debug.png");
 		grass_tex = loadImage("resources/grass.png");
+		rock_tex = loadImage("donotinclude/rock128.png");
+	}
+
+	private void loadShaders()
+	{
+		testShader = glCreateProgram();
+		shaderVert = glCreateShader(GL_VERTEX_SHADER);
+		shaderFrag = glCreateShader(GL_FRAGMENT_SHADER);
+		
+		StringBuilder vertSrc = new StringBuilder();
+		StringBuilder fragSrc = new StringBuilder();
+		
+		try
+		{
+			BufferedReader r = null;
+			r = new BufferedReader(new FileReader("donotinclude/shader.vert"));
+			String line;
+			while((line = r.readLine()) != null)
+			{
+				vertSrc.append(line).append('\n');
+			}
+			r.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		try
+		{
+			BufferedReader r = null;
+			r = new BufferedReader(new FileReader("donotinclude/shader.frag"));
+			String line;
+			while((line = r.readLine()) != null)
+			{
+				fragSrc.append(line).append('\n');
+			}
+			r.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		glShaderSource(shaderVert, vertSrc);
+		glCompileShader(shaderVert);
+		
+		if(glGetShaderi(shaderVert, GL_COMPILE_STATUS) == GL_FALSE)
+		{
+			System.out.println("vertex shader didnt work");
+		}
+		
+		glShaderSource(shaderFrag, fragSrc);
+		glCompileShader(shaderFrag);
+		
+		if(glGetShaderi(shaderFrag, GL_COMPILE_STATUS) == GL_FALSE)
+		{
+			System.out.println("fragment shader didnt work");
+		}
+		
+		glAttachShader(testShader, shaderVert);
+		glAttachShader(testShader, shaderFrag);
+		
+		glLinkProgram(testShader);
+		glValidateProgram(testShader);
 	}
 
 	private void uploadVBOData()
@@ -198,6 +271,7 @@ public class Main
 
 	private void render()
 	{
+		glUseProgram(testShader);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		
 		glPushMatrix();
@@ -219,7 +293,8 @@ public class Main
 			{
 				drawNormals();
 			}
-			glBindTexture(GL_TEXTURE_2D, grass_tex.getTextureID());
+			glDisable(GL_LIGHTING);
+			glBindTexture(GL_TEXTURE_2D, rock_tex.getTextureID());
 			glBindBuffer(GL_ARRAY_BUFFER, geomHand);
 			glVertexPointer(3, GL_FLOAT, 8 << 2, 0 << 2);
 			glNormalPointer(GL_FLOAT, 8 << 2, 3 << 2);
@@ -227,12 +302,14 @@ public class Main
 			
 			// 31 wide, 31 tall, 2 triangles each, 3 points per triangle
 			glDrawElements(GL_TRIANGLES, 31 * 31 * 12, GL_UNSIGNED_INT, 0L);
+			glEnable(GL_LIGHTING);
 			
 		glPopMatrix();
 		
 		renderSphere(1.0f, 10.0f, 1.0f, 1.0f);
 	
 		glPopMatrix();
+		glUseProgram(0);
 	
 		Display.update();
 	

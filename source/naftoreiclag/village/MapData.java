@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 
