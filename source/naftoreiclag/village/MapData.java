@@ -206,24 +206,37 @@ public class MapData
 				//
 				// B  1  N
 				
-				int mx = x;
-				int mz = z;
-				int bx = x;
-				int bz = z + 1;
-				int nx = x + 1;
-				int nz = z + 1;
-				int dx = x + 1;
-				int dz = z;
+				int mxi = x;
+				int mzi = z;
+				int bxi = x;
+				int bzi = z + 1;
+				int nxi = x + 1;
+				int nzi = z + 1;
+				int dxi = x + 1;
+				int dzi = z;
 				
-				float m = map[mx][mz];
-				float b = map[bx][bz];
-				float n = map[nx][nz];
-				float d = map[dx][dz];
+				float m = map[mxi][mzi];
+				float b = map[bxi][bzi];
+				float n = map[nxi][nzi];
+				float d = map[dxi][dzi];
 				
-				ModelBuilder.Vertex mV = new ModelBuilder.Vertex(mx * horzu, m * vertu, mz * horzu, mapNormals[mx][mz], mx * texS, mz * texS);
-				ModelBuilder.Vertex bV = new ModelBuilder.Vertex(bx * horzu, b * vertu, bz * horzu, mapNormals[bx][bz], bx * texS, bz * texS);
-				ModelBuilder.Vertex nV = new ModelBuilder.Vertex(nx * horzu, n * vertu, nz * horzu, mapNormals[nx][nz], nx * texS, nz * texS);
-				ModelBuilder.Vertex dV = new ModelBuilder.Vertex(dx * horzu, d * vertu, dz * horzu, mapNormals[dx][dz], dx * texS, dz * texS);
+				float mx = mxi * horzu;
+				float my = m * vertu;
+				float mz = mzi * horzu;
+				float bx = bxi * horzu;
+				float by = b * vertu;
+				float bz = bzi * horzu;
+				float nx = nxi * horzu;
+				float ny = n * vertu;
+				float nz = nzi * horzu;
+				float dx = dxi * horzu;
+				float dy = d * vertu;
+				float dz = dzi * horzu;
+				
+				ModelBuilder.Vertex mV = new ModelBuilder.Vertex(mx, my, mz, mapNormals[mxi][mzi], mxi * texS, mzi * texS);
+				ModelBuilder.Vertex bV = new ModelBuilder.Vertex(bx, by, bz, mapNormals[bxi][bzi], bxi * texS, bzi * texS);
+				ModelBuilder.Vertex nV = new ModelBuilder.Vertex(nx, ny, nz, mapNormals[nxi][nzi], nxi * texS, nzi * texS);
+				ModelBuilder.Vertex dV = new ModelBuilder.Vertex(dx, dy, dz, mapNormals[dxi][dzi], dxi * texS, dzi * texS);
 				
 				double mbn = steepness(m, b, n);
 				double bnd = steepness(b, n, d);
@@ -259,6 +272,13 @@ public class MapData
 							
 							if(mbnA > ndmA)
 							{
+								/*
+								mb_sidegrass.addQuad(
+										mx, m, mz, normal1, texX1, texY1, 
+										x2, y2, z2, normal2, texX2, texY2, 
+										x3, y3, z3, normal3, texX3, texY3, 
+										x4, y4, z4, normal4, texX4, texY4);
+								*/
 							}
 							else
 							{
