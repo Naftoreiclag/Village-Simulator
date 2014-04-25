@@ -21,16 +21,8 @@ public class ModelBuilder
 	private List<Triangle> triangles = new ArrayList<Triangle>();
 	
 	// Add a triangle
-	public void addTriangle(
-			float x1, float y1, float z1, Vector3f normal1, float texX1, float texY1,
-			float x2, float y2, float z2, Vector3f normal2, float texX2, float texY2,
-			float x3, float y3, float z3, Vector3f normal3, float texX3, float texY3)
+	public void addTriangle(Vertex a, Vertex b, Vertex c)
 	{
-		// Make vertexes from this
-		Vertex a = new Vertex(x1, y1, z1, normal1, texX1, texY1);
-		Vertex b = new Vertex(x2, y2, z2, normal2, texX2, texY2);
-		Vertex c = new Vertex(x3, y3, z3, normal3, texX3, texY3);
-		
 		// Find appropriate indices for these, re-using old ones if possible
 		int ai = -1;
 		int bi = -1;
@@ -75,6 +67,31 @@ public class ModelBuilder
 		triangles.add(new Triangle(ai, bi, ci));
 	}
 	
+	// Add a triangle
+	public void addTriangle(
+			float x1, float y1, float z1, Vector3f normal1, float texX1, float texY1,
+			float x2, float y2, float z2, Vector3f normal2, float texX2, float texY2,
+			float x3, float y3, float z3, Vector3f normal3, float texX3, float texY3)
+	{
+		// Make vertexes from this
+		Vertex a = new Vertex(x1, y1, z1, normal1, texX1, texY1);
+		Vertex b = new Vertex(x2, y2, z2, normal2, texX2, texY2);
+		Vertex c = new Vertex(x3, y3, z3, normal3, texX3, texY3);
+		
+		this.addTriangle(a, b, c);
+	}
+	
+	// Add a quad. Note: this just adds two triangles at once
+	public void addQuad(Vertex a, Vertex b, Vertex c, Vertex d)
+	{
+		// 1  2
+		//    
+		// 4  3
+		
+		this.addTriangle(a, b, c);
+		this.addTriangle(a, c, d);
+	}
+	
 	// Add a quad. Note: this just adds two triangles at once
 	public void addQuad(
 			float x1, float y1, float z1, Vector3f normal1, float texX1, float texY1,
@@ -114,8 +131,8 @@ public class ModelBuilder
 		return m;
 	}
 	
-	// Private class for storing a single vertex's data
-	private class Vertex
+	// Class for storing a single vertex's data
+	public static class Vertex
 	{
 		private float x;
 		private float y;

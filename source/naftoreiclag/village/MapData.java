@@ -205,9 +205,14 @@ public class MapData
 				// B  1  N
 				
 				float m = map[x    ][z    ];
-				float d = map[x + 1][z    ];
 				float b = map[x    ][z + 1];
 				float n = map[x + 1][z + 1];
+				float d = map[x + 1][z    ];
+				
+				ModelBuilder.Vertex mV = new ModelBuilder.Vertex((x    ) * horzu, m * vertu, (z    ) * horzu, mapNormals[x    ][z    ], (x    ) * texS, (z    ) * texS);
+				ModelBuilder.Vertex bV = new ModelBuilder.Vertex((x    ) * horzu, b * vertu, (z + 1) * horzu, mapNormals[x    ][z + 1], (x    ) * texS, (z + 1) * texS);
+				ModelBuilder.Vertex nV = new ModelBuilder.Vertex((x + 1) * horzu, n * vertu, (z + 1) * horzu, mapNormals[x + 1][z + 1], (x + 1) * texS, (z + 1) * texS);
+				ModelBuilder.Vertex dV = new ModelBuilder.Vertex((x + 1) * horzu, d * vertu, (z    ) * horzu, mapNormals[x + 1][z    ], (x + 1) * texS, (z    ) * texS);
 				
 				double mbn = steepness(m, b, n);
 				double bnd = steepness(b, n, d);
@@ -215,6 +220,73 @@ public class MapData
 				double dmb = steepness(d, m, b);
 				
 				double flat = smallest(mbn, bnd, ndm, dmb);
+				
+				if(mbn == flat || ndm == flat)
+				{
+					if(mbn < steepThres)
+					{
+						// MBN is flat
+						
+						if(ndm < steepThres)
+						{
+							// MBN is flat
+							// NDM is flat
+						}
+						else
+						{
+							// MBN is flat
+							// NDM is steep
+						}
+					}
+					else
+					{
+						// MBN is steep
+						
+						if(ndm < steepThres)
+						{
+							// MBN is steep
+							// NDM is flat
+						}
+						else
+						{
+							// MBN is steep
+							// NDM is steep
+						}
+					}
+				}
+				else
+				{
+					if(bnd < steepThres)
+					{
+						// BND is flat
+						
+						if(dmb < steepThres)
+						{
+							// BND is flat
+							// DMB is flat
+						}
+						else
+						{
+							// BND is flat
+							// DMB is steep
+						}
+					}
+					else
+					{
+						// BND is steep
+						
+						if(dmb < steepThres)
+						{
+							// BND is steep
+							// DMB is flat
+						}
+						else
+						{
+							// BND is steep
+							// DMB is steep
+						}
+					}
+				}
 				
 				if(mbn == flat || ndm == flat)
 				{
@@ -283,6 +355,11 @@ public class MapData
 		
 		grass = mb_grass.bake();
 		rock = mb_rock.bake();
+	}
+	
+	public Vector3f straighten(Vector3f a)
+	{
+		return (Vector3f) (new Vector3f(a.x, a.y * 2,a.z)).normalise();
 	}
 	
 	public void makeModelAlt()
