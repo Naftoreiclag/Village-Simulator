@@ -206,6 +206,7 @@ public class Main
 		map.loadDataFromFile("foobar");
 		map.convertToGeometry();
 		map.convertToIndices();
+		map.itself.setTexture(grass_tex.getTextureID());
 		
 	
 		glBindBuffer(GL_ARRAY_BUFFER, geomHand); // Select this spot as an array buffer
