@@ -26,7 +26,6 @@ import com.owens.oobjloader.parser.Parse;
 
 public class Test
 {
-
 	/** Desired frame time */
 	private static final int FRAMERATE = 60;
 	private static boolean finished;
@@ -62,8 +61,7 @@ public class Test
 	// iterate over face list from builder, and break it up into a set of face
 	// lists by material, i.e. each for each face list, all faces in that
 	// specific list use the same material
-	private static ArrayList<ArrayList<Face>> createFaceListsByMaterial(
-			Build builder)
+	private static ArrayList<ArrayList<Face>> createFaceListsByMaterial(Build builder)
 	{
 		ArrayList<ArrayList<Face>> facesByTextureList = new ArrayList<ArrayList<Face>>();
 		Material currentMaterial = null;

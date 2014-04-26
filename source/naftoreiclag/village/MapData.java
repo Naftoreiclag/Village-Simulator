@@ -12,6 +12,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import naftoreiclag.village.rendering.Model;
+import naftoreiclag.village.rendering.ModelBuilder;
+
 import org.lwjgl.util.vector.Vector3f;
 
 public class MapData

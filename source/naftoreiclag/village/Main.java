@@ -13,7 +13,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
-import naftoreiclag.village.ModelBuilder.Vertex;
+import naftoreiclag.village.rendering.Model;
+import naftoreiclag.village.rendering.ModelBuilder.Vertex;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;

@@ -4,7 +4,7 @@
  * See accompanying file LICENSE
  */
 
-package naftoreiclag.village;
+package naftoreiclag.village.rendering;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
