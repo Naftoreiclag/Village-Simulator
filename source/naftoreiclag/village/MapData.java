@@ -518,9 +518,6 @@ public class MapData
 		rock = mb_rock.bake();
 		sidegrass = mb_sidegrass.bake();
 		tallgrass = mb_tallgrass.bake();
-		
-		// why not
-		mb_grass.toJava("lol.java");
 	}
 	
 	private double smallest(double a, double b, double c, double d)

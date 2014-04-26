@@ -13,6 +13,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
+import naftoreiclag.village.ModelBuilder.Vertex;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -43,6 +45,7 @@ public class Main
 	Texture tex_moss = null;
 	Texture tex_grass_side = null;
 	Texture tex_grass_tall = null;
+	Texture tex_sky = null;
 	
 	boolean wireFrame;
 	boolean showNormals;
@@ -52,12 +55,16 @@ public class Main
 	int shaderVert;
 	int shaderFrag;
 	
+	Model sky;
+	
 	public void run()
 	{
 		setupLWJGLDisplay();
 		setupOpenGL();
 		loadTextures();
 		loadShaders();
+		
+		doTests();
 		
 		uploadVBOData();
 
@@ -75,6 +82,55 @@ public class Main
 		System.exit(0);
 	}
 	
+	private void doTests()
+	{
+		/*
+		ModelBuilder mb_sky = new ModelBuilder();
+		
+		
+		// -1,-1 A   1,-1
+		//
+		//   D         B
+		//
+		// -1,1   C   1,1
+		
+		mb_sky.addQuad(
+				-1, -1, -1, new Vector3f( 0,  0,  1), 0.0f, 0.5f, 
+				 1, -1, -1, new Vector3f( 0,  0,  1), 0.5f, 0.5f, 
+				 1,  1, -1, new Vector3f( 0,  0,  1), 0.5f, 0.0f, 
+				-1,  1, -1, new Vector3f( 0,  0,  1), 0.0f, 0.0f);
+		
+		mb_sky.addQuad(
+				 1, -1, -1, new Vector3f( 0,  0,  0), 0.5f, 0.5f, 
+				 1, -1,  1, new Vector3f( 0,  0,  0), 1.0f, 0.5f, 
+				 1,  1,  1, new Vector3f( 0,  0,  0), 1.0f, 0.0f, 
+				 1,  1, -1, new Vector3f( 0,  0,  0), 0.5f, 0.0f);
+		
+		mb_sky.addQuad(
+				 1, -1,  1, new Vector3f( 0,  0,  0), 0.0f, 1.0f, 
+				-1, -1,  1, new Vector3f( 0,  0,  0), 0.5f, 1.0f, 
+				-1,  1,  1, new Vector3f( 0,  0,  0), 0.5f, 0.5f, 
+				 1,  1,  1, new Vector3f( 0,  0,  0), 0.0f, 0.5f);
+		
+		mb_sky.addQuad(
+				-1, -1,  1, new Vector3f( 0,  0,  0), 0.5f, 1.0f, 
+				-1, -1, -1, new Vector3f( 0,  0,  0), 1.0f, 1.0f, 
+				-1,  1, -1, new Vector3f( 0,  0,  0), 1.0f, 0.5f, 
+				-1,  1,  1, new Vector3f( 0,  0,  0), 0.5f, 0.5f);
+
+		mb_sky.addQuad(
+				-1,  1, -1, new Vector3f( 0, -1,  0), 0.05f, 0.05f, 
+				 1,  1, -1, new Vector3f( 0, -1,  0), 0.05f, 0.05f, 
+				 1,  1,  1, new Vector3f( 0, -1,  0), 0.05f, 0.05f, 
+				-1,  1,  1, new Vector3f( 0, -1,  0), 0.05f, 0.05f);
+		
+		mb_sky.toJava("sky.java");
+		sky = mb_sky.bake();
+		sky.setTexture(tex_sky.getTextureID());
+		sky.upload();
+		*/
+	}
+
 	private void setupLWJGLDisplay()
 	{
 		int width = 640;
@@ -129,6 +185,7 @@ public class Main
 		tex_grass = loadImage("resources/camograss.png");
 		tex_rock = loadImage("resources/oilgranite.png");
 		tex_moss = loadImage("resources/moss.png");
+		tex_sky = loadImage("resources/sky.png");
 		tex_grass_side = loadImage("resources/camograss_side.png");
 		tex_grass_tall = loadImage("resources/camograss_tall.png");
 	}
@@ -277,6 +334,7 @@ public class Main
 		
 		glPushMatrix();
 		
+
 			cam.applyMatrix();
 	
 			// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
@@ -304,6 +362,10 @@ public class Main
 			glEnable(GL_CULL_FACE);
 			glDisable(GL_BLEND);
 			
+			glDisable(GL_LIGHTING);
+			
+			//sky.render();
+			glEnable(GL_LIGHTING);
 		    //glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
 			//glEnable(GL_LIGHTING);
 		
