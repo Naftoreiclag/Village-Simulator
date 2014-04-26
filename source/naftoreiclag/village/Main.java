@@ -114,6 +114,8 @@ public class Main
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		//
 		//glShadeModel(GL_FLAT);
 	}
@@ -285,12 +287,16 @@ public class Main
 				drawNormals();
 			}
 			//glDisable(GL_LIGHTING);
-			map.grass.render();
 			map.rock.render();
+		    //glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.3f, 0.3f, 0.3f, 1.0f));
+		    
+			map.grass.render();
 	
 			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			map.sidegrass.render();
+			glDisable(GL_BLEND);
+			
+		    //glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
 			//glEnable(GL_LIGHTING);
 		
 		glPopMatrix();

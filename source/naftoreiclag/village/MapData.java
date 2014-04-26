@@ -119,7 +119,7 @@ public class MapData
 		ModelBuilder mb_grass = new ModelBuilder();
 		ModelBuilder mb_sidegrass = new ModelBuilder();
 
-		double steepThres = 0.15;
+		double steepThres = 0.25;
 		float texS = 0.5f;
 		
 		for(int x = 0; x < size - 1; ++ x)
@@ -364,12 +364,6 @@ public class MapData
 				
 				if(bothAreSteep)
 				{
-					// M     D
-					//
-					//    P   
-					//
-					// B     N
-					
 					if(z != 0)
 					{
 						double triA = steepness(map[x + 1][z], map[x][z], map[x][z - 1]);
@@ -397,12 +391,6 @@ public class MapData
 							}
 						}
 					}
-					
-					// M     D
-					//
-					//    P   
-					//
-					// B     N
 					
 					if(x != 0)
 					{
@@ -433,12 +421,6 @@ public class MapData
 						}
 					}
 					
-					// M     D
-					//
-					//    P   
-					//
-					// B     N
-					
 					if(z != size - 2)
 					{
 						double triA = steepness(map[x][z + 1], map[x + 1][z + 1], map[x + 1][z]);
@@ -466,12 +448,6 @@ public class MapData
 							}
 						}
 					}
-					
-					// M     D
-					//
-					//    P   
-					//
-					// B     N
 					
 					if(x != size - 2)
 					{
