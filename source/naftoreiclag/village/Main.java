@@ -221,7 +221,7 @@ public class Main
 	    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	    
 	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.6f, 0.6f, 0.6f, 1.0f));
-	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.3f, 0.3f, 0.3f, 1.0f));
 	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
 	    
 	}
@@ -273,7 +273,7 @@ public class Main
 			cam.applyMatrix();
 	
 			// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
-		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 1.5f, (float) Math.sin(sunDir), 0.0f));
+		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 2.5f, (float) Math.sin(sunDir), 0.0f));
 
 			if(showAxes)
 			{

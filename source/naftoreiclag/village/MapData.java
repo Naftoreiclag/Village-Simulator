@@ -280,10 +280,10 @@ public class MapData
 								jut.normalise();
 								
 								mb_sidegrass.addQuad(
-										mx, my, mz, mapNormals[mxi][mzi], 1, 0, 
-										nx, ny, nz, mapNormals[mxi][mzi], 0, 0, 
-										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[mxi][mzi], 0, 1, 
-										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 1, 1);
+										mx, my, mz, mapNormals[mxi][mzi], 0.99f, 0.01f, 
+										nx, ny, nz, mapNormals[nxi][nzi], 0.01f, 0.01f, 
+										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.01f, 0.99f, 
+										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.99f, 0.99f);
 							}
 							else
 							{
@@ -303,10 +303,9 @@ public class MapData
 							// NDM is flat
 							
 							mb_grass.addTriangle(nV, dV, mV);
-							
-							float mbnA = (m + b + n) / 3.0f;
+
 							float ndmA = (n + d + m) / 3.0f;
-							
+							float mbnA = (m + b + n) / 3.0f;
 
 							if(ndmA > mbnA)
 							{
@@ -318,10 +317,10 @@ public class MapData
 								jut.normalise();
 								
 								mb_sidegrass.addQuad(
-										nx, ny, nz, mapNormals[nxi][nzi], 1, 0, 
-										mx, my, mz, mapNormals[nxi][nzi], 0, 0, 
-										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[nxi][nzi], 0, 1, 
-										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 1, 1);
+										nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
+										mx, my, mz, mapNormals[mxi][mzi], 0.01f, 0.01f, 
+										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.01f, 0.99f, 
+										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.99f, 0.99f);
 							}
 							else
 							{
@@ -357,10 +356,30 @@ public class MapData
 							// BND is flat
 							// DMB is steep
 							
-							float mbnA = (m + b + n) / 3.0f;
-							float ndmA = (n + d + m) / 3.0f;
+							float bndA = (b + n + d) / 3.0f;
+							float dmbA = (d + m + b) / 3.0f;
 							
 							mb_rock.addTriangle(dV, mV, bV);
+							
+							if(bndA > dmbA)
+							{
+								// Hang
+								
+								Vector3f foo = new Vector3f(dx - bx, dy - by, dz - bz);
+								Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
+								jut.y *= 0.3f;
+								jut.normalise();
+								
+								mb_sidegrass.addQuad(
+										bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
+										dx, dy, dz, mapNormals[dxi][dzi], 0.01f, 0.01f, 
+										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.01f, 0.99f, 
+										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.99f, 0.99f);
+							}
+							else
+							{
+								// Stand
+							}
 						}
 					}
 					else
@@ -373,8 +392,33 @@ public class MapData
 						{
 							// BND is steep
 							// DMB is flat
+
+							float dmbA = (d + m + b) / 3.0f;
+							float bndA = (b + n + d) / 3.0f;
 							
 							mb_grass.addTriangle(dV, mV, bV);
+							
+							if(dmbA > bndA)
+							{
+								// Hang
+								
+								// Replace b and d
+								
+								Vector3f foo = new Vector3f(bx - dx, by - dy, bz - dz);
+								Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
+								jut.y *= 0.3f;
+								jut.normalise();
+								
+								mb_sidegrass.addQuad(
+										dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
+										bx, by, bz, mapNormals[bxi][bzi], 0.01f, 0.01f, 
+										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.01f, 0.99f, 
+										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.99f, 0.99f);
+							}
+							else
+							{
+								// Stand
+							}
 						}
 						else
 						{
