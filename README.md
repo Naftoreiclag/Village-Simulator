@@ -6,5 +6,7 @@ Note to self: Make this thing better!
 
 Stuff I'm using:
 LWJGL
+oObjLoader
+Slick2d Utils
 
 Yeah!
