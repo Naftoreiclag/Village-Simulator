@@ -1,6 +1,6 @@
 /* Copyright (c) 2014 "Naftoreiclag" https://github.com/Naftoreiclag
  *
- * Distributed under the MIT License (http://opensource.org/licenses/mit-license.html)
+ * Distributed under the BSD 2-Clause License (http://opensource.org/licenses/BSD-2-Clause)
  * See accompanying file LICENSE
  */
 
@@ -222,6 +222,9 @@ public class ModelBuilder
 		FloatBuffer verts = BufferUtils.createFloatBuffer(vertCount * 8);
 		IntBuffer indices = BufferUtils.createIntBuffer(indCount);
 		
+		int numNorms;
+		int numTexs;
+		
 		BufferedReader read2 = new BufferedReader(new FileReader(new File(filename)));
 		while((line = read2.readLine()) != null)
 		{
@@ -233,14 +236,18 @@ public class ModelBuilder
 			}
 			else if(data[0].equals("v"))
 			{
-				vertCount ++;
+				verts.put(Float.valueOf(data[1])).put(Float.valueOf(data[2])).put(Float.valueOf(data[3]));
+			}
+			else if(data[0].equals("vt"))
+			{
+				verts.put(Float.valueOf(data[1])).put(Float.valueOf(data[2])).put(Float.valueOf(data[3]));
 			}
 			else if(data[0].equals("vn"))
 			{
+				verts.put(Float.valueOf(data[1])).put(Float.valueOf(data[2])).put(Float.valueOf(data[3]));
 			}
 			else if(data[0].equals("f"))
 			{
-				indCount += 3;
 			}
 			else
 			{
@@ -250,7 +257,7 @@ public class ModelBuilder
 		}
 		read2.close();
 
-		return new Model(verts, indices, indCount, Model.WeaveType.nVnNnT);
+		return new Model(verts, indices, indCount, Model.WeaveType.nVnTnN);
 	}
 	
 	// Class for storing a single vertex's data

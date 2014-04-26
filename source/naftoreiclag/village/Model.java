@@ -1,6 +1,6 @@
 /* Copyright (c) 2014 "Naftoreiclag" https://github.com/Naftoreiclag
  *
- * Distributed under the MIT License (http://opensource.org/licenses/mit-license.html)
+ * Distributed under the BSD 2-Clause License (http://opensource.org/licenses/BSD-2-Clause)
  * See accompanying file LICENSE
  */
 
@@ -99,6 +99,9 @@ public class Model
 	public enum WeaveType
 	{
 		VVVNNNTT,
-		nVnNnT
+		nVnTnN,
+		nVnT,
+		nVnN,
+		nV
 	}
 }
