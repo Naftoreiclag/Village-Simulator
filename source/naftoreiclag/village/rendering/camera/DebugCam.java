@@ -11,7 +11,7 @@ import org.lwjgl.input.Mouse;
 
 public class DebugCam extends Camera
 {
-	float speed = 0.2f;
+	public float speed = 0.2f;
 	
 	public DebugCam(float fov, float aspectRatio, float zNear, float zFar)
 	{
