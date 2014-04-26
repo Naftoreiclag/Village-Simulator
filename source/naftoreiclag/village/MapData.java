@@ -397,7 +397,13 @@ public class MapData
 							}
 						}
 					}
-					/*
+					
+					// M     D
+					//
+					//    P   
+					//
+					// B     N
+					
 					if(x != 0)
 					{
 						double triA = steepness(map[x][z], map[x][z + 1], map[x - 1][z]);
@@ -405,27 +411,27 @@ public class MapData
 						
 						if(triA < steepThres || triB < steepThres)
 						{
-							float dmA = (d + m) / 2.0f;
-							float bnA = (b + n) / 2.0f;
+							// I was wondering when MBA would show up...
+							float mbA = (m + b) / 2.0f;
+							float ndA = (n + d) / 2.0f;
 							
-							if(dmA > bnA)
+							if(mbA > ndA)
 							{
 								// hang
 								
-								Vector3f foo = new Vector3f(mx - dx, my - dy, mz - dz);
-								Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
+								Vector3f foo = new Vector3f(bx - mx, by - my, bz - mz);
+								Vector3f jut = Vector3f.cross(mapNormals[mxi][mzi], foo, null);
 								jut.y *= 0.3f;
 								jut.normalise();
 								
 								mb_sidegrass.addQuad(
-										dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
-										mx, my, mz, mapNormals[mxi][mzi], 0.01f, 0.01f, 
-										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.01f, 0.99f, 
-										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.99f, 0.99f);
+										mx, my, mz, mapNormals[mxi][mzi], 0.99f, 0.01f, 
+										bx, by, bz, mapNormals[bxi][bzi], 0.01f, 0.01f, 
+										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.01f, 0.99f, 
+										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.99f, 0.99f);
 							}
 						}
 					}
-					*/
 				}
 			}
 		}
