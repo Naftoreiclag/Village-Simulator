@@ -32,9 +32,6 @@ public class MapData
 	
 	public MapData()
 	{
-		grass = new Model();
-		rock = new Model();
-		
 		for(int x = 0; x < size; ++ x)
 		{
 			for(int z = 0; z < size; ++ z)

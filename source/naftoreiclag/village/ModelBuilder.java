@@ -6,8 +6,10 @@
 
 package naftoreiclag.village;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -114,28 +116,23 @@ public class ModelBuilder
 	// Bakes the data into a usable model. Note: You can bake this more than once if you really want to.
 	public Model bake()
 	{
-		Model m = new Model();
-		
 		FloatBuffer v = BufferUtils.createFloatBuffer(vertices.size() * 8);
 		for(Vertex f : vertices)
 		{
 			v.put(f.x).put(f.y).put(f.z).put(f.normal.x).put(f.normal.y).put(f.normal.z).put(f.texX).put(f.texY);
 		}
-		m.putVerts(v);
-		
 		IntBuffer i = BufferUtils.createIntBuffer(triangles.size() * 3);
 		for(Triangle t : triangles)
 		{
 			i.put(t.a).put(t.b).put(t.c);
 		}
-		m.putIndices(i, triangles.size() * 3);
 		
 		System.out.println("Model Built!");
 		System.out.println("Polys: " + triangles.size());
 		System.out.println("Vertices: " + (triangles.size() * 3));
 		System.out.println("Output Verts: " + vertices.size());
 		
-		return m;
+		return new Model(v, i, triangles.size() * 3);
 	}
 	
 	// Turn it into java
@@ -160,7 +157,7 @@ public class ModelBuilder
 			for(int i = 0; i < vertices.size(); ++ i)
 			{
 				Vertex v = vertices.get(i);
-				bw.write(v.x + ", " + v.y + ", " + v.z + ", " + v.normal.x + ", " + v.normal.y + ", " + v.normal.z + ", " + v.texX + ", " + v.texY);
+				bw.write(v.x + "f, " + v.y + "f, " + v.z + "f, " + v.normal.x + "f, " + v.normal.y + "f, " + v.normal.z + "f, " + v.texX + "f, " + v.texY);
 				
 				if(i != vertices.size() - 1)
 				{
@@ -197,6 +194,63 @@ public class ModelBuilder
 			fw.close();
 		}
 		catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	public static Model fromObjFile(String filename) throws IOException
+	{
+		int vertCount = 0;
+		int indCount = 0;
+
+		String line;
+
+		BufferedReader read1 = new BufferedReader(new FileReader(new File(filename)));
+		while((line = read1.readLine()) != null)
+		{
+			String[] data = line.split(" ");
+			
+			if(data[0].equals("v"))
+			{
+				vertCount ++;
+			}
+			else if(data[0].equals("f"))
+			{
+				indCount += 3;
+			}
+		}
+		read1.close();
+
+		FloatBuffer verts = BufferUtils.createFloatBuffer(vertCount * 8);
+		IntBuffer indices = BufferUtils.createIntBuffer(indCount);
+		
+		BufferedReader read2 = new BufferedReader(new FileReader(new File(filename)));
+		while((line = read2.readLine()) != null)
+		{
+			String[] data = line.split(" ");
+			
+			if(data[0].equals("#"))
+			{
+			    continue;
+			}
+			else if(data[0].equals("v"))
+			{
+				vertCount ++;
+			}
+			else if(data[0].equals("vn"))
+			{
+			}
+			else if(data[0].equals("f"))
+			{
+				indCount += 3;
+			}
+			else
+			{
+				System.err.println("Corrupt line in .obj! Skipping that line and hoping for best...");
+				continue;
+			}
+		}
+		read2.close();
+
+		return new Model(verts, indices, indCount, Model.WeaveType.nVnNnT);
 	}
 	
 	// Class for storing a single vertex's data
