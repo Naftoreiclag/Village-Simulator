@@ -1,6 +1,8 @@
-package com.owens.oobjloader.parser;
+/* Written by Sean R. Owens, sean at guild dot net, released to the
+ * public domain.
+ */
 
-// Written by Sean R. Owens, sean at guild dot net, released to the
+package com.owens.oobjloader.parser;
 // public domain. Share and enjoy. Since some people argue that it is
 // impossible to release software to the public domain, you are also free
 // to use this code under any version of the GPL, LPGL, Apache, or BSD

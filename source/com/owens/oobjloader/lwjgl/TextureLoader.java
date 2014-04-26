@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/* Written by Sean R. Owens, sean at guild dot net, released to the
+ * public domain.
+ * See [https://github.com/seanrowens/oObjLoader] or [http://darksleep.com/oobjloader/] for details.
  */
-package com.owens.oobjloader.lwjgl;
 
-// Written by Sean R. Owens, sean at guild dot net, released to the
-// public domain. Share and enjoy. Since some people argue that it is
-// impossible to release software to the public domain, you are also free
-// to use this code under any version of the GPL, LPGL, Apache, or BSD
-// licenses, or contact me for use of another license.
+package com.owens.oobjloader.lwjgl;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
