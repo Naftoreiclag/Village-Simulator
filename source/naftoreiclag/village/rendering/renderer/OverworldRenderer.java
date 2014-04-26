@@ -22,9 +22,9 @@ import static org.lwjgl.util.glu.GLU.*;
 
 public class OverworldRenderer extends Renderer
 {
-	public OverworldRenderer()
+	public OverworldRenderer(int width, int height)
 	{
-		super(new DebugCamera(90, 640f / 480f, 0.1f, 1000f));
+		super(new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f), width, height);
 	}
 	
 	@Override
@@ -69,9 +69,6 @@ public class OverworldRenderer extends Renderer
 
 	private void setupLWJGLDisplay()
 	{
-		int width = 640;
-		int height = 480;
-		
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
@@ -136,7 +133,7 @@ public class OverworldRenderer extends Renderer
 		camera.doOpenGLStuff();
 	}
 
-	private FloatBuffer floatBuffy(float ... data)
+	private static FloatBuffer floatBuffy(float ... data)
 	{
 		FloatBuffer f = BufferUtils.createFloatBuffer(data.length);
 		f.put(data);

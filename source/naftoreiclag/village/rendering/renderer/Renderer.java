@@ -6,35 +6,22 @@
 
 package naftoreiclag.village.rendering.renderer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.FloatBuffer;
-
 import naftoreiclag.village.rendering.camera.Camera;
-import naftoreiclag.village.rendering.camera.DebugCamera;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.util.glu.GLU.*;
 
 public abstract class Renderer
-{	
+{
+	protected int width;
+	protected int height;
+	public int getWidth() { return width; }
+	public int getHeight() { return height; }
+	
 	public Camera camera;
 	
-	public Renderer(Camera camera)
+	public Renderer(Camera camera, int width, int height)
 	{
+		this.width = width;
+		this.height = height;
+		
 		this.camera = camera;
 	}
 	
