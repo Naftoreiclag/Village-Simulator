@@ -9,14 +9,9 @@ package naftoreiclag.village;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
 
 public class MapData
@@ -30,7 +25,7 @@ public class MapData
 	float horzu = 1.0f;
 	float vertu = 5.0f;
 	
-	int size = 128;
+	int size = 64;
 	
 	public float[][] map = new float[size][size];
 	public Vector3f[][] mapNormals = new Vector3f[size][size];
@@ -125,8 +120,10 @@ public class MapData
 		ModelBuilder mb_sidegrass = new ModelBuilder();
 		ModelBuilder mb_tallgrass = new ModelBuilder();
 
-		double steepThres = 0.25;
-		float texS = 0.5f;
+		// Maximum steepness for a triangle to become grass
+		double steepThreshold = 0.25;
+		// How scaled the texture is
+		float textureScale = 0.5f;
 		
 		for(int x = 0; x < size - 1; ++ x)
 		{
@@ -165,10 +162,10 @@ public class MapData
 				float dy = d * vertu;
 				float dz = dzi * horzu;
 				
-				ModelBuilder.Vertex mV = new ModelBuilder.Vertex(mx, my, mz, mapNormals[mxi][mzi], mxi * texS, mzi * texS);
-				ModelBuilder.Vertex bV = new ModelBuilder.Vertex(bx, by, bz, mapNormals[bxi][bzi], bxi * texS, bzi * texS);
-				ModelBuilder.Vertex nV = new ModelBuilder.Vertex(nx, ny, nz, mapNormals[nxi][nzi], nxi * texS, nzi * texS);
-				ModelBuilder.Vertex dV = new ModelBuilder.Vertex(dx, dy, dz, mapNormals[dxi][dzi], dxi * texS, dzi * texS);
+				ModelBuilder.Vertex mV = new ModelBuilder.Vertex(mx, my, mz, mapNormals[mxi][mzi], mxi * textureScale, mzi * textureScale);
+				ModelBuilder.Vertex bV = new ModelBuilder.Vertex(bx, by, bz, mapNormals[bxi][bzi], bxi * textureScale, bzi * textureScale);
+				ModelBuilder.Vertex nV = new ModelBuilder.Vertex(nx, ny, nz, mapNormals[nxi][nzi], nxi * textureScale, nzi * textureScale);
+				ModelBuilder.Vertex dV = new ModelBuilder.Vertex(dx, dy, dz, mapNormals[dxi][dzi], dxi * textureScale, dzi * textureScale);
 				
 				double mbn = steepness(m, b, n);
 				double bnd = steepness(b, n, d);
@@ -181,13 +178,13 @@ public class MapData
 				
 				if(mbn == flat || ndm == flat)
 				{
-					if(mbn < steepThres)
+					if(mbn < steepThreshold)
 					{
 						// MBN is flat
 						
 						mb_grass.addTriangle(mV, bV, nV);
 						
-						if(ndm < steepThres)
+						if(ndm < steepThreshold)
 						{
 							// MBN is flat
 							// NDM is flat
@@ -233,7 +230,7 @@ public class MapData
 						
 						mb_rock.addTriangle(mV, bV, nV);
 						
-						if(ndm < steepThres)
+						if(ndm < steepThreshold)
 						{
 							// MBN is steep
 							// NDM is flat
@@ -279,13 +276,13 @@ public class MapData
 				}
 				else
 				{
-					if(bnd < steepThres)
+					if(bnd < steepThreshold)
 					{
 						// BND is flat
 						
 						mb_grass.addTriangle(bV, nV, dV);
 						
-						if(dmb < steepThres)
+						if(dmb < steepThreshold)
 						{
 							// BND is flat
 							// DMB is flat
@@ -331,7 +328,7 @@ public class MapData
 						
 						mb_rock.addTriangle(bV, nV, dV);
 						
-						if(dmb < steepThres)
+						if(dmb < steepThreshold)
 						{
 							// BND is steep
 							// DMB is flat
@@ -382,7 +379,7 @@ public class MapData
 						double triA = steepness(map[x + 1][z], map[x][z], map[x][z - 1]);
 						double triB = steepness(map[x + 1][z], map[x][z], map[x + 1][z - 1]);
 						
-						if(triA < steepThres || triB < steepThres)
+						if(triA < steepThreshold || triB < steepThreshold)
 						{
 							float dmA = (d + m) / 2.0f;
 							float bnA = (b + n) / 2.0f;
@@ -416,7 +413,7 @@ public class MapData
 						double triA = steepness(map[x][z], map[x][z + 1], map[x - 1][z]);
 						double triB = steepness(map[x][z], map[x][z + 1], map[x - 1][z + 1]);
 						
-						if(triA < steepThres || triB < steepThres)
+						if(triA < steepThreshold || triB < steepThreshold)
 						{
 							// I was wondering when MBA would show up...
 							float mbA = (m + b) / 2.0f;
@@ -451,7 +448,7 @@ public class MapData
 						double triA = steepness(map[x][z + 1], map[x + 1][z + 1], map[x + 1][z]);
 						double triB = steepness(map[x][z + 1], map[x + 1][z + 1], map[x + 1][z + 2]);
 						
-						if(triA < steepThres || triB < steepThres)
+						if(triA < steepThreshold || triB < steepThreshold)
 						{
 							float bnA = (b + n) / 2.0f;
 							float dmA = (d + m) / 2.0f;
@@ -485,7 +482,7 @@ public class MapData
 						double triA = steepness(map[x + 1][z + 1], map[x + 1][z], map[x + 2][z]);
 						double triB = steepness(map[x + 1][z + 1], map[x + 1][z], map[x + 2][z + 1]);
 						
-						if(triA < steepThres || triB < steepThres)
+						if(triA < steepThreshold || triB < steepThreshold)
 						{
 							float ndA = (n + d) / 2.0f;
 							float mbA = (m + b) / 2.0f;
@@ -521,11 +518,9 @@ public class MapData
 		rock = mb_rock.bake();
 		sidegrass = mb_sidegrass.bake();
 		tallgrass = mb_tallgrass.bake();
-	}
-
-	public Vector3f straighten(Vector3f a)
-	{
-		return (Vector3f) (new Vector3f(a.x, a.y * 2,a.z)).normalise();
+		
+		// why not
+		mb_grass.toJava("lol.java");
 	}
 	
 	private double smallest(double a, double b, double c, double d)
@@ -538,15 +533,5 @@ public class MapData
 		float mean = (a + b + c) / 3.0f;
 		
 		return Math.abs(mean - a) + Math.abs(mean - b) + Math.abs(mean - c);
-	}
-	
-	private double steepness(float a, float b)
-	{
-		return Math.abs(a - b);
-	}
-	
-	private int posToLin(int x, int z)
-	{
-		return (x + (z * size)) * 2;
 	}
 }

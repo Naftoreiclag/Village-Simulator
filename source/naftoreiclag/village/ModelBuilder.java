@@ -6,6 +6,10 @@
 
 package naftoreiclag.village;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -126,9 +130,73 @@ public class ModelBuilder
 		}
 		m.putIndices(i, triangles.size() * 3);
 		
-		System.out.println(vertices.size());
+		System.out.println("Model Built!");
+		System.out.println("Polys: " + triangles.size());
+		System.out.println("Vertices: " + (triangles.size() * 3));
+		System.out.println("Output Verts: " + vertices.size());
 		
 		return m;
+	}
+	
+	// Turn it into java
+	public void toJava(String filename)
+	{
+		try
+		{
+			File file = new File(filename);
+			if(!file.exists())
+			{
+				file.createNewFile();
+			}
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+			bw.newLine();
+			
+			bw.write("FloatBuffer v = BufferUtils.createFloatBuffer(" + (vertices.size() * 8) + ");");
+			bw.newLine();
+			bw.write("v.put(new float[]{");
+
+			for(int i = 0; i < vertices.size(); ++ i)
+			{
+				Vertex v = vertices.get(i);
+				bw.write(v.x + ", " + v.y + ", " + v.z + ", " + v.normal.x + ", " + v.normal.y + ", " + v.normal.z + ", " + v.texX + ", " + v.texY);
+				
+				if(i != vertices.size() - 1)
+				{
+					bw.write(", ");
+				}
+			}
+			
+			bw.write("});");
+			bw.newLine();
+			bw.write("v.flip();");
+			
+			bw.newLine();
+			
+			bw.write("IntBuffer i = BufferUtils.createIntBuffer(" + (triangles.size() * 3) + ");");
+			bw.newLine();
+			bw.write("i.put(new int[]{");
+
+			for(int i = 0; i < triangles.size(); ++ i)
+			{
+				Triangle t = triangles.get(i);
+				bw.write(t.a + ", " + t.b + ", " + t.c);
+				
+				if(i != triangles.size() - 1)
+				{
+					bw.write(", ");
+				}
+			}
+			
+			bw.write("});");
+			bw.newLine();
+			bw.write("i.flip();");
+			
+			bw.close();
+			fw.close();
+		}
+		catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	// Class for storing a single vertex's data
