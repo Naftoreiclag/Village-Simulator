@@ -24,6 +24,7 @@ public class MapData
 	Model grass;
 	Model rock;
 	Model sidegrass;
+	Model tallgrass;
 	
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;
@@ -122,6 +123,7 @@ public class MapData
 		ModelBuilder mb_rock = new ModelBuilder();
 		ModelBuilder mb_grass = new ModelBuilder();
 		ModelBuilder mb_sidegrass = new ModelBuilder();
+		ModelBuilder mb_tallgrass = new ModelBuilder();
 
 		double steepThres = 0.25;
 		float texS = 0.5f;
@@ -239,25 +241,30 @@ public class MapData
 							float ndmA = (n + d + m) / 3.0f;
 							float mbnA = (m + b + n) / 3.0f;
 
+							Vector3f foo = new Vector3f(mx - nx, my - ny, mz - nz);
+							Vector3f jut = Vector3f.cross(mapNormals[nxi][nzi], foo, null);
+							
+							ModelBuilder addTo;
+							
 							if(ndmA > mbnA)
 							{
-								// Hang
-								
-								Vector3f foo = new Vector3f(mx - nx, my - ny, mz - nz);
-								Vector3f jut = Vector3f.cross(mapNormals[nxi][nzi], foo, null);
 								jut.y *= 0.3f;
-								jut.normalise();
+								addTo = mb_sidegrass;
 								
-								mb_sidegrass.addQuad(
-										nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
-										mx, my, mz, mapNormals[mxi][mzi], 0.01f, 0.01f, 
-										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.01f, 0.99f, 
-										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.99f, 0.99f);
 							}
 							else
 							{
-								// Stand
+								jut.y *= 3f;
+								addTo = mb_tallgrass;
 							}
+							
+							jut.normalise();
+							
+							addTo.addQuad(
+									nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
+									mx, my, mz, mapNormals[mxi][mzi], 0.01f, 0.01f, 
+									mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.01f, 0.99f, 
+									nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.99f, 0.99f);
 						}
 						else
 						{
@@ -295,25 +302,28 @@ public class MapData
 							float bndA = (b + n + d) / 3.0f;
 							float dmbA = (d + m + b) / 3.0f;
 							
+							Vector3f foo = new Vector3f(dx - bx, dy - by, dz - bz);
+							Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
+							
+							ModelBuilder addTo;
 							if(bndA > dmbA)
 							{
-								// Hang
-								
-								Vector3f foo = new Vector3f(dx - bx, dy - by, dz - bz);
-								Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
 								jut.y *= 0.3f;
-								jut.normalise();
-								
-								mb_sidegrass.addQuad(
-										bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
-										dx, dy, dz, mapNormals[dxi][dzi], 0.01f, 0.01f, 
-										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.01f, 0.99f, 
-										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.99f, 0.99f);
+								addTo = mb_sidegrass;
 							}
 							else
 							{
-								// Stand
+								jut.y *= 3.0f;
+								addTo = mb_tallgrass;
 							}
+							
+							jut.normalise();
+
+							addTo.addQuad(
+									bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
+									dx, dy, dz, mapNormals[dxi][dzi], 0.01f, 0.01f, 
+									dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.01f, 0.99f, 
+									bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.99f, 0.99f);
 						}
 					}
 					else
@@ -331,28 +341,30 @@ public class MapData
 							float bndA = (b + n + d) / 3.0f;
 							
 							mb_grass.addTriangle(dV, mV, bV);
+
+							Vector3f foo = new Vector3f(bx - dx, by - dy, bz - dz);
+							Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
+							
+							ModelBuilder addTo;
 							
 							if(dmbA > bndA)
 							{
-								// Hang
-								
-								// Replace b and d
-								
-								Vector3f foo = new Vector3f(bx - dx, by - dy, bz - dz);
-								Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
 								jut.y *= 0.3f;
-								jut.normalise();
-								
-								mb_sidegrass.addQuad(
-										dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
-										bx, by, bz, mapNormals[bxi][bzi], 0.01f, 0.01f, 
-										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.01f, 0.99f, 
-										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.99f, 0.99f);
+								addTo = mb_sidegrass;
 							}
 							else
 							{
-								// Stand
+								jut.y *= 3.0f;
+								addTo = mb_tallgrass;
 							}
+							
+							jut.normalise();
+							
+							addTo.addQuad(
+									dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
+									bx, by, bz, mapNormals[bxi][bzi], 0.01f, 0.01f, 
+									bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.01f, 0.99f, 
+									dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.99f, 0.99f);
 						}
 						else
 						{
@@ -377,26 +389,30 @@ public class MapData
 						{
 							float dmA = (d + m) / 2.0f;
 							float bnA = (b + n) / 2.0f;
+
+							Vector3f foo = new Vector3f(mx - dx, my - dy, mz - dz);
+							Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
+							
+							ModelBuilder addTo;
 							
 							if(dmA > bnA)
 							{
-								// hang
-								
-								Vector3f foo = new Vector3f(mx - dx, my - dy, mz - dz);
-								Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
 								jut.y *= 0.3f;
-								jut.normalise();
-								
-								mb_sidegrass.addQuad(
-										dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
-										mx, my, mz, mapNormals[mxi][mzi], 0.01f, 0.01f, 
-										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.01f, 0.99f, 
-										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.99f, 0.99f);
+								addTo = mb_sidegrass;
 							}
 							else
 							{
-								// Stand
+								jut.y *= 3.0f;
+								addTo = mb_tallgrass;
 							}
+							
+							jut.normalise();
+							
+							addTo.addQuad(
+									dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
+									mx, my, mz, mapNormals[mxi][mzi], 0.01f, 0.01f, 
+									mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.01f, 0.99f, 
+									dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.99f, 0.99f);
 						}
 					}
 					
@@ -410,26 +426,30 @@ public class MapData
 							// I was wondering when MBA would show up...
 							float mbA = (m + b) / 2.0f;
 							float ndA = (n + d) / 2.0f;
+
+							Vector3f foo = new Vector3f(bx - mx, by - my, bz - mz);
+							Vector3f jut = Vector3f.cross(mapNormals[mxi][mzi], foo, null);
+							
+							ModelBuilder addTo;
 							
 							if(mbA > ndA)
 							{
-								// hang
-								
-								Vector3f foo = new Vector3f(bx - mx, by - my, bz - mz);
-								Vector3f jut = Vector3f.cross(mapNormals[mxi][mzi], foo, null);
 								jut.y *= 0.3f;
-								jut.normalise();
-								
-								mb_sidegrass.addQuad(
-										mx, my, mz, mapNormals[mxi][mzi], 0.99f, 0.01f, 
-										bx, by, bz, mapNormals[bxi][bzi], 0.01f, 0.01f, 
-										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.01f, 0.99f, 
-										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.99f, 0.99f);
+								addTo = mb_sidegrass;
 							}
 							else
 							{
-								// Stand
+								jut.y *= 3.0f;
+								addTo = mb_tallgrass;
 							}
+							
+							jut.normalise();
+							
+							addTo.addQuad(
+									mx, my, mz, mapNormals[mxi][mzi], 0.99f, 0.01f, 
+									bx, by, bz, mapNormals[bxi][bzi], 0.01f, 0.01f, 
+									bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.01f, 0.99f, 
+									mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.99f, 0.99f);
 						}
 					}
 					
@@ -442,26 +462,30 @@ public class MapData
 						{
 							float bnA = (b + n) / 2.0f;
 							float dmA = (d + m) / 2.0f;
+
+							Vector3f foo = new Vector3f(nx - bx, ny - by, nz - bz);
+							Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
+							
+							ModelBuilder addTo;
 							
 							if(bnA > dmA)
 							{
-								// hang
-								
-								Vector3f foo = new Vector3f(nx - bx, ny - by, nz - bz);
-								Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
 								jut.y *= 0.3f;
-								jut.normalise();
-								
-								mb_sidegrass.addQuad(
-										bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
-										nx, ny, nz, mapNormals[nxi][nzi], 0.01f, 0.01f, 
-										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.01f, 0.99f, 
-										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.99f, 0.99f);
+								addTo = mb_sidegrass;
 							}
 							else
 							{
-								// Stand
+								jut.y *= 3.0f;
+								addTo = mb_tallgrass;
 							}
+							
+							jut.normalise();
+							
+							addTo.addQuad(
+									bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
+									nx, ny, nz, mapNormals[nxi][nzi], 0.01f, 0.01f, 
+									nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.01f, 0.99f, 
+									bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.99f, 0.99f);
 						}
 					}
 					
@@ -474,26 +498,30 @@ public class MapData
 						{
 							float ndA = (n + d) / 2.0f;
 							float mbA = (m + b) / 2.0f;
+
+							Vector3f foo = new Vector3f(dx - nx, dy - ny, dz - nz);
+							Vector3f jut = Vector3f.cross(mapNormals[nxi][nzi], foo, null);
+							
+							ModelBuilder addTo;
 							
 							if(ndA > mbA)
 							{
-								// hang
-								
-								Vector3f foo = new Vector3f(dx - nx, dy - ny, dz - nz);
-								Vector3f jut = Vector3f.cross(mapNormals[nxi][nzi], foo, null);
 								jut.y *= 0.3f;
-								jut.normalise();
-								
-								mb_sidegrass.addQuad(
-										nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
-										dx, dy, dz, mapNormals[dxi][dzi], 0.01f, 0.01f, 
-										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.01f, 0.99f, 
-										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.99f, 0.99f);
+								addTo = mb_sidegrass;
 							}
 							else
 							{
-								// Stand
+								jut.y *= 3.0f;
+								addTo = mb_tallgrass;
 							}
+							
+							jut.normalise();
+							
+							addTo.addQuad(
+									nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
+									dx, dy, dz, mapNormals[dxi][dzi], 0.01f, 0.01f, 
+									dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.01f, 0.99f, 
+									nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.99f, 0.99f);
 						}
 					}
 				}
@@ -503,6 +531,7 @@ public class MapData
 		grass = mb_grass.bake();
 		rock = mb_rock.bake();
 		sidegrass = mb_sidegrass.bake();
+		tallgrass = mb_tallgrass.bake();
 	}
 	
 	private void performSteepSteepCheck(int x, int z, ModelBuilder mb_sidegrass)

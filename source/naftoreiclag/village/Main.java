@@ -43,8 +43,6 @@ public class Main
 	Texture tex_moss = null;
 	Texture tex_grass_side = null;
 	
-	float sunDir = 0.2f;
-	
 	boolean wireFrame;
 	boolean showNormals;
 	boolean showAxes;
@@ -211,10 +209,12 @@ public class Main
 		map.grass.setTexture(tex_grass.getTextureID());
 		map.rock.setTexture(tex_rock.getTextureID());
 		map.sidegrass.setTexture(tex_grass_side.getTextureID());
+		map.tallgrass.setTexture(tex_grass_side.getTextureID());
 	
 		map.grass.upload();
 		map.rock.upload();
 		map.sidegrass.upload();
+		map.tallgrass.upload();
 	}
 
 	private void setupLights()
@@ -225,7 +225,7 @@ public class Main
 	    glEnable(GL_COLOR_MATERIAL);
 	    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	    
-	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.3f, 0.3f, 0.3f, 1.0f));
+	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.4f, 0.4f, 0.4f, 1.0f));
 	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.2f, 0.2f, 0.2f, 1.0f));
 	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
 	    
@@ -278,7 +278,7 @@ public class Main
 			cam.applyMatrix();
 	
 			// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
-		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy((float) Math.cos(sunDir), 2.5f, (float) Math.sin(sunDir), 0.0f));
+		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(1.0f, 2.5f, 0.3f, 0.0f));
 
 			if(showAxes)
 			{
@@ -298,6 +298,7 @@ public class Main
 			glEnable(GL_BLEND);
 			glDisable(GL_CULL_FACE);
 			map.sidegrass.render();
+			map.tallgrass.render();
 			glEnable(GL_CULL_FACE);
 			glDisable(GL_BLEND);
 			
