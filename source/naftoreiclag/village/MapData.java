@@ -67,46 +67,50 @@ public class MapData
 		}
 	}
 	
+	public void updateNormals(int x, int z)
+	{
+		/*
+		 *     A                X ->
+		 *                    
+		 * C   M   D          Z
+		 *       P            |
+		 *     B   N          V
+		 *
+		 * M is the point defined by x, z
+		 */
+		
+		// Calculate height of these points ===
+		
+		float c = map[x > 0 ? x - 1 : x][z];
+		float d = map[x < size - 1 ? x + 1 : x][z];
+		float a = map[x][z > 0 ? z - 1 : z];
+		float b = map[x][z < size - 1 ? z + 1 : z];
+		
+		// Calculate normals for M ===
+		
+		float cd_d = c - d;
+		if(x == 0 || x == size - 1)
+		{
+			cd_d *= 2;
+		}
+		
+		float ab_d = a - b;
+		if(z == 0 || z == size - 1)
+		{
+			ab_d *= 2;
+		}
+
+		mapNormals[x][z].set(cd_d * vertu, 2 * horzu, ab_d * vertu);
+		mapNormals[x][z].normalise();
+	}
+	
 	public void forceUpdateNormals()
 	{
 		for(int x = 0; x < size; ++ x)
 		{
 			for(int z = 0; z < size; ++ z)
 			{
-				/*
-				 *     A                X ->
-				 *                    
-				 * C   M   D          Z
-				 *       P            |
-				 *     B   N          V
-				 *
-				 * M is the point defined by x, z
-				 */
-				
-				// Calculate height of these points ===
-				
-				float m = map[x][z];
-				float c = map[x > 0 ? x - 1 : x][z];
-				float d = map[x < size - 1 ? x + 1 : x][z];
-				float a = map[x][z > 0 ? z - 1 : z];
-				float b = map[x][z < size - 1 ? z + 1 : z];
-				
-				// Calculate normals for M ===
-				
-				float cd_d = c - d;
-				if(x == 0 || x == size - 1)
-				{
-					cd_d *= 2;
-				}
-				
-				float ab_d = a - b;
-				if(z == 0 || z == size - 1)
-				{
-					ab_d *= 2;
-				}
-
-				mapNormals[x][z].set(cd_d * vertu, 2 * horzu, ab_d * vertu);
-				mapNormals[x][z].normalise();
+				updateNormals(x, z);
 			}
 		}
 	}
@@ -389,6 +393,10 @@ public class MapData
 										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.01f, 0.99f, 
 										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.99f, 0.99f);
 							}
+							else
+							{
+								// Stand
+							}
 						}
 					}
 					
@@ -418,6 +426,10 @@ public class MapData
 										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.01f, 0.99f, 
 										mx + jut.x, my + jut.y, mz + jut.z, mapNormals[mxi][mzi], 0.99f, 0.99f);
 							}
+							else
+							{
+								// Stand
+							}
 						}
 					}
 					
@@ -446,6 +458,10 @@ public class MapData
 										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.01f, 0.99f, 
 										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.99f, 0.99f);
 							}
+							else
+							{
+								// Stand
+							}
 						}
 					}
 					
@@ -473,6 +489,10 @@ public class MapData
 										dx, dy, dz, mapNormals[dxi][dzi], 0.01f, 0.01f, 
 										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.01f, 0.99f, 
 										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.99f, 0.99f);
+							}
+							else
+							{
+								// Stand
 							}
 						}
 					}

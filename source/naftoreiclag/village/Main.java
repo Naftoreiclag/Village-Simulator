@@ -78,9 +78,12 @@ public class Main
 	
 	private void setupLWJGLDisplay()
 	{
+		int width = 640;
+		int height = 480;
+		
 		try
 		{
-			Display.setDisplayMode(new DisplayMode(640, 480));
+			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setFullscreen(false);
 			Display.setVSyncEnabled(true);
 			Display.create();
@@ -93,7 +96,7 @@ public class Main
 			System.exit(1);
 		}
 		
-		glViewport(0, 0, 640, 480);
+		glViewport(0, 0, width, height);
 	}
 
 	private void setupOpenGL()
@@ -125,7 +128,7 @@ public class Main
 		// Load textures
 		tex_debug = loadImage("resources/debug.png");
 		tex_grass = loadImage("resources/camograss.png");
-		tex_rock = loadImage("resources/graycamo.png");
+		tex_rock = loadImage("resources/oilgranite.png");
 		tex_moss = loadImage("resources/moss.png");
 		tex_grass_side = loadImage("resources/camograss_side.png");
 	}
@@ -222,8 +225,8 @@ public class Main
 	    glEnable(GL_COLOR_MATERIAL);
 	    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	    
-	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.6f, 0.6f, 0.6f, 1.0f));
-	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.3f, 0.3f, 0.3f, 1.0f));
+	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.3f, 0.3f, 0.3f, 1.0f));
+	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.2f, 0.2f, 0.2f, 1.0f));
 	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
 	    
 	}
@@ -293,7 +296,9 @@ public class Main
 			map.grass.render();
 	
 			glEnable(GL_BLEND);
+			glDisable(GL_CULL_FACE);
 			map.sidegrass.render();
+			glEnable(GL_CULL_FACE);
 			glDisable(GL_BLEND);
 			
 		    //glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
