@@ -30,7 +30,7 @@ public class MapData
 	float horzu = 1.0f;
 	float vertu = 5.0f;
 	
-	int size = 64;
+	int size = 128;
 	
 	public float[][] map = new float[size][size];
 	public Vector3f[][] mapNormals = new Vector3f[size][size];
