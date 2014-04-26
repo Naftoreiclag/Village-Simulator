@@ -28,7 +28,6 @@ public class Test
 {
 	/** Desired frame time */
 	private static final int FRAMERATE = 60;
-	private static boolean finished;
 
 	/**
 	 * Application init
@@ -373,8 +372,10 @@ public class Test
 		float zmax = .10f;
 		float zmin = -300f;
 
-		while (!finished)
+		while(!Display.isCloseRequested())
 		{
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
+			
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
 
@@ -400,38 +401,11 @@ public class Test
 			GL11.glRotatef(anglez, 0.0f, 0.0f, 1.0f);
 			GL11.glRotatef(angley, 0.0f, 1.0f, 0.0f);
 			GL11.glRotatef(anglex, 1.0f, 0.0f, 0.0f);
+			
+			scene.render();
+			
 			Display.update();
-
-			// Check for close requests
-			if (Display.isCloseRequested())
-			{
-				finished = true;
-			} // The window is in the foreground, so render!
-			else if (Display.isActive())
-			{
-				logic();
-				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT
-						| GL11.GL_STENCIL_BUFFER_BIT);
-				scene.render();
-				Display.sync(FRAMERATE);
-			} // The window is not in the foreground, so we can allow other
-				// stuff to run and infrequently update
-			else
-			{
-				try
-				{
-					Thread.sleep(100);
-				} catch (InterruptedException e)
-				{
-				}
-				logic();
-
-				// Only bother rendering if the window is visible or dirty
-				if (Display.isVisible() || Display.isDirty())
-				{
-					scene.render();
-				}
-			}
+			Display.sync(60);
 		}
 	}
 
@@ -442,19 +416,5 @@ public class Test
 	{
 		// Close the window
 		Display.destroy();
-	}
-
-	/**
-	 * Do all calculations, handle input, etc.
-	 */
-	private static void logic()
-	{
-		// Example input handler: we'll check for the ESC key and exit if it is
-		// pressed
-		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
-		{
-			finished = true;
-		}
-
 	}
 }
