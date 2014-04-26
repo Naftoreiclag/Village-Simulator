@@ -26,18 +26,8 @@ import com.owens.oobjloader.parser.Parse;
 
 public class Test
 {
-	/** Desired frame time */
-	private static final int FRAMERATE = 60;
-
-	/**
-	 * Application init
-	 * 
-	 * @param args
-	 *            Commandline args
-	 */
 	public static void main(String[] args)
 	{
-
 		String filename = "resources/torus.obj";
 		String defaultTextureMaterial = "resources/debug.png";
 
@@ -262,10 +252,6 @@ public class Test
 		return triangleList;
 	}
 
-	/**
-	 * @throws Exception
-	 *             if init fails
-	 */
 	private static void init(boolean fullscreen) throws Exception
 	{
 		Display.setFullscreen(fullscreen);
@@ -282,80 +268,46 @@ public class Test
 		
 		GL11.glViewport(0, 0, 640, 480);
 	}
-
-	/**
-	 * Runs the program (the "main loop")
-	 */
+	
 	private static void run(String filename, String defaultTextureMaterial)
 	{
-		Scene scene = null;
+		Scene scene = new Scene();
 
-		scene = new Scene();
-
-		System.err.println("Parsing WaveFront OBJ file");
 		Build builder = new Build();
 		try
 		{
 			new Parse(builder, filename);
-		} catch (java.io.FileNotFoundException e)
+		}
+		catch (Exception e)
 		{
-			System.err.println("Exception loading object!  e=" + e);
-			e.printStackTrace();
-		} catch (java.io.IOException e)
-		{
-			System.err.println("Exception loading object!  e=" + e);
 			e.printStackTrace();
 		}
-		System.err.println("Done parsing WaveFront OBJ file");
 
-		System.err
-				.println("Splitting OBJ file faces into list of faces per material");
 		ArrayList<ArrayList<Face>> facesByTextureList = createFaceListsByMaterial(builder);
-		System.err
-				.println("Done splitting OBJ file faces into list of faces per material, ended up with "
-						+ facesByTextureList.size() + " lists of faces.");
 
-		System.err
-				.println("Loading default texture =" + defaultTextureMaterial);
 		TextureLoader textureLoader = new TextureLoader();
-		int defaultTextureID = setUpDefaultTexture(textureLoader,
-				defaultTextureMaterial);
-		System.err.println("Done loading default texture ="
-				+ defaultTextureMaterial);
+		int defaultTextureID = setUpDefaultTexture(textureLoader, defaultTextureMaterial);
 
 		int currentTextureID = -1;
 		for (ArrayList<Face> faceList : facesByTextureList)
 		{
 			if (faceList.isEmpty())
 			{
-				System.err.println("ERROR: got an empty face list.  That shouldn't be possible.");
 				continue;
 			}
-			System.err.println("Getting material " + faceList.get(0).material);
-			currentTextureID = getMaterialID(faceList.get(0).material,
-					defaultTextureID, builder, textureLoader);
-			System.err
-					.println("Splitting any quads and throwing any faces with > 4 vertices.");
+			currentTextureID = getMaterialID(faceList.get(0).material, defaultTextureID, builder, textureLoader);
 			ArrayList<Face> triangleList = splitQuads(faceList);
-			System.err.println("Calculating any missing vertex normals.");
 			calcMissingVertexNormals(triangleList);
-			System.err.println("Ready to build VBO of " + triangleList.size()
-					+ " triangles");
-			;
 
-			if (triangleList.size() <= 0)
+			if(triangleList.size() <= 0)
 			{
 				continue;
 			}
-			System.err.println("Building VBO");
 
 			VBO vbo = VBOFactory.build(currentTextureID, triangleList);
 
-			System.err.println("Adding VBO with text id " + currentTextureID
-					+ ", with " + triangleList.size() + " triangles to scene.");
 			scene.addVBO(vbo);
 		}
-		System.err.println("Finally ready to draw things.");
 
 		float anglex = 0;
 		float angley = 0;
