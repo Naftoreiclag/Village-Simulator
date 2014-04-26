@@ -7,20 +7,25 @@ package com.owens.oobjloader.lwjgl;
 
 import java.util.*;
 
-public class Scene {
+public class Scene
+{
 
-    ArrayList<VBO> vboList = new ArrayList<VBO>();
+	ArrayList<VBO> vboList = new ArrayList<VBO>();
 
-    public Scene() {
-    }
+	public Scene()
+	{
+	}
 
-    public void addVBO(VBO r) {
-        vboList.add(r);
-    }
+	public void addVBO(VBO r)
+	{
+		vboList.add(r);
+	}
 
-    public void render() {
-        for (int loopi = 0; loopi < vboList.size(); loopi++) {
-            vboList.get(loopi).render();
-        }
-    }
+	public void render()
+	{
+		for (int loopi = 0; loopi < vboList.size(); loopi++)
+		{
+			vboList.get(loopi).render();
+		}
+	}
 }

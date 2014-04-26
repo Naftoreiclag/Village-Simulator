@@ -1,8 +1,10 @@
 /* Written by Sean R. Owens, sean at guild dot net, released to the
  * public domain.
+ * See [https://github.com/seanrowens/oObjLoader] or [http://darksleep.com/oobjloader/] for details.
  */
 
 package com.owens.oobjloader.parser;
+
 import java.io.*;
 import java.io.IOException;
 
