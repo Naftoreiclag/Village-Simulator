@@ -8,6 +8,7 @@ package naftoreiclag.village.rendering.renderer;
 
 import java.nio.FloatBuffer;
 
+import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.camera.DebugCamera;
 
 import org.lwjgl.BufferUtils;
@@ -20,11 +21,11 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.util.glu.GLU.*;
 
-public class OverworldRenderer extends CommonRenderer
+public abstract class CommonRenderer extends Renderer
 {
-	public OverworldRenderer(int width, int height)
+	public CommonRenderer(Camera camera, int width, int height)
 	{
-		super(new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f), width, height);
+		super(camera, width, height);
 	}
 	
 	@Override
@@ -99,12 +100,14 @@ public class OverworldRenderer extends CommonRenderer
 		// Enable textures
 		glEnable(GL_TEXTURE_2D);
 		
-		//
+		// Blue sky
 		glClearColor(93f / 255f, 155f / 255f, 217 / 255f, 0.0f);
 		
+		// Enable culling
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		
+		// Allow alpha texturing (Does not enable it yet)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		// Enable vertex buffer objects
