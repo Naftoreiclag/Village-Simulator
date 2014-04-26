@@ -41,6 +41,7 @@ public class Main
 	Texture tex_grass = null;
 	Texture tex_rock = null;
 	Texture tex_moss = null;
+	Texture tex_grass_side = null;
 	
 	float sunDir = 0.2f;
 	
@@ -124,6 +125,7 @@ public class Main
 		tex_grass = loadImage("resources/camograss.png");
 		tex_rock = loadImage("resources/graycamo.png");
 		tex_moss = loadImage("resources/moss.png");
+		tex_grass_side = loadImage("resources/camograss_side.png");
 	}
 
 	private void loadShaders()
@@ -203,7 +205,7 @@ public class Main
 		map.makeModelFancy();
 		map.grass.setTexture(tex_grass.getTextureID());
 		map.rock.setTexture(tex_rock.getTextureID());
-		map.sidegrass.setTexture(tex_moss.getTextureID());
+		map.sidegrass.setTexture(tex_grass_side.getTextureID());
 	
 		map.grass.upload();
 		map.rock.upload();
@@ -239,11 +241,13 @@ public class Main
 		{
 			wireFrame = true;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glDisable(GL_CULL_FACE);
 		}
 		else
 		{
 			wireFrame = false;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glEnable(GL_CULL_FACE);
 		}
 		showNormals = Keyboard.isKeyDown(Keyboard.KEY_F);
 		showAxes = Keyboard.isKeyDown(Keyboard.KEY_H);
@@ -283,6 +287,9 @@ public class Main
 			//glDisable(GL_LIGHTING);
 			map.grass.render();
 			map.rock.render();
+	
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			map.sidegrass.render();
 			//glEnable(GL_LIGHTING);
 		
