@@ -42,6 +42,7 @@ public class Main
 	Texture tex_rock = null;
 	Texture tex_moss = null;
 	Texture tex_grass_side = null;
+	Texture tex_grass_tall = null;
 	
 	boolean wireFrame;
 	boolean showNormals;
@@ -129,6 +130,7 @@ public class Main
 		tex_rock = loadImage("resources/oilgranite.png");
 		tex_moss = loadImage("resources/moss.png");
 		tex_grass_side = loadImage("resources/camograss_side.png");
+		tex_grass_tall = loadImage("resources/camograss_tall.png");
 	}
 
 	private void loadShaders()
@@ -209,7 +211,7 @@ public class Main
 		map.grass.setTexture(tex_grass.getTextureID());
 		map.rock.setTexture(tex_rock.getTextureID());
 		map.sidegrass.setTexture(tex_grass_side.getTextureID());
-		map.tallgrass.setTexture(tex_grass_side.getTextureID());
+		map.tallgrass.setTexture(tex_grass_tall.getTextureID());
 	
 		map.grass.upload();
 		map.rock.upload();

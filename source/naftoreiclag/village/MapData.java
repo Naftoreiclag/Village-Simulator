@@ -204,23 +204,21 @@ public class MapData
 							float mbnA = (m + b + n) / 3.0f;
 							float ndmA = (n + d + m) / 3.0f;
 							
-							Vector3f foo = new Vector3f(nx - mx, ny - my, nz - mz);
-							Vector3f jut = Vector3f.cross(mapNormals[mxi][mzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
 							
 							if(mbnA > ndmA)
 							{
+								jut = Vector3f.cross(mapNormals[mxi][mzi], new Vector3f(nx - mx, ny - my, nz - mz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 							}
 							else
 							{
-								jut.y *= 3.0f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 							
 							addTo.addQuad(
 									mx, my, mz, mapNormals[mxi][mzi], 0.99f, 0.01f, 
@@ -245,24 +243,22 @@ public class MapData
 							float ndmA = (n + d + m) / 3.0f;
 							float mbnA = (m + b + n) / 3.0f;
 
-							Vector3f foo = new Vector3f(mx - nx, my - ny, mz - nz);
-							Vector3f jut = Vector3f.cross(mapNormals[nxi][nzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
 							
 							if(ndmA > mbnA)
 							{
+								jut = Vector3f.cross(mapNormals[nxi][nzi], new Vector3f(mx - nx, my - ny, mz - nz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 								
 							}
 							else
 							{
-								jut.y *= 3f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 							
 							addTo.addQuad(
 									nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
@@ -306,22 +302,21 @@ public class MapData
 							float bndA = (b + n + d) / 3.0f;
 							float dmbA = (d + m + b) / 3.0f;
 							
-							Vector3f foo = new Vector3f(dx - bx, dy - by, dz - bz);
-							Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
+							
 							if(bndA > dmbA)
 							{
+								jut = Vector3f.cross(mapNormals[bxi][bzi], new Vector3f(dx - bx, dy - by, dz - bz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 							}
 							else
 							{
-								jut.y *= 3.0f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 
 							addTo.addQuad(
 									bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
@@ -346,23 +341,21 @@ public class MapData
 							
 							mb_grass.addTriangle(dV, mV, bV);
 
-							Vector3f foo = new Vector3f(bx - dx, by - dy, bz - dz);
-							Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
 							
 							if(dmbA > bndA)
 							{
+								jut = Vector3f.cross(mapNormals[dxi][dzi], new Vector3f(bx - dx, by - dy, bz - dz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 							}
 							else
 							{
-								jut.y *= 3.0f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 							
 							addTo.addQuad(
 									dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
@@ -394,23 +387,21 @@ public class MapData
 							float dmA = (d + m) / 2.0f;
 							float bnA = (b + n) / 2.0f;
 
-							Vector3f foo = new Vector3f(mx - dx, my - dy, mz - dz);
-							Vector3f jut = Vector3f.cross(mapNormals[dxi][dzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
 							
 							if(dmA > bnA)
 							{
+								jut = Vector3f.cross(mapNormals[dxi][dzi], new Vector3f(mx - dx, my - dy, mz - dz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 							}
 							else
 							{
-								jut.y *= 3.0f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 							
 							addTo.addQuad(
 									dx, dy, dz, mapNormals[dxi][dzi], 0.99f, 0.01f, 
@@ -431,23 +422,21 @@ public class MapData
 							float mbA = (m + b) / 2.0f;
 							float ndA = (n + d) / 2.0f;
 
-							Vector3f foo = new Vector3f(bx - mx, by - my, bz - mz);
-							Vector3f jut = Vector3f.cross(mapNormals[mxi][mzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
 							
 							if(mbA > ndA)
 							{
+								jut = Vector3f.cross(mapNormals[mxi][mzi], new Vector3f(bx - mx, by - my, bz - mz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 							}
 							else
 							{
-								jut.y *= 3.0f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 							
 							addTo.addQuad(
 									mx, my, mz, mapNormals[mxi][mzi], 0.99f, 0.01f, 
@@ -467,23 +456,21 @@ public class MapData
 							float bnA = (b + n) / 2.0f;
 							float dmA = (d + m) / 2.0f;
 
-							Vector3f foo = new Vector3f(nx - bx, ny - by, nz - bz);
-							Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
 							
 							if(bnA > dmA)
 							{
+								jut = Vector3f.cross(mapNormals[bxi][bzi], new Vector3f(nx - bx, ny - by, nz - bz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 							}
 							else
 							{
-								jut.y *= 3.0f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 							
 							addTo.addQuad(
 									bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
@@ -503,23 +490,21 @@ public class MapData
 							float ndA = (n + d) / 2.0f;
 							float mbA = (m + b) / 2.0f;
 
-							Vector3f foo = new Vector3f(dx - nx, dy - ny, dz - nz);
-							Vector3f jut = Vector3f.cross(mapNormals[nxi][nzi], foo, null);
-							
+							Vector3f jut;
 							ModelBuilder addTo;
 							
 							if(ndA > mbA)
 							{
+								jut = Vector3f.cross(mapNormals[nxi][nzi], new Vector3f(dx - nx, dy - ny, dz - nz), null);
 								jut.y *= 0.3f;
+								jut.normalise();
 								addTo = mb_sidegrass;
 							}
 							else
 							{
-								jut.y *= 3.0f;
+								jut = new Vector3f(0.0f, 1.0f, 0.0f);
 								addTo = mb_tallgrass;
 							}
-							
-							jut.normalise();
 							
 							addTo.addQuad(
 									nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
@@ -536,11 +521,6 @@ public class MapData
 		rock = mb_rock.bake();
 		sidegrass = mb_sidegrass.bake();
 		tallgrass = mb_tallgrass.bake();
-	}
-	
-	private void performSteepSteepCheck(int x, int z, ModelBuilder mb_sidegrass)
-	{
-		
 	}
 
 	public Vector3f straighten(Vector3f a)
