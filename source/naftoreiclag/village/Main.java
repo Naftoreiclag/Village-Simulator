@@ -15,6 +15,7 @@ import java.nio.FloatBuffer;
 
 import naftoreiclag.village.rendering.Model;
 import naftoreiclag.village.rendering.ModelBuilder.Vertex;
+import naftoreiclag.village.rendering.camera.DebugCam;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;

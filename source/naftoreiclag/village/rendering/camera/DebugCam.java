@@ -4,7 +4,7 @@
  * See accompanying file LICENSE
  */
 
-package naftoreiclag.village;
+package naftoreiclag.village.rendering.camera;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
