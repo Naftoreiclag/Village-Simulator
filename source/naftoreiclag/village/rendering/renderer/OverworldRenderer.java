@@ -14,6 +14,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import naftoreiclag.village.MapData;
+import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.camera.DebugCamera;
 import naftoreiclag.village.rendering.util.TBuffy;
 import static org.lwjgl.opengl.GL11.*;
@@ -33,9 +34,9 @@ public class OverworldRenderer extends CommonRenderer
 	Texture tex_grass_tall = null;
 	Texture tex_sky = null;
 	
-	public OverworldRenderer(int width, int height, MapData map)
+	public OverworldRenderer(Camera camera, int width, int height, MapData map)
 	{
-		super(new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f), width, height);
+		super(camera, width, height);
 		
 		this.map = map;
 	}
