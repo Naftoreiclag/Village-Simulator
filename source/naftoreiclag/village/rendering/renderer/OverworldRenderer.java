@@ -15,12 +15,9 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.camera.Camera;
-import naftoreiclag.village.rendering.camera.DebugCamera;
 import naftoreiclag.village.rendering.util.TBuffy;
+
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.util.glu.GLU.*;
 
 public class OverworldRenderer extends CommonRenderer
 {

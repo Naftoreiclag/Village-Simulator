@@ -6,7 +6,6 @@
 
 package naftoreiclag.village;
 
-import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.camera.DebugCamera;
 import naftoreiclag.village.rendering.renderer.OverworldRenderer;
 
@@ -18,27 +17,29 @@ import org.lwjgl.opengl.Display;
 public class Main
 {
 	MapData map;
+	DebugCamera camera;
+	OverworldRenderer renderer;
 	
 	public void run()
 	{
 		map = new MapData();
 		map.loadDataFromFile("foo");
+		
 		int width = 640;
 		int height = 480;
 		
-		DebugCamera c = new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f);
-		OverworldRenderer r = new OverworldRenderer(c, width, height, map);
+		camera = new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f);
+		renderer = new OverworldRenderer(camera, width, height, map);
 
-
-		r.setup();
+		renderer.setup();
 		
 		while(!Display.isCloseRequested())
 		{
-			c.handleUserInput();
-			r.render();
+			camera.handleUserInput();
+			renderer.render();
 		}
 
-		r.cleanup();
+		renderer.cleanup();
 		
 		System.exit(0);
 	}
