@@ -6,15 +6,16 @@
 
 package naftoreiclag.village.rendering.renderer;
 
-import java.nio.FloatBuffer;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+
+import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.camera.DebugCamera;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-
+import naftoreiclag.village.rendering.util.TBuffy;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -22,98 +23,45 @@ import static org.lwjgl.util.glu.GLU.*;
 
 public class OverworldRenderer extends CommonRenderer
 {
-	public OverworldRenderer(int width, int height)
+	MapData map;
+	
+	Texture tex_debug = null;
+	Texture tex_grass = null;
+	Texture tex_rock = null;
+	Texture tex_moss = null;
+	Texture tex_grass_side = null;
+	Texture tex_grass_tall = null;
+	Texture tex_sky = null;
+	
+	public OverworldRenderer(int width, int height, MapData map)
 	{
 		super(new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f), width, height);
-	}
-	
-	@Override
-	public void setup()
-	{
-		setupLWJGLDisplay();
-		setupOpenGL();
 		
-	    setupLights();
-	    setupCamera();
+		this.map = map;
 	}
 
 	@Override
-	public void render()
+	protected void simpleSetup()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		loadTextures();
 		
-		glPushMatrix();
-	
-			camera.applyMatrix();
-	
-			// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
-		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(1.0f, 2.5f, 0.3f, 0.0f));
+		// Map data
+		map = new MapData();
 		
-		glPopMatrix();
+		map.loadDataFromFile("foobar");
+		map.makeModelFancy();
+		map.grass.setTexture(tex_grass.getTextureID());
+		map.rock.setTexture(tex_rock.getTextureID());
+		map.sidegrass.setTexture(tex_grass_side.getTextureID());
+		map.tallgrass.setTexture(tex_grass_tall.getTextureID());
 	
-		Display.update();
-		Display.sync(60);
+		map.grass.upload();
+		map.rock.upload();
+		map.sidegrass.upload();
+		map.tallgrass.upload();
 	}
 
-	@Override
-	public void cleanup()
-	{
-		// We are no longer using VBOs
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	
-		// Blow up display (Destroy it!)
-		Display.destroy();
-	}
-
-	private void setupLWJGLDisplay()
-	{
-		try
-		{
-			Display.setDisplayMode(new DisplayMode(width, height));
-			Display.setFullscreen(false);
-			Display.setVSyncEnabled(true);
-			Display.create();
-		}
-		catch(LWJGLException e)
-		{
-			e.printStackTrace();
-			
-			Display.destroy();
-			System.exit(1);
-		}
-		
-		glViewport(0, 0, width, height);
-	}
-
-	private void setupOpenGL()
-	{
-		// Enable something else
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		
-		// Enable three-dee
-		glEnable(GL_DEPTH_TEST);
-		
-		// Enable textures
-		glEnable(GL_TEXTURE_2D);
-		
-		//
-		glClearColor(93f / 255f, 155f / 255f, 217 / 255f, 0.0f);
-		
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		// Enable vertex buffer objects
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
-
-	private void setupLights()
+	protected void setupLights()
 	{
 		glEnable(GL_LIGHTING);
 	    glEnable(GL_LIGHT0);
@@ -121,23 +69,64 @@ public class OverworldRenderer extends CommonRenderer
 	    glEnable(GL_COLOR_MATERIAL);
 	    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	    
-	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.4f, 0.4f, 0.4f, 1.0f));
-	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.2f, 0.2f, 0.2f, 1.0f));
-	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+	    glLight(GL_LIGHT0, GL_DIFFUSE, TBuffy.floaty(0.4f, 0.4f, 0.4f, 1.0f));
+	    glLight(GL_LIGHT0, GL_AMBIENT, TBuffy.floaty(0.2f, 0.2f, 0.2f, 1.0f));
+	    glLight(GL_LIGHT0, GL_SPECULAR, TBuffy.floaty(0.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+	@Override
+	protected void simpleRender()
+	{
+		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
+	    glLight(GL_LIGHT0, GL_POSITION, TBuffy.floaty(1.0f, 2.5f, 0.3f, 0.0f));
+
+		//glDisable(GL_LIGHTING);
+		map.rock.render();
+	    //glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.3f, 0.3f, 0.3f, 1.0f));
 	    
+		map.grass.render();
+
+		glEnable(GL_BLEND);
+		glDisable(GL_CULL_FACE);
+		map.sidegrass.render();
+		map.tallgrass.render();
+		glEnable(GL_CULL_FACE);
+		glDisable(GL_BLEND);
+		
+		glDisable(GL_LIGHTING);
+		
+		//sky.render();
+		glEnable(GL_LIGHTING);
+	    //glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
+		//glEnable(GL_LIGHTING);
+		
 	}
 
-	private void setupCamera()
+	private void loadTextures()
 	{
-		camera.doLWJGLStuff();
-		camera.doOpenGLStuff();
+		// Load textures
+		tex_debug = loadImage("resources/debug.png");
+		tex_grass = loadImage("resources/camograss.png");
+		tex_rock = loadImage("resources/oilgranite.png");
+		tex_moss = loadImage("resources/moss.png");
+		tex_sky = loadImage("resources/sky.png");
+		tex_grass_side = loadImage("resources/camograss_side.png");
+		tex_grass_tall = loadImage("resources/camograss_side.png");
 	}
 
-	private static FloatBuffer floatBuffy(float ... data)
+	private Texture loadImage(String path)
 	{
-		FloatBuffer f = BufferUtils.createFloatBuffer(data.length);
-		f.put(data);
-		f.flip();
-		return f;
+		Texture texture = tex_debug;
+		
+		// Load textures
+		try
+		{
+			texture = TextureLoader.getTexture("PNG", new FileInputStream(new File(path)));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return texture;
 	}
 }

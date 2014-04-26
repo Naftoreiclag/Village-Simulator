@@ -66,8 +66,6 @@ public class Main
 		loadTextures();
 		loadShaders();
 		
-		doTests();
-		
 		uploadVBOData();
 
 	    setupLights();
@@ -82,55 +80,6 @@ public class Main
 		cleanup();
 		
 		System.exit(0);
-	}
-	
-	private void doTests()
-	{
-		/*
-		ModelBuilder mb_sky = new ModelBuilder();
-		
-		
-		// -1,-1 A   1,-1
-		//
-		//   D         B
-		//
-		// -1,1   C   1,1
-		
-		mb_sky.addQuad(
-				-1, -1, -1, new Vector3f( 0,  0,  1), 0.0f, 0.5f, 
-				 1, -1, -1, new Vector3f( 0,  0,  1), 0.5f, 0.5f, 
-				 1,  1, -1, new Vector3f( 0,  0,  1), 0.5f, 0.0f, 
-				-1,  1, -1, new Vector3f( 0,  0,  1), 0.0f, 0.0f);
-		
-		mb_sky.addQuad(
-				 1, -1, -1, new Vector3f( 0,  0,  0), 0.5f, 0.5f, 
-				 1, -1,  1, new Vector3f( 0,  0,  0), 1.0f, 0.5f, 
-				 1,  1,  1, new Vector3f( 0,  0,  0), 1.0f, 0.0f, 
-				 1,  1, -1, new Vector3f( 0,  0,  0), 0.5f, 0.0f);
-		
-		mb_sky.addQuad(
-				 1, -1,  1, new Vector3f( 0,  0,  0), 0.0f, 1.0f, 
-				-1, -1,  1, new Vector3f( 0,  0,  0), 0.5f, 1.0f, 
-				-1,  1,  1, new Vector3f( 0,  0,  0), 0.5f, 0.5f, 
-				 1,  1,  1, new Vector3f( 0,  0,  0), 0.0f, 0.5f);
-		
-		mb_sky.addQuad(
-				-1, -1,  1, new Vector3f( 0,  0,  0), 0.5f, 1.0f, 
-				-1, -1, -1, new Vector3f( 0,  0,  0), 1.0f, 1.0f, 
-				-1,  1, -1, new Vector3f( 0,  0,  0), 1.0f, 0.5f, 
-				-1,  1,  1, new Vector3f( 0,  0,  0), 0.5f, 0.5f);
-
-		mb_sky.addQuad(
-				-1,  1, -1, new Vector3f( 0, -1,  0), 0.05f, 0.05f, 
-				 1,  1, -1, new Vector3f( 0, -1,  0), 0.05f, 0.05f, 
-				 1,  1,  1, new Vector3f( 0, -1,  0), 0.05f, 0.05f, 
-				-1,  1,  1, new Vector3f( 0, -1,  0), 0.05f, 0.05f);
-		
-		mb_sky.toJava("sky.java");
-		sky = mb_sky.bake();
-		sky.setTexture(tex_sky.getTextureID());
-		sky.upload();
-		*/
 	}
 
 	private void setupLWJGLDisplay()
@@ -189,7 +138,7 @@ public class Main
 		tex_moss = loadImage("resources/moss.png");
 		tex_sky = loadImage("resources/sky.png");
 		tex_grass_side = loadImage("resources/camograss_side.png");
-		tex_grass_tall = loadImage("resources/camograss_tall.png");
+		tex_grass_tall = loadImage("resources/camograss_side.png");
 	}
 
 	private void loadShaders()

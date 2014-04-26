@@ -6,12 +6,9 @@
 
 package naftoreiclag.village.rendering.renderer;
 
-import java.nio.FloatBuffer;
 
 import naftoreiclag.village.rendering.camera.Camera;
-import naftoreiclag.village.rendering.camera.DebugCamera;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -36,6 +33,8 @@ public abstract class CommonRenderer extends Renderer
 		
 	    setupLights();
 	    setupCamera();
+	    
+	    simpleSetup();
 	}
 
 	@Override
@@ -46,9 +45,7 @@ public abstract class CommonRenderer extends Renderer
 		glPushMatrix();
 	
 			camera.applyMatrix();
-	
-			// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
-		    glLight(GL_LIGHT0, GL_POSITION, floatBuffy(1.0f, 2.5f, 0.3f, 0.0f));
+			simpleRender();
 		
 		glPopMatrix();
 	
@@ -67,6 +64,10 @@ public abstract class CommonRenderer extends Renderer
 		// Blow up display (Destroy it!)
 		Display.destroy();
 	}
+
+	protected abstract void simpleSetup();
+	
+	protected abstract void simpleRender();
 
 	private void setupLWJGLDisplay()
 	{
@@ -88,7 +89,7 @@ public abstract class CommonRenderer extends Renderer
 		glViewport(0, 0, width, height);
 	}
 
-	private void setupOpenGL()
+	protected void setupOpenGL()
 	{
 		// Enable something else
 		glMatrixMode(GL_MODELVIEW);
@@ -116,31 +117,11 @@ public abstract class CommonRenderer extends Renderer
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
-	private void setupLights()
-	{
-		glEnable(GL_LIGHTING);
-	    glEnable(GL_LIGHT0);
-	    
-	    glEnable(GL_COLOR_MATERIAL);
-	    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	    
-	    glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffy(0.4f, 0.4f, 0.4f, 1.0f));
-	    glLight(GL_LIGHT0, GL_AMBIENT, floatBuffy(0.2f, 0.2f, 0.2f, 1.0f));
-	    glLight(GL_LIGHT0, GL_SPECULAR, floatBuffy(0.0f, 0.0f, 0.0f, 1.0f));
-	    
-	}
+	protected abstract void setupLights();
 
 	private void setupCamera()
 	{
 		camera.doLWJGLStuff();
 		camera.doOpenGLStuff();
-	}
-
-	private static FloatBuffer floatBuffy(float ... data)
-	{
-		FloatBuffer f = BufferUtils.createFloatBuffer(data.length);
-		f.put(data);
-		f.flip();
-		return f;
 	}
 }

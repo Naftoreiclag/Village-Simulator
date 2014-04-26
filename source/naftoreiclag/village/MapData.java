@@ -19,10 +19,10 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class MapData
 {
-	Model grass;
-	Model rock;
-	Model sidegrass;
-	Model tallgrass;
+	public Model grass;
+	public Model rock;
+	public Model sidegrass;
+	public Model tallgrass;
 	
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;
