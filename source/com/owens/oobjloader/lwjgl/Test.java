@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.owens.oobjloader.builder.Build;
@@ -22,11 +24,9 @@ import com.owens.oobjloader.builder.FaceVertex;
 import com.owens.oobjloader.builder.Material;
 import com.owens.oobjloader.parser.Parse;
 
-// Based on tutorial code from http://lwjgl.org/wiki/doku.php/lwjgl/tutorials/opengl/basicopengl
 public class Test
 {
 
-	public static final String WINDOW_TITLE = "Test OBJ loader";
 	/** Desired frame time */
 	private static final int FRAMERATE = 60;
 	private static boolean finished;
@@ -40,35 +40,10 @@ public class Test
 	public static void main(String[] args)
 	{
 
-		// String filename = "/Users/sean/sample_obj_files/wallTest.obj";
-		// String filename =
-		// "/Users/sean/src/owens/oobjloader/test/procerus_complete.obj";
-		// String filename = "/Users/sean/newobjfiles/mini_obj.obj";
-		// String filename = "/Users/sean/newobjfiles/thompson.obj";
-		// String filename = "/Users/sean/newobjfiles/extincteur_obj.obj";
-		String filename = "/Users/sean/uvmapperclassicsamples/torus.obj";
-		String defaultTextureMaterial = "/Users/sean/default_texture.png";
+		String filename = "resources/torus.obj";
+		String defaultTextureMaterial = "resources/debug.png";
 
 		boolean fullscreen = false;
-
-		for (int loopi = 0; loopi < args.length; loopi++)
-		{
-			if (null == args[loopi])
-			{
-				continue;
-			}
-			if (args[loopi].equals("-fullscreen"))
-			{
-				fullscreen = true;
-			} else if (args[loopi].equals("-defaulttexture")
-					&& args.length >= (loopi + 1))
-			{
-				defaultTextureMaterial = args[++loopi];
-			} else
-			{
-				filename = args[loopi];
-			}
-		}
 
 		try
 		{
@@ -76,9 +51,7 @@ public class Test
 			run(filename, defaultTextureMaterial);
 		} catch (Exception e)
 		{
-			e.printStackTrace(System.err);
-			Sys.alert(WINDOW_TITLE,
-					"An error occured and the program will exit.");
+			e.printStackTrace();
 		} finally
 		{
 			cleanup();
@@ -298,28 +271,19 @@ public class Test
 	 */
 	private static void init(boolean fullscreen) throws Exception
 	{
-		// Create a fullscreen window with 1:1 orthographic 2D projection
-		// (default)
-		Display.setTitle(WINDOW_TITLE);
 		Display.setFullscreen(fullscreen);
-
-		// Enable vsync if we can (due to how OpenGL works, it cannot be
-		// guarenteed to always work)
 		Display.setVSyncEnabled(true);
-
-		// Create default display of 640x480
+		Display.setDisplayMode(new DisplayMode(640, 480));
 		Display.create();
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		float fAspect = (float) Display.getDisplayMode().getWidth()
-				/ (float) Display.getDisplayMode().getHeight();
-		GLU.gluPerspective(45.0f, fAspect, 0.5f, 400.0f);
+		GLU.gluPerspective(45.0f, 640 / 480, 0.5f, 400.0f);
 
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
-		GL11.glViewport(0, 0, Display.getDisplayMode().getWidth() - 100,
-				Display.getDisplayMode().getHeight() - 100);
+		
+		GL11.glViewport(0, 0, 640, 480);
 	}
 
 	/**
@@ -333,10 +297,9 @@ public class Test
 
 		System.err.println("Parsing WaveFront OBJ file");
 		Build builder = new Build();
-		Parse obj = null;
 		try
 		{
-			obj = new Parse(builder, filename);
+			new Parse(builder, filename);
 		} catch (java.io.FileNotFoundException e)
 		{
 			System.err.println("Exception loading object!  e=" + e);
@@ -368,8 +331,7 @@ public class Test
 		{
 			if (faceList.isEmpty())
 			{
-				System.err
-						.println("ERROR: got an empty face list.  That shouldn't be possible.");
+				System.err.println("ERROR: got an empty face list.  That shouldn't be possible.");
 				continue;
 			}
 			System.err.println("Getting material " + faceList.get(0).material);
@@ -434,19 +396,12 @@ public class Test
 			{
 				incrementz = -incrementz;
 			}
-			// System.err.println("positioning at  " + translatex + ", " +
-			// translatey + ", " + translatez + " rotation " + anglex + ", " +
-			// angley + ", " + anglez);
 			GL11.glTranslated(0, 0, translatez);
 			GL11.glTranslated(0, translatey, 0);
 			GL11.glTranslated(translatex, 0, 0);
 			GL11.glRotatef(anglez, 0.0f, 0.0f, 1.0f);
 			GL11.glRotatef(angley, 0.0f, 1.0f, 0.0f);
 			GL11.glRotatef(anglex, 1.0f, 0.0f, 0.0f);
-
-			// Always call Window.update(), all the time - it does some behind
-			// the
-			// scenes work, and also displays the rendered output
 			Display.update();
 
 			// Check for close requests
@@ -476,7 +431,6 @@ public class Test
 				// Only bother rendering if the window is visible or dirty
 				if (Display.isVisible() || Display.isDirty())
 				{
-					System.err.print(".");
 					scene.render();
 				}
 			}
