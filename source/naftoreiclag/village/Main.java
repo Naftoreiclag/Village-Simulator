@@ -15,7 +15,7 @@ import java.nio.FloatBuffer;
 
 import naftoreiclag.village.rendering.Model;
 import naftoreiclag.village.rendering.ModelBuilder.Vertex;
-import naftoreiclag.village.rendering.camera.DebugCam;
+import naftoreiclag.village.rendering.camera.DebugCamera;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -39,7 +39,7 @@ public class Main
 {
 	MapData map;
 	
-	DebugCam cam;
+	DebugCamera cam;
 	
 	Texture tex_debug = null;
 	Texture tex_grass = null;
@@ -294,7 +294,7 @@ public class Main
 
 	private void setupCamera()
 	{
-		cam = new DebugCam(90, 640f / 480f, 0.1f, 1000f);
+		cam = new DebugCamera(90, 640f / 480f, 0.1f, 1000f);
 		cam.doLWJGLStuff();
 		cam.doOpenGLStuff();
 	}
