@@ -432,6 +432,74 @@ public class MapData
 							}
 						}
 					}
+					
+					// M     D
+					//
+					//    P   
+					//
+					// B     N
+					
+					if(z != size - 2)
+					{
+						double triA = steepness(map[x][z + 1], map[x + 1][z + 1], map[x + 1][z]);
+						double triB = steepness(map[x][z + 1], map[x + 1][z + 1], map[x + 1][z + 2]);
+						
+						if(triA < steepThres || triB < steepThres)
+						{
+							float bnA = (b + n) / 2.0f;
+							float dmA = (d + m) / 2.0f;
+							
+							if(bnA > dmA)
+							{
+								// hang
+								
+								Vector3f foo = new Vector3f(nx - bx, ny - by, nz - bz);
+								Vector3f jut = Vector3f.cross(mapNormals[bxi][bzi], foo, null);
+								jut.y *= 0.3f;
+								jut.normalise();
+								
+								mb_sidegrass.addQuad(
+										bx, by, bz, mapNormals[bxi][bzi], 0.99f, 0.01f, 
+										nx, ny, nz, mapNormals[nxi][nzi], 0.01f, 0.01f, 
+										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.01f, 0.99f, 
+										bx + jut.x, by + jut.y, bz + jut.z, mapNormals[bxi][bzi], 0.99f, 0.99f);
+							}
+						}
+					}
+					
+					// M     D
+					//
+					//    P   
+					//
+					// B     N
+					
+					if(x != size - 2)
+					{
+						double triA = steepness(map[x + 1][z + 1], map[x + 1][z], map[x + 2][z]);
+						double triB = steepness(map[x + 1][z + 1], map[x + 1][z], map[x + 2][z + 1]);
+						
+						if(triA < steepThres || triB < steepThres)
+						{
+							float ndA = (n + d) / 2.0f;
+							float mbA = (m + b) / 2.0f;
+							
+							if(ndA > mbA)
+							{
+								// hang
+								
+								Vector3f foo = new Vector3f(dx - nx, dy - ny, dz - nz);
+								Vector3f jut = Vector3f.cross(mapNormals[nxi][nzi], foo, null);
+								jut.y *= 0.3f;
+								jut.normalise();
+								
+								mb_sidegrass.addQuad(
+										nx, ny, nz, mapNormals[nxi][nzi], 0.99f, 0.01f, 
+										dx, dy, dz, mapNormals[dxi][dzi], 0.01f, 0.01f, 
+										dx + jut.x, dy + jut.y, dz + jut.z, mapNormals[dxi][dzi], 0.01f, 0.99f, 
+										nx + jut.x, ny + jut.y, nz + jut.z, mapNormals[nxi][nzi], 0.99f, 0.99f);
+							}
+						}
+					}
 				}
 			}
 		}
