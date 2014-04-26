@@ -7,6 +7,7 @@
 package naftoreiclag.village.rendering.renderer;
 
 
+import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
 
 import org.lwjgl.LWJGLException;
@@ -27,6 +28,8 @@ public abstract class CommonRenderer extends Renderer
 	{
 		setupLWJGLDisplay();
 		setupOpenGL();
+		
+		TextureLib.loadDebugTexture();
 		
 	    setupLights();
 	    setupCamera();
