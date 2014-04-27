@@ -9,6 +9,7 @@ package naftoreiclag.village.rendering.renderer;
 import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
+import naftoreiclag.village.rendering.model.Model;
 import naftoreiclag.village.rendering.model.WackyModel;
 import naftoreiclag.village.rendering.util.TBuffy;
 import naftoreiclag.village.rendering.util.ObjLoader;
@@ -18,7 +19,8 @@ public class OverworldRenderer extends CommonRenderer
 {
 	MapData map;
 	
-	WackyModel torus;
+	Model trunk;
+	Model leaves;
 	
 	public OverworldRenderer(Camera camera, int width, int height, MapData map)
 	{
@@ -54,7 +56,8 @@ public class OverworldRenderer extends CommonRenderer
 
 	private void loadOBJ()
 	{
-		torus = ObjLoader.loadObj("resources/torus.obj", "resources/debug.png");
+		trunk = ObjLoader.loadObj("resources/noobtree.obj", "resources/noobtree_wood.png");
+		leaves = ObjLoader.loadObj("resources/noobtree_leaves.obj", "resources/moss.png");
 	}
 
 	protected void setupLights()
@@ -77,7 +80,8 @@ public class OverworldRenderer extends CommonRenderer
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 	    glLight(GL_LIGHT0, GL_POSITION, TBuffy.floaty(1.0f, 2.5f, 0.3f, 0.0f));
 
-	    torus.render();
+	    trunk.render();
+	    leaves.render();
 	    
 		map.rock.render();
 		map.grass.render();

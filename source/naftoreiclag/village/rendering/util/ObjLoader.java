@@ -78,11 +78,11 @@ public class ObjLoader
 		ArrayList<ArrayList<Face>> facesByTextureList = new ArrayList<ArrayList<Face>>();
 		Material currentMaterial = null;
 		ArrayList<Face> currentFaceList = new ArrayList<Face>();
-		for (Face face : builder.faces)
+		for(Face face : builder.faces)
 		{
-			if (face.material != currentMaterial)
+			if(face.material != currentMaterial)
 			{
-				if (!currentFaceList.isEmpty())
+				if(!currentFaceList.isEmpty())
 				{
 					System.err.println("Adding list of "
 							+ currentFaceList.size()
