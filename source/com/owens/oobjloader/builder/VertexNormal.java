@@ -5,11 +5,6 @@
 
 package com.owens.oobjloader.builder;
 
-import java.util.*;
-import java.text.*;
-import java.io.*;
-import java.io.IOException;
-
 public class VertexNormal
 {
 	public float x = 0;
@@ -32,9 +27,6 @@ public class VertexNormal
 
 	public String toString()
 	{
-		if (null == this)
-			return "null";
-		else
-			return x + "," + y + "," + z;
+		return x + "," + y + "," + z;
 	}
 }

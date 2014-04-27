@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import naftoreiclag.village.rendering.model.CrazyModel;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.ARBVertexBufferObject;
 
 public class VBOFactory
 {

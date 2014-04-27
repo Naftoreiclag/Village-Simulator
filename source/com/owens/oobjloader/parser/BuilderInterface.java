@@ -5,11 +5,6 @@
 
 package com.owens.oobjloader.parser;
 
-import java.util.*;
-import java.text.*;
-import java.io.*;
-import java.io.IOException;
-
 public interface BuilderInterface
 {
 

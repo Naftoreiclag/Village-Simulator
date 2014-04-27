@@ -5,11 +5,6 @@
 
 package com.owens.oobjloader.builder;
 
-import java.util.*;
-import java.text.*;
-import java.io.*;
-import java.io.IOException;
-
 public class VertexGeometric
 {
 
@@ -26,12 +21,6 @@ public class VertexGeometric
 
 	public String toString()
 	{
-		if (null == this)
-		{
-			return "null";
-		} else
-		{
-			return x + "," + y + "," + z;
-		}
+		return x + "," + y + "," + z;
 	}
 }

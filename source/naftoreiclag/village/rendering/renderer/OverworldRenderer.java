@@ -11,7 +11,7 @@ import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.model.WackyModel;
 import naftoreiclag.village.rendering.util.TBuffy;
-import naftoreiclag.village.rendering.util.WeirdObj;
+import naftoreiclag.village.rendering.util.ObjLoader;
 import static org.lwjgl.opengl.GL11.*;
 
 public class OverworldRenderer extends CommonRenderer
@@ -54,7 +54,7 @@ public class OverworldRenderer extends CommonRenderer
 
 	private void loadOBJ()
 	{
-		torus = WeirdObj.loadObj("resources/torus.obj", "resources/debug.png");
+		torus = ObjLoader.loadObj("resources/torus.obj", "resources/debug.png");
 	}
 
 	protected void setupLights()

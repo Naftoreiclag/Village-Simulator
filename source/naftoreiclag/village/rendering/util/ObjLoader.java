@@ -17,11 +17,6 @@ import java.util.logging.Logger;
 import naftoreiclag.village.rendering.model.CrazyModel;
 import naftoreiclag.village.rendering.model.WackyModel;
 
-import org.lwjgl.util.glu.GLU;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-
 import com.owens.oobjloader.builder.Build;
 import com.owens.oobjloader.builder.Face;
 import com.owens.oobjloader.builder.FaceVertex;
@@ -30,8 +25,51 @@ import com.owens.oobjloader.lwjgl.TextureLoaderB;
 import com.owens.oobjloader.lwjgl.VBOFactory;
 import com.owens.oobjloader.parser.Parse;
 
-public class WeirdObj
+public class ObjLoader
 {
+	public static WackyModel loadObj(String filename, String defaultTextureMaterial)
+	{
+		WackyModel scene = new WackyModel();
+	
+		Build builder = new Build();
+		try
+		{
+			new Parse(builder, filename);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	
+		ArrayList<ArrayList<Face>> facesByTextureList = createFaceListsByMaterial(builder);
+	
+		TextureLoaderB textureLoader = new TextureLoaderB();
+		int defaultTextureID = setUpDefaultTexture(textureLoader, defaultTextureMaterial);
+	
+		int currentTextureID = -1;
+		for (ArrayList<Face> faceList : facesByTextureList)
+		{
+			if (faceList.isEmpty())
+			{
+				continue;
+			}
+			currentTextureID = getMaterialID(faceList.get(0).material, defaultTextureID, builder, textureLoader);
+			ArrayList<Face> triangleList = splitQuads(faceList);
+			calcMissingVertexNormals(triangleList);
+	
+			if(triangleList.size() <= 0)
+			{
+				continue;
+			}
+	
+			CrazyModel vbo = VBOFactory.build(currentTextureID, triangleList);
+	
+			scene.addModel(vbo);
+		}
+		
+		return scene;
+	}
+
 	// iterate over face list from builder, and break it up into a set of face
 	// lists by material, i.e. each for each face list, all faces in that
 	// specific list use the same material
@@ -112,7 +150,7 @@ public class WeirdObj
 			defaultTextureID = textureLoader.load(defaultTextureMaterial, true);
 		} catch (IOException ex)
 		{
-			Logger.getLogger(WeirdObj.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(ObjLoader.class.getName()).log(Level.SEVERE, null, ex);
 			System.err
 					.println("ERROR: Got an exception trying to load default texture material = "
 							+ defaultTextureMaterial + " , ex=" + ex);
@@ -149,7 +187,7 @@ public class WeirdObj
 						mapKdFile.getAbsolutePath(), true);
 			} catch (IOException ex)
 			{
-				Logger.getLogger(WeirdObj.class.getName()).log(Level.SEVERE, null,
+				Logger.getLogger(ObjLoader.class.getName()).log(Level.SEVERE, null,
 						ex);
 				System.err
 						.println("ERROR: Got an exception trying to load  texture material = "
@@ -203,48 +241,5 @@ public class WeirdObj
 			}
 		}
 		return triangleList;
-	}
-	
-	public static WackyModel loadObj(String filename, String defaultTextureMaterial)
-	{
-		WackyModel scene = new WackyModel();
-
-		Build builder = new Build();
-		try
-		{
-			new Parse(builder, filename);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		ArrayList<ArrayList<Face>> facesByTextureList = createFaceListsByMaterial(builder);
-
-		TextureLoaderB textureLoader = new TextureLoaderB();
-		int defaultTextureID = setUpDefaultTexture(textureLoader, defaultTextureMaterial);
-
-		int currentTextureID = -1;
-		for (ArrayList<Face> faceList : facesByTextureList)
-		{
-			if (faceList.isEmpty())
-			{
-				continue;
-			}
-			currentTextureID = getMaterialID(faceList.get(0).material, defaultTextureID, builder, textureLoader);
-			ArrayList<Face> triangleList = splitQuads(faceList);
-			calcMissingVertexNormals(triangleList);
-
-			if(triangleList.size() <= 0)
-			{
-				continue;
-			}
-
-			CrazyModel vbo = VBOFactory.build(currentTextureID, triangleList);
-
-			scene.addModel(vbo);
-		}
-		
-		return scene;
 	}
 }
