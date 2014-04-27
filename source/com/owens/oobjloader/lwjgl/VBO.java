@@ -21,6 +21,8 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import naftoreiclag.village.rendering.model.Model;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 
@@ -31,42 +33,22 @@ import java.util.*;
 
 import org.lwjgl.BufferUtils;
 
-public class VBO
+public class VBO extends Model
 {
-	private int textId = 0;
-	private int vertexHandle = 0; // Vertex Attributes VBO ID
-	private int indexHandle = 0; // indice VBO ID
-	private int numIndices = 0;
-
-	public VBO(int textId, int verticeAttributesID, int indicesID,
-			int indicesCount)
+	public VBO(FloatBuffer verts, IntBuffer indices, int numIndices)
 	{
-		this.textId = textId;
-		this.vertexHandle = verticeAttributesID;
-		this.indexHandle = indicesID;
-		this.numIndices = indicesCount;
+		super(verts, indices, numIndices);
 	}
 
+	@Override
 	public void render()
 	{
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textId);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexHandle);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texId);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertHandle);
 		GL11.glVertexPointer(3, GL11.GL_FLOAT, 32, 0);
 		GL11.glNormalPointer(GL11.GL_FLOAT, 32, 12);
 		GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 32, 24);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexHandle);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, numIndices, GL11.GL_UNSIGNED_INT, 0L);
-	}
-
-	public void destroy()
-	{
-		// NOTE: We don't delete the textureID
-		IntBuffer ib = BufferUtils.createIntBuffer(1);
-		ib.reset();
-		ib.put(vertexHandle);
-		GL15.glDeleteBuffers(ib);
-		ib.reset();
-		ib.put(indexHandle);
-		GL15.glDeleteBuffers(ib);
 	}
 }

@@ -102,7 +102,6 @@ public class VBOFactory
 				verticeAttributes.put(vertex.t.v);
 			}
 		}
-		verticeAttributes.flip();
 
 		System.err.println("Had " + numMIssingNormals + " missing normals and "
 				+ numMissingUV + " missing UV coords");
@@ -117,34 +116,11 @@ public class VBOFactory
 				indices.put(index);
 			}
 		}
-		indices.flip();
+		
+		VBO rval = new VBO(verticeAttributes, indices, indicesCount); 
+		rval.setTexture(textureID);
+		rval.upload();
 
-		// Allrighty! Now give them to OpenGL!
-		IntBuffer verticeAttributesIDBuf = BufferUtils.createIntBuffer(1);
-
-		ARBVertexBufferObject.glGenBuffersARB(verticeAttributesIDBuf);
-		ARBVertexBufferObject.glBindBufferARB(
-				ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB,
-				verticeAttributesIDBuf.get(0));
-		ARBVertexBufferObject.glBufferDataARB(
-				ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, verticeAttributes,
-				ARBVertexBufferObject.GL_STATIC_DRAW_ARB);
-
-		IntBuffer indicesIDBuf = BufferUtils.createIntBuffer(1);
-		ARBVertexBufferObject.glGenBuffersARB(indicesIDBuf);
-		ARBVertexBufferObject.glBindBufferARB(
-				ARBVertexBufferObject.GL_ELEMENT_ARRAY_BUFFER_ARB,
-				indicesIDBuf.get(0));
-		ARBVertexBufferObject.glBufferDataARB(
-				ARBVertexBufferObject.GL_ELEMENT_ARRAY_BUFFER_ARB, indices,
-				ARBVertexBufferObject.GL_STATIC_DRAW_ARB);
-
-		// our copy of the data is no longer necessary, it is safe in OpenGL.
-		// We don't need to null this out but it makes the point.
-		verticeAttributes = null;
-		indices = null;
-
-		return new VBO(textureID, verticeAttributesIDBuf.get(0),
-				indicesIDBuf.get(0), indicesCount);
+		return rval;
 	}
 }
