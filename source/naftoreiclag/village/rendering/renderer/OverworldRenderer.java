@@ -8,13 +8,10 @@ package naftoreiclag.village.rendering.renderer;
 
 import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
-
 import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.model.Model;
-import naftoreiclag.village.rendering.model.WackyModel;
 import naftoreiclag.village.rendering.util.TBuffy;
 import naftoreiclag.village.rendering.util.ObjLoader;
 import static org.lwjgl.opengl.GL11.*;
@@ -104,6 +101,7 @@ public class OverworldRenderer extends CommonRenderer
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 	    glLight(GL_LIGHT0, GL_POSITION, TBuffy.floaty(1.0f, 2.5f, 0.3f, 0.0f));
 
+	    /*
 	    for(Tree t : trees)
 	    {
 	    	glPushMatrix();
@@ -112,6 +110,7 @@ public class OverworldRenderer extends CommonRenderer
 			    leaves.render();
 	    	glPopMatrix();
 	    }
+	    */
 	    
 		map.rock.render();
 		map.grass.render();
