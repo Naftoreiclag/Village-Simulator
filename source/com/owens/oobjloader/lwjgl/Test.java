@@ -24,7 +24,7 @@ import com.owens.oobjloader.parser.Parse;
 
 public class Test
 {
-	public static void main(String[] args)
+	public static void maain(String[] args)
 	{
 		String filename = "donotinclude/stanrabbit.obj";
 		String defaultTextureMaterial = "resources/debug.png";
