@@ -22,7 +22,7 @@ import org.lwjgl.opengl.GL12;
  * 
  * @author sean
  */
-public class TextureLoader
+public class TextureLoaderB
 {
 
 	private final static int TEXTURE_LEVEL = 0;

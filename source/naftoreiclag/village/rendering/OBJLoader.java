@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-
 import org.lwjgl.BufferUtils;
 
 public class OBJLoader
@@ -72,6 +71,8 @@ public class OBJLoader
 		}
 		read2.close();
 
-		return new Model(verts, indices, indCount, Model.WeaveType.nVnTnN);
+		//return new Model(verts, indices, indCount, Model.WeaveType.nVnTnN);
+		
+		return null;
 	}
 }

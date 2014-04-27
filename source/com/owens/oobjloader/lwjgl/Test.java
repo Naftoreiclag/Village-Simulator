@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lwjgl.util.glu.GLU;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -28,14 +26,12 @@ public class Test
 {
 	public static void main(String[] args)
 	{
-		String filename = "resources/torus.obj";
+		String filename = "donotinclude/stanrabbit.obj";
 		String defaultTextureMaterial = "resources/debug.png";
-
-		boolean fullscreen = false;
 
 		try
 		{
-			init(fullscreen);
+			init();
 			run(filename, defaultTextureMaterial);
 		} catch (Exception e)
 		{
@@ -119,8 +115,7 @@ public class Test
 	// In general in this simple test code we are only using textures, not
 	// 'colors' or (so far) any of the other multitude of things that
 	// can be specified via 'materials'.
-	private static int setUpDefaultTexture(TextureLoader textureLoader,
-			String defaultTextureMaterial)
+	private static int setUpDefaultTexture(TextureLoaderB textureLoader, String defaultTextureMaterial)
 	{
 		int defaultTextureID = -1;
 		try
@@ -143,7 +138,7 @@ public class Test
 	// load the new texture, or if the material is a non texture and hence we
 	// ignore it.
 	private static int getMaterialID(Material material, int defaultTextureID,
-			Build builder, TextureLoader textureLoader)
+			Build builder, TextureLoaderB textureLoader)
 	{
 		int currentTextureID;
 		if (material == null)
@@ -189,18 +184,13 @@ public class Test
 	private static ArrayList<Face> splitQuads(ArrayList<Face> faceList)
 	{
 		ArrayList<Face> triangleList = new ArrayList<Face>();
-		int countTriangles = 0;
-		int countQuads = 0;
-		int countNGons = 0;
 		for (Face face : faceList)
 		{
 			if (face.vertices.size() == 3)
 			{
-				countTriangles++;
 				triangleList.add(face);
 			} else if (face.vertices.size() == 4)
 			{
-				countQuads++;
 				FaceVertex v1 = face.vertices.get(0);
 				FaceVertex v2 = face.vertices.get(1);
 				FaceVertex v3 = face.vertices.get(2);
@@ -221,40 +211,14 @@ public class Test
 				triangleList.add(f2);
 			} else
 			{
-				countNGons++;
 			}
 		}
-		int texturedCount = 0;
-		int normalCount = 0;
-		for (Face face : triangleList)
-		{
-			if ((face.vertices.get(0).n != null)
-					&& (face.vertices.get(1).n != null)
-					&& (face.vertices.get(2).n != null))
-			{
-				normalCount++;
-			}
-			if ((face.vertices.get(0).t != null)
-					&& (face.vertices.get(1).t != null)
-					&& (face.vertices.get(2).t != null))
-			{
-				texturedCount++;
-			}
-		}
-		System.err.println("Building VBO, originally " + faceList.size()
-				+ " faces, of which originally " + countTriangles
-				+ " triangles, " + countQuads + " quads,  and  " + countNGons
-				+ " n-polygons with more than 4 vertices that were dropped.");
-		System.err.println("Triangle list has " + triangleList.size()
-				+ " rendered triangles of which " + normalCount
-				+ " have normals for all vertices and " + texturedCount
-				+ " have texture coords for all vertices.");
 		return triangleList;
 	}
 
-	private static void init(boolean fullscreen) throws Exception
+	private static void init() throws Exception
 	{
-		Display.setFullscreen(fullscreen);
+		Display.setFullscreen(false);
 		Display.setVSyncEnabled(true);
 		Display.setDisplayMode(new DisplayMode(640, 480));
 		Display.create();
@@ -285,7 +249,7 @@ public class Test
 
 		ArrayList<ArrayList<Face>> facesByTextureList = createFaceListsByMaterial(builder);
 
-		TextureLoader textureLoader = new TextureLoader();
+		TextureLoaderB textureLoader = new TextureLoaderB();
 		int defaultTextureID = setUpDefaultTexture(textureLoader, defaultTextureMaterial);
 
 		int currentTextureID = -1;
@@ -361,12 +325,8 @@ public class Test
 		}
 	}
 
-	/**
-	 * Do any cleanup
-	 */
 	private static void cleanup()
 	{
-		// Close the window
 		Display.destroy();
 	}
 }

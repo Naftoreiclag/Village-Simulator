@@ -28,8 +28,6 @@ import java.nio.IntBuffer;
 
 public class Model
 {
-	public final WeaveType wt;
-	
 	public final FloatBuffer verts;
 	public final IntBuffer indices;
 	public final int numIndices;
@@ -41,15 +39,9 @@ public class Model
 	
 	public Model(FloatBuffer verts, IntBuffer indices, int numIndices)
 	{
-		this(verts, indices, numIndices, WeaveType.VVVNNNTT);
-	}
-	
-	public Model(FloatBuffer verts, IntBuffer indices, int numIndices, WeaveType wt)
-	{
 		this.verts = verts;
 		this.indices = indices;
 		this.numIndices = numIndices;
-		this.wt = wt;
 	}
 	
 	public void setTexture(int texId)
@@ -94,14 +86,5 @@ public class Model
 		// Free up memory that we used
 		glDeleteBuffers(vertHandle);
 		glDeleteBuffers(indexHandle);
-	}
-	
-	public enum WeaveType
-	{
-		VVVNNNTT,
-		nVnTnN,
-		nVnT,
-		nVnN,
-		nV
 	}
 }

@@ -9,7 +9,6 @@ import java.util.*;
 
 public class Scene
 {
-
 	ArrayList<VBO> vboList = new ArrayList<VBO>();
 
 	public Scene()
@@ -23,9 +22,9 @@ public class Scene
 
 	public void render()
 	{
-		for (int loopi = 0; loopi < vboList.size(); loopi++)
+		for (VBO v : vboList)
 		{
-			vboList.get(loopi).render();
+			v.render();
 		}
 	}
 }

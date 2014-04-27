@@ -6,6 +6,7 @@
 
 package naftoreiclag.village.rendering.renderer;
 
+import com.owens.oobjloader.lwjgl.Scene;
 import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
@@ -15,6 +16,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class OverworldRenderer extends CommonRenderer
 {
 	MapData map;
+	
+	Scene torus;
 	
 	public OverworldRenderer(Camera camera, int width, int height, MapData map)
 	{
@@ -42,6 +45,14 @@ public class OverworldRenderer extends CommonRenderer
 		map.rock.upload();
 		map.sidegrass.upload();
 		map.tallgrass.upload();
+		
+		// OBJ loading test
+		
+		loadOBJ();
+	}
+
+	private void loadOBJ()
+	{
 	}
 
 	protected void setupLights()
