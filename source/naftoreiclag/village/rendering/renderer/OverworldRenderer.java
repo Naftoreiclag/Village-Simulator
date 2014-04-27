@@ -8,17 +8,17 @@ package naftoreiclag.village.rendering.renderer;
 
 import java.util.Random;
 
-import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.model.Model;
 import naftoreiclag.village.rendering.util.TBuffy;
 import naftoreiclag.village.rendering.util.ObjLoader;
+import naftoreiclag.village.terrain.Hills;
 import static org.lwjgl.opengl.GL11.*;
 
 public class OverworldRenderer extends CommonRenderer
 {
-	MapData map;
+	Hills map;
 	
 	Model trunk;
 	Model leaves;
@@ -37,7 +37,7 @@ public class OverworldRenderer extends CommonRenderer
 		}
 	}
 	
-	public OverworldRenderer(Camera camera, int width, int height, MapData map)
+	public OverworldRenderer(Camera camera, int width, int height, Hills map)
 	{
 		super(camera, width, height);
 		
@@ -50,7 +50,7 @@ public class OverworldRenderer extends CommonRenderer
 		loadTextures();
 		
 		// Map data
-		map = new MapData();
+		map = new Hills();
 		
 		map.loadDataFromFile("foobar");
 		map.makeModelFancy();

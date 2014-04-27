@@ -8,6 +8,7 @@ package naftoreiclag.village;
 
 import naftoreiclag.village.rendering.camera.DebugCamera;
 import naftoreiclag.village.rendering.renderer.OverworldRenderer;
+import naftoreiclag.village.terrain.Hills;
 
 import org.lwjgl.opengl.Display;
 
@@ -16,13 +17,13 @@ import org.lwjgl.opengl.Display;
 
 public class Main
 {
-	MapData map;
+	Hills map;
 	DebugCamera camera;
 	OverworldRenderer renderer;
 	
 	public void run()
 	{
-		map = new MapData();
+		map = new Hills();
 		map.loadDataFromFile("foo");
 		
 		int width = 640;

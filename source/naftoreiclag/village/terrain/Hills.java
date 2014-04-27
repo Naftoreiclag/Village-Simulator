@@ -4,7 +4,7 @@
  * See accompanying file LICENSE
  */
 
-package naftoreiclag.village;
+package naftoreiclag.village.terrain;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,7 +17,7 @@ import naftoreiclag.village.rendering.util.ModelBuilder;
 
 import org.lwjgl.util.vector.Vector3f;
 
-public class MapData
+public class Hills
 {
 	public Model grass;
 	public Model rock;
@@ -33,7 +33,7 @@ public class MapData
 	public float[][] map = new float[size][size];
 	public Vector3f[][] mapNormals = new Vector3f[size][size];
 	
-	public MapData()
+	public Hills()
 	{
 		for(int x = 0; x < size; ++ x)
 		{
