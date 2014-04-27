@@ -272,7 +272,7 @@ public class Test
 
 			CrazyModel vbo = VBOFactory.build(currentTextureID, triangleList);
 
-			scene.addVBO(vbo);
+			scene.addModel(vbo);
 		}
 
 		float anglex = 0;

@@ -242,7 +242,7 @@ public class WeirdObj
 
 			CrazyModel vbo = VBOFactory.build(currentTextureID, triangleList);
 
-			scene.addVBO(vbo);
+			scene.addModel(vbo);
 		}
 		
 		return scene;

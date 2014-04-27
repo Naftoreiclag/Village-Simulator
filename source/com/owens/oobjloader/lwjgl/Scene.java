@@ -5,28 +5,55 @@
 
 package com.owens.oobjloader.lwjgl;
 
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.*;
 
-import naftoreiclag.village.rendering.model.CrazyModel;
+import naftoreiclag.village.rendering.model.Model;
 
-public class Scene
+public class Scene extends Model
 {
-	ArrayList<CrazyModel> vboList = new ArrayList<CrazyModel>();
-
+	private ArrayList<Model> crazyModels = new ArrayList<Model>();
+	
 	public Scene()
 	{
+		super(null, null, 0);
 	}
 
-	public void addVBO(CrazyModel r)
+	public void addModel(Model r)
 	{
-		vboList.add(r);
+		crazyModels.add(r);
+	}
+	
+	public void upload()
+	{
+		for(Model v : crazyModels)
+		{
+			v.upload();
+		}
 	}
 
 	public void render()
 	{
-		for (CrazyModel v : vboList)
+		for(Model v : crazyModels)
 		{
 			v.render();
+		}
+	}
+	
+	public void cleanup()
+	{
+		for(Model v : crazyModels)
+		{
+			v.cleanup();
 		}
 	}
 }
