@@ -67,10 +67,12 @@ public class VBO
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesID);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, indicesCount, GL11.GL_UNSIGNED_INT, 0);
 
+		/*
 		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 		GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
 		GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		*/
 	}
 
 	public void destroy()
