@@ -6,11 +6,10 @@
 
 package naftoreiclag.village.rendering.renderer;
 
-import com.owens.oobjloader.lwjgl.Scene;
-
 import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
+import naftoreiclag.village.rendering.model.WackyModel;
 import naftoreiclag.village.rendering.util.TBuffy;
 import naftoreiclag.village.rendering.util.WeirdObj;
 import static org.lwjgl.opengl.GL11.*;
@@ -19,7 +18,7 @@ public class OverworldRenderer extends CommonRenderer
 {
 	MapData map;
 	
-	Scene torus;
+	WackyModel torus;
 	
 	public OverworldRenderer(Camera camera, int width, int height, MapData map)
 	{

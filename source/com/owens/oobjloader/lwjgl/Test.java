@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import naftoreiclag.village.rendering.model.CrazyModel;
+import naftoreiclag.village.rendering.model.WackyModel;
 
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.opengl.Display;
@@ -237,7 +238,7 @@ public class Test
 	
 	private static void run(String filename, String defaultTextureMaterial)
 	{
-		Scene scene = new Scene();
+		WackyModel scene = new WackyModel();
 
 		Build builder = new Build();
 		try

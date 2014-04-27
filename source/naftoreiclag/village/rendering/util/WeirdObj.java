@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import naftoreiclag.village.rendering.model.CrazyModel;
+import naftoreiclag.village.rendering.model.WackyModel;
 
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.opengl.Display;
@@ -25,7 +26,6 @@ import com.owens.oobjloader.builder.Build;
 import com.owens.oobjloader.builder.Face;
 import com.owens.oobjloader.builder.FaceVertex;
 import com.owens.oobjloader.builder.Material;
-import com.owens.oobjloader.lwjgl.Scene;
 import com.owens.oobjloader.lwjgl.TextureLoaderB;
 import com.owens.oobjloader.lwjgl.VBOFactory;
 import com.owens.oobjloader.parser.Parse;
@@ -205,9 +205,9 @@ public class WeirdObj
 		return triangleList;
 	}
 	
-	public static Scene loadObj(String filename, String defaultTextureMaterial)
+	public static WackyModel loadObj(String filename, String defaultTextureMaterial)
 	{
-		Scene scene = new Scene();
+		WackyModel scene = new WackyModel();
 
 		Build builder = new Build();
 		try
