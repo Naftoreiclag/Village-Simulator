@@ -59,17 +59,14 @@ public class VBOFactory
 		int numMIssingNormals = 0;
 		int numMissingUV = 0;
 		FloatBuffer verticeAttributes;
-		System.err.println("VBOFactory.build: Creating buffer of size "
-				+ verticeAttributesCount + " vertices at " + VBO.ATTR_SZ_FLOATS
-				+ " floats per vertice for a total of "
-				+ (verticeAttributesCount * VBO.ATTR_SZ_FLOATS) + " floats.");
+		
 		verticeAttributes = BufferUtils
-				.createFloatBuffer(verticeAttributesCount * VBO.ATTR_SZ_FLOATS);
+				.createFloatBuffer(verticeAttributesCount *8);
 		if (null == verticeAttributes)
 		{
 			System.err
 					.println("VBOFactory.build: ERROR Unable to allocate verticeAttributes buffer of size "
-							+ (verticeAttributesCount * VBO.ATTR_SZ_FLOATS)
+							+ (verticeAttributesCount * 8)
 							+ " floats.");
 		}
 		for (FaceVertex vertex : faceVertexList)

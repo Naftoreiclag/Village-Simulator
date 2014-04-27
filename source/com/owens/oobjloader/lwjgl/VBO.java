@@ -33,24 +33,6 @@ import org.lwjgl.BufferUtils;
 
 public class VBO
 {
-
-	public final static int FL_SIZE = 4;
-	public final static int INDICE_SIZE_BYTES = 4;
-	public final static int ATTR_V_FLOATS_PER = 3;
-	public final static int ATTR_N_FLOATS_PER = 3;
-	public final static int ATTR_T_FLOATS_PER = 2;
-	public final static int ATTR_SZ_FLOATS = ATTR_V_FLOATS_PER + ATTR_N_FLOATS_PER + ATTR_T_FLOATS_PER;
-	public final static int ATTR_SZ_BYTES = ATTR_SZ_FLOATS * FL_SIZE;
-	public final static int ATTR_V_OFFSET_BYTES = 0;
-	public final static int ATTR_V_OFFSET_FLOATS = 0;
-	public final static int ATTR_N_OFFSET_FLOATS = ATTR_V_FLOATS_PER;
-	public final static int ATTR_N_OFFSET_BYTES = ATTR_N_OFFSET_FLOATS * FL_SIZE;
-	public final static int ATTR_T_OFFSET_FLOATS = ATTR_V_FLOATS_PER + ATTR_N_FLOATS_PER;
-	public final static int ATTR_T_OFFSET_BYTES = ATTR_T_OFFSET_FLOATS * FL_SIZE;
-	public final static int ATTR_V_STRIDE2_BYTES = ATTR_SZ_FLOATS * FL_SIZE;
-	public final static int ATTR_N_STRIDE2_BYTES = ATTR_SZ_FLOATS * FL_SIZE;
-	public final static int ATTR_T_STRIDE2_BYTES = ATTR_SZ_FLOATS * FL_SIZE;
-
 	private int textId = 0;
 	private int vertexHandle = 0; // Vertex Attributes VBO ID
 	private int indexHandle = 0; // indice VBO ID
@@ -69,9 +51,9 @@ public class VBO
 	{
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textId);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexHandle);
-		GL11.glVertexPointer(3, GL11.GL_FLOAT, ATTR_V_STRIDE2_BYTES, ATTR_V_OFFSET_BYTES);
-		GL11.glNormalPointer(GL11.GL_FLOAT, ATTR_N_STRIDE2_BYTES, ATTR_N_OFFSET_BYTES);
-		GL11.glTexCoordPointer(2, GL11.GL_FLOAT, ATTR_T_STRIDE2_BYTES, ATTR_T_OFFSET_BYTES);
+		GL11.glVertexPointer(3, GL11.GL_FLOAT, 32, 0);
+		GL11.glNormalPointer(GL11.GL_FLOAT, 32, 12);
+		GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 32, 24);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexHandle);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, numIndices, GL11.GL_UNSIGNED_INT, 0L);
 	}
