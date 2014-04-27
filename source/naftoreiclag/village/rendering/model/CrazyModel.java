@@ -1,6 +1,9 @@
-/* Written by Sean R. Owens, sean at guild dot net, released to the
- * public domain.
- * See [https://github.com/seanrowens/oObjLoader] or [http://darksleep.com/oobjloader/] for details.
+/* Copyright (c) 2014 "Naftoreiclag" https://github.com/Naftoreiclag
+ *
+ * Distributed under the BSD 2-Clause License (http://opensource.org/licenses/BSD-2-Clause)
+ * See accompanying file LICENSE
+ * 
+ * Special thanks to Sean R. Owens for his public domain code which I added.
  */
 
 package naftoreiclag.village.rendering.model;
