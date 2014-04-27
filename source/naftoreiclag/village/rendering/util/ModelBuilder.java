@@ -4,7 +4,7 @@
  * See accompanying file LICENSE
  */
 
-package naftoreiclag.village.rendering;
+package naftoreiclag.village.rendering.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +14,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import naftoreiclag.village.rendering.model.SillyModel;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;

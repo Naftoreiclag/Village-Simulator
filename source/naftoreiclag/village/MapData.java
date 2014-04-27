@@ -12,8 +12,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import naftoreiclag.village.rendering.SillyModel;
-import naftoreiclag.village.rendering.ModelBuilder;
+import naftoreiclag.village.rendering.model.SillyModel;
+import naftoreiclag.village.rendering.util.ModelBuilder;
 
 import org.lwjgl.util.vector.Vector3f;
 

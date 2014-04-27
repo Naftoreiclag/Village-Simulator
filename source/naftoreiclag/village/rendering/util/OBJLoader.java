@@ -1,4 +1,4 @@
-package naftoreiclag.village.rendering;
+package naftoreiclag.village.rendering.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import naftoreiclag.village.rendering.model.SillyModel;
+
 import org.lwjgl.BufferUtils;
 
 public class OBJLoader

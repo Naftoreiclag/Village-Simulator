@@ -6,7 +6,7 @@
  * Special thanks to Sean R. Owens for his public domain code which I added.
  */
 
-package naftoreiclag.village.rendering;
+package naftoreiclag.village.rendering.util;
 
 import java.io.File;
 import java.io.IOException;

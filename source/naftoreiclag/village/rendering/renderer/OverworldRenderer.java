@@ -10,9 +10,9 @@ import com.owens.oobjloader.lwjgl.Scene;
 
 import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.TextureLib;
-import naftoreiclag.village.rendering.WeirdObj;
 import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.util.TBuffy;
+import naftoreiclag.village.rendering.util.WeirdObj;
 import static org.lwjgl.opengl.GL11.*;
 
 public class OverworldRenderer extends CommonRenderer
