@@ -25,8 +25,8 @@ public class MapData
 	public SillyModel tallgrass;
 	
 	// Standard sizes for horizontal and vertical scale
-	float horzu = 1.0f;
-	float vertu = 5.0f;
+	public static final float horzu = 1.0f;
+	public static final float vertu = 5.0f;
 	
 	int size = 64;
 	

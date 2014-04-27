@@ -6,6 +6,10 @@
 
 package naftoreiclag.village.rendering.renderer;
 
+import java.util.Random;
+
+import org.lwjgl.opengl.GL11;
+
 import naftoreiclag.village.MapData;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
@@ -21,6 +25,20 @@ public class OverworldRenderer extends CommonRenderer
 	
 	Model trunk;
 	Model leaves;
+	
+	private Tree[] trees = new Tree[10];
+	
+	public static class Tree
+	{
+		public final int x;
+		public final int y;
+		
+		public Tree(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+	}
 	
 	public OverworldRenderer(Camera camera, int width, int height, MapData map)
 	{
@@ -52,6 +70,12 @@ public class OverworldRenderer extends CommonRenderer
 		// OBJ loading test
 		
 		loadOBJ();
+		
+		Random r = new Random();
+		for(int i = 0; i < 10; ++ i)
+		{
+			trees[i] = new Tree(r.nextInt(64), r.nextInt(64));
+		}
 	}
 
 	private void loadOBJ()
@@ -80,8 +104,14 @@ public class OverworldRenderer extends CommonRenderer
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 	    glLight(GL_LIGHT0, GL_POSITION, TBuffy.floaty(1.0f, 2.5f, 0.3f, 0.0f));
 
-	    trunk.render();
-	    leaves.render();
+	    for(Tree t : trees)
+	    {
+	    	glPushMatrix();
+	    		GL11.glTranslatef(((float) t.x) * MapData.horzu, map.map[t.x][t.y] * MapData.vertu, ((float) t.y) * MapData.horzu);
+			    trunk.render();
+			    leaves.render();
+	    	glPopMatrix();
+	    }
 	    
 		map.rock.render();
 		map.grass.render();
