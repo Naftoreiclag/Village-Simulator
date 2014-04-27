@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import naftoreiclag.village.rendering.model.CrazyModel;
+
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -25,7 +27,6 @@ import com.owens.oobjloader.builder.FaceVertex;
 import com.owens.oobjloader.builder.Material;
 import com.owens.oobjloader.lwjgl.Scene;
 import com.owens.oobjloader.lwjgl.TextureLoaderB;
-import com.owens.oobjloader.lwjgl.VBO;
 import com.owens.oobjloader.lwjgl.VBOFactory;
 import com.owens.oobjloader.parser.Parse;
 
@@ -239,7 +240,7 @@ public class WeirdObj
 				continue;
 			}
 
-			VBO vbo = VBOFactory.build(currentTextureID, triangleList);
+			CrazyModel vbo = VBOFactory.build(currentTextureID, triangleList);
 
 			scene.addVBO(vbo);
 		}

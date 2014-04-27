@@ -7,22 +7,24 @@ package com.owens.oobjloader.lwjgl;
 
 import java.util.*;
 
+import naftoreiclag.village.rendering.model.CrazyModel;
+
 public class Scene
 {
-	ArrayList<VBO> vboList = new ArrayList<VBO>();
+	ArrayList<CrazyModel> vboList = new ArrayList<CrazyModel>();
 
 	public Scene()
 	{
 	}
 
-	public void addVBO(VBO r)
+	public void addVBO(CrazyModel r)
 	{
 		vboList.add(r);
 	}
 
 	public void render()
 	{
-		for (VBO v : vboList)
+		for (CrazyModel v : vboList)
 		{
 			v.render();
 		}

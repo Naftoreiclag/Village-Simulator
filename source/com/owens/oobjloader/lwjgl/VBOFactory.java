@@ -7,17 +7,20 @@ package com.owens.oobjloader.lwjgl;
 
 import com.owens.oobjloader.builder.FaceVertex;
 import com.owens.oobjloader.builder.Face;
-import java.util.*;
 
+import java.util.*;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+
+import naftoreiclag.village.rendering.model.CrazyModel;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBVertexBufferObject;
 
 public class VBOFactory
 {
-	public static VBO build(int textureID, ArrayList<Face> triangles)
+	public static CrazyModel build(int textureID, ArrayList<Face> triangles)
 	{
 		if (triangles.size() <= 0)
 		{
@@ -117,7 +120,7 @@ public class VBOFactory
 			}
 		}
 		
-		VBO rval = new VBO(verticeAttributes, indices, indicesCount); 
+		CrazyModel rval = new CrazyModel(verticeAttributes, indices, indicesCount); 
 		rval.setTexture(textureID);
 		rval.upload();
 
