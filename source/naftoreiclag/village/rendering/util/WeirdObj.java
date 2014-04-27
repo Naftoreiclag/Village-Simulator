@@ -70,7 +70,7 @@ public class WeirdObj
 		return facesByTextureList;
 	}
 
-	// @TODO: This is a crappy way to calculate vertex normals if we are missing
+	// @TODO: This is a bad way to calculate vertex normals if we are missing
 	// said normals. I just wanted
 	// something that would add normals since my simple VBO creation code
 	// expects them. There are better ways
