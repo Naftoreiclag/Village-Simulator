@@ -10,7 +10,7 @@ import org.lwjgl.BufferUtils;
 
 public class OBJLoader
 {
-	public static Model fromObjFile(String filename) throws IOException
+	public static SillyModel fromObjFile(String filename) throws IOException
 	{
 		int vertCount = 0;
 		int indCount = 0;

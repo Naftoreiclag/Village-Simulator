@@ -112,7 +112,7 @@ public class ModelBuilder
 	}
 	
 	// Bakes the data into a usable model. Note: You can bake this more than once if you really want to.
-	public Model bake()
+	public SillyModel bake()
 	{
 		FloatBuffer v = BufferUtils.createFloatBuffer(vertices.size() * 8);
 		for(Vertex f : vertices)
@@ -130,7 +130,7 @@ public class ModelBuilder
 		System.out.println("Vertices: " + (triangles.size() * 3));
 		System.out.println("Output Verts: " + vertices.size());
 		
-		return new Model(v, i, triangles.size() * 3);
+		return new SillyModel(v, i, triangles.size() * 3);
 	}
 	
 	// Turn it into java

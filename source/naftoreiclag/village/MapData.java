@@ -12,17 +12,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import naftoreiclag.village.rendering.Model;
+import naftoreiclag.village.rendering.SillyModel;
 import naftoreiclag.village.rendering.ModelBuilder;
 
 import org.lwjgl.util.vector.Vector3f;
 
 public class MapData
 {
-	public Model grass;
-	public Model rock;
-	public Model sidegrass;
-	public Model tallgrass;
+	public SillyModel grass;
+	public SillyModel rock;
+	public SillyModel sidegrass;
+	public SillyModel tallgrass;
 	
 	// Standard sizes for horizontal and vertical scale
 	float horzu = 1.0f;

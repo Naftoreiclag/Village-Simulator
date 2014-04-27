@@ -26,7 +26,7 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-public class Model
+public class SillyModel
 {
 	public final FloatBuffer verts;
 	public final IntBuffer indices;
@@ -37,7 +37,7 @@ public class Model
 	
 	public int texId;
 	
-	public Model(FloatBuffer verts, IntBuffer indices, int numIndices)
+	public SillyModel(FloatBuffer verts, IntBuffer indices, int numIndices)
 	{
 		this.verts = verts;
 		this.indices = indices;
