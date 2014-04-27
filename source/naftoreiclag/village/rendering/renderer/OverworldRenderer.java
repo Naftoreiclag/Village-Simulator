@@ -55,7 +55,7 @@ public class OverworldRenderer extends CommonRenderer
 
 	private void loadOBJ()
 	{
-		torus = WeirdObj.run("resources/torus.obj", "resources/debug.png");
+		torus = WeirdObj.loadObj("resources/torus.obj", "resources/debug.png");
 	}
 
 	protected void setupLights()

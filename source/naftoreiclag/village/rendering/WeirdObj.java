@@ -204,7 +204,7 @@ public class WeirdObj
 		return triangleList;
 	}
 	
-	public static Scene run(String filename, String defaultTextureMaterial)
+	public static Scene loadObj(String filename, String defaultTextureMaterial)
 	{
 		Scene scene = new Scene();
 
