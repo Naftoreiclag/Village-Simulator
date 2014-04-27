@@ -78,6 +78,8 @@ public class OverworldRenderer extends CommonRenderer
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 	    glLight(GL_LIGHT0, GL_POSITION, TBuffy.floaty(1.0f, 2.5f, 0.3f, 0.0f));
 
+	    torus.render();
+	    
 		map.rock.render();
 		map.grass.render();
 
@@ -87,6 +89,8 @@ public class OverworldRenderer extends CommonRenderer
 		map.tallgrass.render();
 		glEnable(GL_CULL_FACE);
 		glDisable(GL_BLEND);
+		
+		//torus.render();
 	}
 
 	private void loadTextures()
