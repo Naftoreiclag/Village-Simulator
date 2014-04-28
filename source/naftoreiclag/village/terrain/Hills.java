@@ -19,14 +19,17 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Hills
 {
+	// Standard sizes for horizontal and vertical scale
+	public static final float horzu = 1.0f;
+	public static final float vertu = 5.0f;
+	
+	// Maximum steepness for a triangle to become grass
+	public static final double steepThreshold = 0.25;
+	
 	public Model grass;
 	public Model rock;
 	public Model sidegrass;
 	public Model tallgrass;
-	
-	// Standard sizes for horizontal and vertical scale
-	public static final float horzu = 1.0f;
-	public static final float vertu = 5.0f;
 	
 	int size = 64;
 	
@@ -120,8 +123,6 @@ public class Hills
 		ModelBuilder mb_sidegrass = new ModelBuilder();
 		ModelBuilder mb_tallgrass = new ModelBuilder();
 
-		// Maximum steepness for a triangle to become grass
-		double steepThreshold = 0.25;
 		// How scaled the texture is
 		float textureScale = 0.5f;
 		

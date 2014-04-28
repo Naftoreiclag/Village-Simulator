@@ -42,9 +42,6 @@ public abstract class Model
 	
 	public void upload()
 	{
-		verts.flip();
-		indices.flip();
-		
 		vertHandle = glGenBuffers();
 		indexHandle = glGenBuffers();
 		

@@ -119,6 +119,9 @@ public class VBOFactory
 			}
 		}
 		
+		indices.flip();
+		verticeAttributes.flip();
+		
 		CrazyModel rval = new CrazyModel(verticeAttributes, indices, indicesCount); 
 		rval.setTexture(textureID);
 		rval.upload();

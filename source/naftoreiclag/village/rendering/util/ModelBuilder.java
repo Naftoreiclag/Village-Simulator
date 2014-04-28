@@ -132,6 +132,8 @@ public class ModelBuilder
 		System.out.println("Vertices: " + (triangles.size() * 3));
 		System.out.println("Output Verts: " + vertices.size());
 		
+		v.flip();
+		i.flip();
 		return new SillyModel(v, i, triangles.size() * 3);
 	}
 	
