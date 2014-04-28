@@ -22,6 +22,8 @@ public class OverworldRenderer extends CommonRenderer
 	Hills map;
 	Player player;
 	
+	Model playerModel;
+	
 	Model trunk;
 	Model leaves;
 	
@@ -82,6 +84,7 @@ public class OverworldRenderer extends CommonRenderer
 	{
 		trunk = ObjLoader.loadObj("resources/noobtree.obj", "resources/noobtree_wood.png");
 		leaves = ObjLoader.loadObj("resources/noobtree_leaves.obj", "resources/moss.png");
+		playerModel = ObjLoader.loadObj("resources/player.obj", "resources/player.png");
 	}
 
 	protected void setupLights()
@@ -117,8 +120,7 @@ public class OverworldRenderer extends CommonRenderer
 
     	glPushMatrix();
     		glTranslatef(((float) player.x) * Hills.horzu, getFoo(player.x, player.z), ((float) player.z) * Hills.horzu);
-		    trunk.render();
-		    leaves.render();
+		    playerModel.render();
     	glPopMatrix();
 	    
 		map.rock.render();
