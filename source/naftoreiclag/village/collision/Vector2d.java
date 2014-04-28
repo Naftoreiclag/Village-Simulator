@@ -132,6 +132,11 @@ public class Vector2d
 	{
 		return (this.a * other.a) + (this.b * other.b);
 	}
+	
+	public double crossProduct(Vector2d other)
+	{
+		return (this.a * other.b) - (this.b * other.a);
+	}
 
 	public Vector2d normalizeLocal()
 	{
