@@ -6,9 +6,9 @@
 
 package naftoreiclag.village;
 
+import naftoreiclag.village.environment.Hills;
 import naftoreiclag.village.rendering.camera.DebugCamera;
 import naftoreiclag.village.rendering.renderer.OverworldRenderer;
-import naftoreiclag.village.terrain.Hills;
 
 import org.lwjgl.opengl.Display;
 
@@ -20,6 +20,7 @@ public class Main
 	Hills map;
 	DebugCamera camera;
 	OverworldRenderer renderer;
+	Player player;
 	
 	public void run()
 	{
@@ -30,13 +31,15 @@ public class Main
 		int height = 480;
 		
 		camera = new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f);
-		renderer = new OverworldRenderer(camera, width, height, map);
+		player = new Player();
+		renderer = new OverworldRenderer(camera, width, height, map, player);
 
 		renderer.setup();
 		
 		while(!Display.isCloseRequested())
 		{
 			camera.handleUserInput();
+			player.input();
 			renderer.render();
 		}
 

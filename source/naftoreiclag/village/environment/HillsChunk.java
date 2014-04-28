@@ -4,7 +4,7 @@
  * See accompanying file LICENSE
  */
 
-package naftoreiclag.village.terrain;
+package naftoreiclag.village.environment;
 
 import naftoreiclag.village.rendering.model.Model;
 

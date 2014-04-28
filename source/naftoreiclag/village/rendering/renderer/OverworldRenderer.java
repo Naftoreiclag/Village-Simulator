@@ -8,17 +8,19 @@ package naftoreiclag.village.rendering.renderer;
 
 import java.util.Random;
 
+import naftoreiclag.village.Player;
+import naftoreiclag.village.environment.Hills;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera;
 import naftoreiclag.village.rendering.model.Model;
 import naftoreiclag.village.rendering.util.TBuffy;
 import naftoreiclag.village.rendering.util.ObjLoader;
-import naftoreiclag.village.terrain.Hills;
 import static org.lwjgl.opengl.GL11.*;
 
 public class OverworldRenderer extends CommonRenderer
 {
 	Hills map;
+	Player player;
 	
 	Model trunk;
 	Model leaves;
@@ -37,11 +39,12 @@ public class OverworldRenderer extends CommonRenderer
 		}
 	}
 	
-	public OverworldRenderer(Camera camera, int width, int height, Hills map)
+	public OverworldRenderer(Camera camera, int width, int height, Hills map, Player player)
 	{
 		super(camera, width, height);
 		
 		this.map = map;
+		this.player = player;
 	}
 
 	@Override
@@ -57,7 +60,7 @@ public class OverworldRenderer extends CommonRenderer
 		map.grass.setTexture(TextureLib.getTextureFromName("camograss"));
 		map.rock.setTexture(TextureLib.getTextureFromName("oilgranite"));
 		map.sidegrass.setTexture(TextureLib.getTextureFromName("camograss_side"));
-		map.tallgrass.setTexture(TextureLib.getTextureFromName("camograss_tall"));
+		map.tallgrass.setTexture(TextureLib.getTextureFromName("camograss_side"));
 	
 		map.grass.upload();
 		map.rock.upload();
@@ -111,6 +114,12 @@ public class OverworldRenderer extends CommonRenderer
 	    	glPopMatrix();
 	    }
 	    */
+
+    	glPushMatrix();
+    		glTranslatef(((float) player.x) * Hills.horzu, getFoo(player.x, player.z), ((float) player.z) * Hills.horzu);
+		    trunk.render();
+		    leaves.render();
+    	glPopMatrix();
 	    
 		map.rock.render();
 		map.grass.render();
@@ -123,6 +132,49 @@ public class OverworldRenderer extends CommonRenderer
 		glDisable(GL_BLEND);
 		
 		//torus.render();
+	}
+	
+	private float getFoo(float x, float z)
+	{
+		if(x >= 0 && z >= 0 && x < Hills.size && z < Hills.size)
+		{
+			
+			// M  y  D
+			//
+			// h  P  s
+			//
+			// B  g  N
+			
+			x /= Hills.horzu;
+			z /= Hills.horzu;
+			
+			int xi = (int) x;
+			int zi = (int) z;
+			
+			float m = map.map[xi][zi];
+			float d = map.map[xi + 1][zi];
+			float b = map.map[xi][zi + 1];
+			float n = map.map[xi+1][zi+1];
+			
+			float xr = x - xi;
+			float zr = z - zi;
+			
+			float md = d - m;
+			float bn = n - b;
+			
+			float y = m + (md * xr);
+			float g = b + (bn * xr);
+			
+			float yg = g - y;
+			
+			float p = y + (yg * zr);
+			
+			return p * Hills.vertu;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	private void loadTextures()
