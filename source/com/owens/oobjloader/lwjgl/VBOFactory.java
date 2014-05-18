@@ -13,13 +13,13 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-import naftoreiclag.village.rendering.model.CrazyModel;
+import naftoreiclag.village.rendering.model.BatchModel;
 
 import org.lwjgl.BufferUtils;
 
 public class VBOFactory
 {
-	public static CrazyModel build(int textureID, ArrayList<Face> triangles)
+	public static BatchModel build(int textureID, ArrayList<Face> triangles)
 	{
 		if (triangles.size() <= 0)
 		{
@@ -122,7 +122,7 @@ public class VBOFactory
 		indices.flip();
 		verticeAttributes.flip();
 		
-		CrazyModel rval = new CrazyModel(verticeAttributes, indices, indicesCount); 
+		BatchModel rval = new BatchModel(verticeAttributes, indices, indicesCount); 
 		rval.setTexture(textureID);
 		rval.upload();
 

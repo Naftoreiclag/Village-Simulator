@@ -10,13 +10,13 @@ package naftoreiclag.village.rendering.model;
 
 import java.util.*;
 
-// this one is wacky
+// It is a collection of multiple models that can render at once.
 
-public class WackyModel extends Model
+public class MultiModel extends Model
 {
 	private ArrayList<Model> crazyModels = new ArrayList<Model>();
 	
-	public WackyModel()
+	public MultiModel()
 	{
 		super(null, null, 0);
 	}

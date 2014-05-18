@@ -24,9 +24,9 @@ import java.nio.IntBuffer;
 
 // This one is silly
 
-public class SillyModel extends Model
+public class InterleavedModel extends Model
 {
-	public SillyModel(FloatBuffer verts, IntBuffer indices, int numIndices)
+	public InterleavedModel(FloatBuffer verts, IntBuffer indices, int numIndices)
 	{
 		super(verts, indices, numIndices);
 	}

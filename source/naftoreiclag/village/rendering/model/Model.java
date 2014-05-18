@@ -17,6 +17,8 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+// Abstract class for all Models.
+
 public abstract class Model
 {
 	public final FloatBuffer verts;

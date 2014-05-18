@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import naftoreiclag.village.rendering.model.CrazyModel;
-import naftoreiclag.village.rendering.model.WackyModel;
+import naftoreiclag.village.rendering.model.BatchModel;
+import naftoreiclag.village.rendering.model.MultiModel;
 
 import com.owens.oobjloader.builder.Build;
 import com.owens.oobjloader.builder.Face;
@@ -27,10 +27,10 @@ import com.owens.oobjloader.parser.Parse;
 
 public class ObjLoader
 {
-	public static WackyModel loadObj(String filename, String defaultTextureMaterial)
+	public static MultiModel loadObj(String filename, String defaultTextureMaterial)
 	{
-		WackyModel scene = new WackyModel();
-	
+		MultiModel multiModel = new MultiModel();
+
 		Build builder = new Build();
 		try
 		{
@@ -40,12 +40,12 @@ public class ObjLoader
 		{
 			e.printStackTrace();
 		}
-	
+
 		ArrayList<ArrayList<Face>> facesByTextureList = createFaceListsByMaterial(builder);
-	
+
 		TextureLoaderB textureLoader = new TextureLoaderB();
 		int defaultTextureID = setUpDefaultTexture(textureLoader, defaultTextureMaterial);
-	
+
 		int currentTextureID = -1;
 		for (ArrayList<Face> faceList : facesByTextureList)
 		{
@@ -56,18 +56,18 @@ public class ObjLoader
 			currentTextureID = getMaterialID(faceList.get(0).material, defaultTextureID, builder, textureLoader);
 			ArrayList<Face> triangleList = splitQuads(faceList);
 			calcMissingVertexNormals(triangleList);
-	
-			if(triangleList.size() <= 0)
+
+			if (triangleList.size() <= 0)
 			{
 				continue;
 			}
-	
-			CrazyModel vbo = VBOFactory.build(currentTextureID, triangleList);
-	
-			scene.addModel(vbo);
+
+			BatchModel vbo = VBOFactory.build(currentTextureID, triangleList);
+
+			multiModel.addModel(vbo);
 		}
-		
-		return scene;
+
+		return multiModel;
 	}
 
 	// iterate over face list from builder, and break it up into a set of face
@@ -78,21 +78,16 @@ public class ObjLoader
 		ArrayList<ArrayList<Face>> facesByTextureList = new ArrayList<ArrayList<Face>>();
 		Material currentMaterial = null;
 		ArrayList<Face> currentFaceList = new ArrayList<Face>();
-		for(Face face : builder.faces)
+		for (Face face : builder.faces)
 		{
-			if(face.material != currentMaterial)
+			if (face.material != currentMaterial)
 			{
-				if(!currentFaceList.isEmpty())
+				if (!currentFaceList.isEmpty())
 				{
-					System.err.println("Adding list of "
-							+ currentFaceList.size()
-							+ " triangle faces with material "
-							+ currentMaterial
-							+ "  to our list of lists of faces.");
+					System.err.println("Adding list of " + currentFaceList.size() + " triangle faces with material " + currentMaterial + "  to our list of lists of faces.");
 					facesByTextureList.add(currentFaceList);
 				}
-				System.err.println("Creating new list of faces for material "
-						+ face.material);
+				System.err.println("Creating new list of faces for material " + face.material);
 				currentMaterial = face.material;
 				currentFaceList = new ArrayList<Face>();
 			}
@@ -100,9 +95,7 @@ public class ObjLoader
 		}
 		if (!currentFaceList.isEmpty())
 		{
-			System.err.println("Adding list of " + currentFaceList.size()
-					+ " triangle faces with material " + currentMaterial
-					+ "  to our list of lists of faces.");
+			System.err.println("Adding list of " + currentFaceList.size() + " triangle faces with material " + currentMaterial + "  to our list of lists of faces.");
 			facesByTextureList.add(currentFaceList);
 		}
 		return facesByTextureList;
@@ -148,12 +141,11 @@ public class ObjLoader
 		try
 		{
 			defaultTextureID = textureLoader.load(defaultTextureMaterial, true);
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			Logger.getLogger(ObjLoader.class.getName()).log(Level.SEVERE, null, ex);
-			System.err
-					.println("ERROR: Got an exception trying to load default texture material = "
-							+ defaultTextureMaterial + " , ex=" + ex);
+			System.err.println("ERROR: Got an exception trying to load default texture material = " + defaultTextureMaterial + " , ex=" + ex);
 			ex.printStackTrace();
 		}
 		System.err.println("INFO:  default texture ID = " + defaultTextureID);
@@ -164,41 +156,34 @@ public class ObjLoader
 	// ID. Returns he default texture ID if we can't
 	// load the new texture, or if the material is a non texture and hence we
 	// ignore it.
-	private static int getMaterialID(Material material, int defaultTextureID,
-			Build builder, TextureLoaderB textureLoader)
+	private static int getMaterialID(Material material, int defaultTextureID, Build builder, TextureLoaderB textureLoader)
 	{
-		int currentTextureID;
 		if (material == null)
 		{
-			currentTextureID = defaultTextureID;
-		} else if (material.mapKdFilename == null)
+			return defaultTextureID;
+		}
+		else if (material.mapKdFilename == null)
 		{
-			currentTextureID = defaultTextureID;
-		} else
+			return defaultTextureID;
+		}
+		else
 		{
 			try
 			{
 				File objFile = new File(builder.objFilename);
-				File mapKdFile = new File(objFile.getParent(),
-						material.mapKdFilename);
-				System.err.println("Trying to load  "
-						+ mapKdFile.getAbsolutePath());
-				currentTextureID = textureLoader.load(
-						mapKdFile.getAbsolutePath(), true);
-			} catch (IOException ex)
+				File mapKdFile = new File(objFile.getParent(), material.mapKdFilename);
+				System.err.println("Trying to load  " + mapKdFile.getAbsolutePath());
+				return textureLoader.load(mapKdFile.getAbsolutePath(), true);
+			}
+			catch (IOException ex)
 			{
-				Logger.getLogger(ObjLoader.class.getName()).log(Level.SEVERE, null,
-						ex);
-				System.err
-						.println("ERROR: Got an exception trying to load  texture material = "
-								+ material.mapKdFilename + " , ex=" + ex);
+				Logger.getLogger(ObjLoader.class.getName()).log(Level.SEVERE, null, ex);
+				System.err.println("ERROR: Got an exception trying to load  texture material = " + material.mapKdFilename + " , ex=" + ex);
 				ex.printStackTrace();
-				System.err.println("ERROR: Using default texture ID = "
-						+ defaultTextureID);
-				currentTextureID = defaultTextureID;
+				System.err.println("ERROR: Using default texture ID = " + defaultTextureID);
+				return defaultTextureID;
 			}
 		}
-		return currentTextureID;
 	}
 
 	// VBOFactory can only handle triangles, not faces with more than 3
@@ -216,7 +201,8 @@ public class ObjLoader
 			if (face.vertices.size() == 3)
 			{
 				triangleList.add(face);
-			} else if (face.vertices.size() == 4)
+			}
+			else if (face.vertices.size() == 4)
 			{
 				FaceVertex v1 = face.vertices.get(0);
 				FaceVertex v2 = face.vertices.get(1);
@@ -236,7 +222,8 @@ public class ObjLoader
 				f2.add(v3);
 				f2.add(v4);
 				triangleList.add(f2);
-			} else
+			}
+			else
 			{
 			}
 		}

@@ -84,7 +84,7 @@ public class OverworldRenderer extends CommonRenderer
 	{
 		trunk = ObjLoader.loadObj("resources/noobtree.obj", "resources/noobtree_wood.png");
 		leaves = ObjLoader.loadObj("resources/noobtree_leaves.obj", "resources/moss.png");
-		playerModel = ObjLoader.loadObj("resources/player.obj", "resources/player.png");
+		playerModel = ObjLoader.loadObj("resources/body.obj", "resources/karl.png");
 	}
 
 	protected void setupLights()
@@ -107,19 +107,7 @@ public class OverworldRenderer extends CommonRenderer
 		// If the W value is zero, it is like sunlight. Otherwise, it is lamplike
 	    glLight(GL_LIGHT0, GL_POSITION, TBuffy.floaty(1.0f, 2.5f, 0.3f, 0.0f));
 
-	    /*
-	    for(Tree t : trees)
-	    {
-	    	glPushMatrix();
-	    		GL11.glTranslatef(((float) t.x) * MapData.horzu, map.map[t.x][t.y] * MapData.vertu, ((float) t.y) * MapData.horzu);
-			    trunk.render();
-			    leaves.render();
-	    	glPopMatrix();
-	    }
-	    */
-
-    	glPushMatrix();
-    		
+	    glPushMatrix();
     		glTranslatef(((float) player.x) * Hills.horzu, player.y, ((float) player.z) * Hills.horzu);
 		    glRotatef(player.direction, 0.0f, 1.0f, 0.0f);
     		playerModel.render();
@@ -141,7 +129,9 @@ public class OverworldRenderer extends CommonRenderer
 	private void loadTextures()
 	{
 		TextureLib.loadTexture("camograss");
+		TextureLib.loadTexture("oilstone");
 		TextureLib.loadTexture("oilgranite");
+		TextureLib.loadTexture("oilgranite_ridges");
 		TextureLib.loadTexture("moss");
 		TextureLib.loadTexture("camograss_side");
 		TextureLib.loadTexture("camograss_tall");

@@ -26,6 +26,13 @@ public class DebugCamera extends Camera
 	
 	public void handleUserInput()
 	{
+		/*
+		if(!Keyboard.isKeyDown(Keyboard.KEY_Q))
+		{
+			return;
+		}
+		*/
+		
 		if(Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
 			goLeft();

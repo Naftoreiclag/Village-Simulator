@@ -15,7 +15,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import naftoreiclag.village.rendering.model.SillyModel;
+import naftoreiclag.village.rendering.model.InterleavedModel;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
@@ -114,7 +114,7 @@ public class ModelBuilder
 	}
 	
 	// Bakes the data into a usable model. Note: You can bake this more than once if you really want to.
-	public SillyModel bake()
+	public InterleavedModel bake()
 	{
 		FloatBuffer v = BufferUtils.createFloatBuffer(vertices.size() * 8);
 		for(Vertex f : vertices)
@@ -134,7 +134,7 @@ public class ModelBuilder
 		
 		v.flip();
 		i.flip();
-		return new SillyModel(v, i, triangles.size() * 3);
+		return new InterleavedModel(v, i, triangles.size() * 3);
 	}
 	
 	// Turn it into java
