@@ -1,0 +1,11 @@
+All objects in the game should have a bounding box in integer values of a certain unit.
+You of course can have fractions of that, but that is discouraged.
+Heights of objects don't actually influence collision, so there is more tolerance for fractional unit heights.
+
+1 unit = 40 cm
+
+However, items can be placed at 1/4 unit intervals, allowing for "centered" placement and other refinements.
+
+The player has a diameter of 2u and a height of 3.75u (about 5 feet)
+
+The each terrain point is 1 unit apart from each other.
