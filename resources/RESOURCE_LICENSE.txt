@@ -1,0 +1,4 @@
+Unless where otherwise noted, all files located in this folder, (resources/*.*) are licensed under the following terms:
+
+Copyright (c) 2014 "Naftoreiclag" https://github.com/Naftoreiclag
+Distributed under the Creative Commons Attribution 4.0 International License. (http://creativecommons.org/licenses/by/4.0/)
