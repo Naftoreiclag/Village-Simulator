@@ -4,10 +4,6 @@
  * See accompanying file SMDIMP_LICENSE
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.base.model.parser;
 
 import java.io.BufferedReader;
@@ -205,9 +201,10 @@ public class SMDParser
 				}
 			}
 		}
-		catch (Exception Ex)
+		catch (Exception e)
 		{
-			logger.log(Level.SEVERE, "Error cleaning tokens.", Ex);
+			e.printStackTrace();
+			System.err.println("Error cleaning tokens.");
 		}
 		return cleaned;
 	}

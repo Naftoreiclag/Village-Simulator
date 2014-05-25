@@ -4,10 +4,6 @@
  * See accompanying file SMDIMP_LICENSE
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.base.model.parser;
 
 import com.base.model.smd.SmdSkeleton;
