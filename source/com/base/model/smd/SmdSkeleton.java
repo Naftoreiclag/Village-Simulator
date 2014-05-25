@@ -12,10 +12,6 @@ package com.base.model.smd;
 import com.base.model.smd.SmdBonePosition;
 import com.base.model.smd.SmdBone;
 
-/**
- * 
- * @author serser
- */
 public class SmdSkeleton
 {
 

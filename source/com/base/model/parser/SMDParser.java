@@ -19,8 +19,6 @@ import java.util.logging.Logger;
 /**
  * Base class that parses a .smd file, file types are : .qc files and .smd
  * files.
- * 
- * @author serser
  */
 public class SMDParser
 {

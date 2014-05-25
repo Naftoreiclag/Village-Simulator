@@ -11,10 +11,6 @@ package com.base.model.smd;
 
 import java.util.ArrayList;
 
-/**
- * 
- * @author serser
- */
 public class SmdBone
 {
 

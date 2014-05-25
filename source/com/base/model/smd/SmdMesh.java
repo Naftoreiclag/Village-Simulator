@@ -9,10 +9,6 @@
  */
 package com.base.model.smd;
 
-/**
- * 
- * @author serser
- */
 public class SmdMesh
 {
 

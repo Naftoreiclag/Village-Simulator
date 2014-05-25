@@ -11,10 +11,6 @@ import com.jme.app.SimpleGame;
 import com.jme.scene.shape.AxisRods;
 import com.jme.util.BoneDebugger;
 
-/**
- * 
- * @author serser
- */
 public class TestSMD extends SimpleGame
 {
 

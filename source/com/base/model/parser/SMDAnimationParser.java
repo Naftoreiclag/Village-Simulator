@@ -24,7 +24,6 @@ import java.util.logging.Logger;
  * for each bone in each animation frame.
  * 
  * @see http://developer.valvesoftware.com/wiki/SMD
- * @author serser
  */
 public class SMDAnimationParser extends SMDParser
 {

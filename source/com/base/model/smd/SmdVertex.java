@@ -14,8 +14,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Clase que representa un vertice.
- * 
- * @author serser
  */
 public class SmdVertex
 {

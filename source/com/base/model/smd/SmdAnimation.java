@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  * animation. stores skeleton positions (bone positions in a frame).
  * 
  * @see http://developer.valvesoftware.com/wiki/$sequence
- * @author serser
  */
 public class SmdAnimation
 {

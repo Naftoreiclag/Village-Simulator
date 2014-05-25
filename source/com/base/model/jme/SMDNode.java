@@ -50,8 +50,6 @@ import java.util.logging.Logger;
 /**
  * Class that represents smd model node in jme, extends from SkinNode, the node
  * should have bones and animations.
- * 
- * @author serser
  */
 public class SMDNode extends SkinNode
 {

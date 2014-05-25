@@ -17,7 +17,6 @@ import org.lwjgl.util.vector.Vector3f;
  * 
  * @see : <b>http://developer.valvesoftware.com/wiki/$hbox $hbox</b> (group
  *      number) (bone name) (min x) (min y) (min z) (max x) (max y) (max z)
- * @author serser
  */
 public class SmdHbox
 {

@@ -11,10 +11,6 @@ package com.base.model.smd;
 
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * 
- * @author serser
- */
 public class SmdBonePosition
 {
 

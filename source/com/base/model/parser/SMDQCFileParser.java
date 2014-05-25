@@ -23,7 +23,6 @@ import java.util.logging.Logger;
  * hit boxes, attachments ...
  * 
  * @see http://developer.valvesoftware.com/wiki/Qc
- * @author serser
  */
 public class SMDQCFileParser extends SMDParser
 {
