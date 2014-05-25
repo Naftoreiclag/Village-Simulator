@@ -80,7 +80,7 @@ public class SmdTriangle
 		{
 			for (int i = 0; i < this.getVertsSize(); i++)
 			{
-				this.getSmdVertex(i).setGeomIndex(index);
+				this.getSmdVertex(i).geomIndex = index;
 			}
 		}
 		catch (Exception Ex)

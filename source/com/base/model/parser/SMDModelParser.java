@@ -16,11 +16,15 @@ import com.base.model.smd.SmdMesh;
 import com.base.model.smd.SmdBonePosition;
 import com.base.model.smd.SmdBone;
 import com.base.model.smd.SmdModel;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 public class SMDModelParser extends SMDParser
 {
@@ -287,12 +291,12 @@ public class SMDModelParser extends SMDParser
 			{// recovers and creates SmdVertex.
 				splitLine = clean(splitLine, 9);
 				vertx = new SmdVertex();
-				vertx.setBoneIndex(new Integer(splitLine[0]).intValue());
-				vertx.setPosition(Float.parseFloat(splitLine[1]), Float.parseFloat(splitLine[2]), Float.parseFloat(splitLine[3]));
-				vertx.setNormals(Float.parseFloat(splitLine[4]), Float.parseFloat(splitLine[5]), Float.parseFloat(splitLine[6]));
-				vertx.setTextCoord(Float.parseFloat(splitLine[7]), Float.parseFloat(splitLine[8]));
-				vertx.setVertIndex(vertIndex);
-				vertx.setGeomIndex(geomIndex);
+				vertx.boneIndex = new Integer(splitLine[0]).intValue();
+				vertx.position = new Vector3f(Float.parseFloat(splitLine[1]), Float.parseFloat(splitLine[2]), Float.parseFloat(splitLine[3]));
+				vertx.normals = new Vector3f(Float.parseFloat(splitLine[4]), Float.parseFloat(splitLine[5]), Float.parseFloat(splitLine[6]));
+				vertx.textCoord = new Vector2f(Float.parseFloat(splitLine[7]), Float.parseFloat(splitLine[8]));
+				vertx.vertIndex = vertIndex;
+				vertx.geomIndex = geomIndex;
 				buildBoneInfluence(vertx);
 				triangle.addSmdVertex(vertx);
 				vertIndex++;
@@ -315,7 +319,7 @@ public class SMDModelParser extends SMDParser
 	{
 		try
 		{
-			this.bonesMap.get(vert.getBoneIndex()).addVertex(vert);
+			this.bonesMap.get(vert.boneIndex).addVertex(vert);
 		}
 		catch (Exception Ex)
 		{
