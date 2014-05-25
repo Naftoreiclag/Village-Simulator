@@ -27,7 +27,6 @@ public class SMDParser
 	protected static final String GROUP_IN = "{";
 	protected static final String GROUP_OUT = "}";
 	protected ArrayList<String> lines;
-	private static final Logger logger = Logger.getLogger(SMDParser.class.getName());
 
 	/**
 	 * Method that parses a file, returns the file lines.
@@ -57,7 +56,8 @@ public class SMDParser
 		}
 		catch (Exception Ex)
 		{
-			logger.log(Level.SEVERE, "Error reading file : " + file.toString(), Ex);
+			Ex.printStackTrace();
+			System.err.println("Error reading file : " + file.toString());
 		}
 		finally
 		{
@@ -148,7 +148,8 @@ public class SMDParser
 		}
 		catch (Exception Ex)
 		{
-			logger.log(Level.SEVERE, "Error cleaning tokens.", Ex);
+			Ex.printStackTrace();
+			System.err.println("Error cleaning tokens.");
 		}
 		return cleaned.toArray(original);
 	}

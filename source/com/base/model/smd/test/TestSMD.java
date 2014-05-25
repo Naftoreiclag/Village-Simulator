@@ -6,14 +6,12 @@
 package com.base.model.smd.test;
 
 import com.base.model.jme.SMDNode;
-import com.jme.app.AbstractGame.ConfigShowMode;
 import com.jme.app.SimpleGame;
 import com.jme.scene.shape.AxisRods;
 import com.jme.util.BoneDebugger;
 
 public class TestSMD extends SimpleGame
 {
-
 	private SMDNode node;
 	AxisRods ejes;
 
@@ -21,15 +19,10 @@ public class TestSMD extends SimpleGame
 	{
 	}
 
-	/**
-	 * Entry point for the test,
-	 * 
-	 * @param args
-	 */
+	// Where the test begins
 	public static void main(String[] args)
 	{
 		TestSMD app = new TestSMD();
-		app.setConfigShowMode(ConfigShowMode.AlwaysShow);
 		app.start();
 	}
 
@@ -54,12 +47,6 @@ public class TestSMD extends SimpleGame
 	{
 		// super.simpleRender();
 		BoneDebugger.drawBones(rootNode, display.getRenderer(), true);
-	}
-
-	@Override
-	protected void updateInput()
-	{
-		super.updateInput();
 	}
 
 	@Override
