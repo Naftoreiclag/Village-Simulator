@@ -9,8 +9,8 @@
  */
 package com.base.model.smd;
 
-import com.jme.math.Vector2f;
-import com.jme.math.Vector3f;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Clase que representa un vertice.

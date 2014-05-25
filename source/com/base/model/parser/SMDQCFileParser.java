@@ -12,7 +12,7 @@ package com.base.model.parser;
 import com.base.model.smd.SmdAnimation;
 import com.base.model.smd.SmdHbox;
 import com.base.model.smd.SmdModel;
-import com.jme.math.Vector3f;
+import org.lwjgl.util.vector.Vector3f;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;

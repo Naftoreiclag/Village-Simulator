@@ -9,7 +9,7 @@
  */
 package com.base.model.smd;
 
-import com.jme.math.Vector3f;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
