@@ -1,6 +1,7 @@
 /* Copyright (c) 2010 "serser" http://code.google.com/u/103273266243665308417
  *
  * Distributed under the MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * See accompanying file SMDIMP_LICENSE
  */
 
 /*
