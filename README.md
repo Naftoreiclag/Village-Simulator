@@ -8,5 +8,6 @@ Stuff I'm using:
 LWJGL
 oObjLoader
 Slick2d Utils
+smdimp
 
 Yeah!
