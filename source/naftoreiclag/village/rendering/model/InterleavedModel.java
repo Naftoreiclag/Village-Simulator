@@ -22,7 +22,8 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-// This one is silly
+// Model with interleaved data. Ideal for generated meshes.
+// This is a static model with standard features.
 
 public class InterleavedModel extends Model
 {
