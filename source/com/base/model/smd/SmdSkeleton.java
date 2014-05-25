@@ -2,8 +2,8 @@
  *
  * Distributed under the MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
- 
- /*
+
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -13,28 +13,33 @@ import com.base.model.smd.SmdBonePosition;
 import com.base.model.smd.SmdBone;
 
 /**
- *
+ * 
  * @author serser
  */
-public class SmdSkeleton {
+public class SmdSkeleton
+{
 
-    private SmdBone[] bones;
-    private SmdBonePosition[] positions;
+	private SmdBone[] bones;
+	private SmdBonePosition[] positions;
 
-    public void setBones(SmdBone[] bones) {
-        this.bones = bones;
-    }
+	public void setBones(SmdBone[] bones)
+	{
+		this.bones = bones;
+	}
 
-    public void setPositions(SmdBonePosition[] positions) {
-        this.positions = positions;
-    }
+	public void setPositions(SmdBonePosition[] positions)
+	{
+		this.positions = positions;
+	}
 
-    public SmdBone[] getBones() {
-        return bones;
-    }
+	public SmdBone[] getBones()
+	{
+		return bones;
+	}
 
-    public SmdBonePosition[] getPositions() {
-        return positions;
-    }
+	public SmdBonePosition[] getPositions()
+	{
+		return positions;
+	}
 
 }
