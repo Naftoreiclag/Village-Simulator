@@ -42,7 +42,7 @@ public abstract class GameState
 		return new GameStateShutdown();
 	}
 	
-	/* NOTE: Methods overridden with the prefix "simple" implies that there is some underlying handling of these, 
+	/* NOTE: Methods overridden with the prefix "simple" imply that there is some underlying handling of these, 
 	 *       and that you aren't overriding any actual handing.
 	 */
 

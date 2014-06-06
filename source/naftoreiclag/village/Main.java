@@ -23,18 +23,14 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class Main implements Runnable
 {
-	Hills map;
-	PlayerCamera camera;
-	DebugCamera camera2;
-	OverworldRenderer renderer;
-	Player player;
-	
 	int width = 640;
 	int height = 480;
 	
 	@Override
 	public void run()
 	{
+		System.out.println(Runtime.getRuntime().availableProcessors());
+		
 		setupStaticDisplay();
 		
 		GameState state = new GameStateTitleScreen();
@@ -49,8 +45,6 @@ public class Main implements Runnable
 				running = false;
 			}
 		}
-		
-		System.out.println(Runtime.getRuntime().availableProcessors());
 	
 		cleanupStaticDisplay();
 		
