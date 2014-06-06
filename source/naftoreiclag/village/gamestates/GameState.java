@@ -6,6 +6,8 @@
 
 package naftoreiclag.village.gamestates;
 
+import org.lwjgl.opengl.Display;
+
 public abstract class GameState
 {
 	/* Like run() in Runnable, but returns a new GameState for the Main class to run (to prevent a stack overflow error)
@@ -13,18 +15,39 @@ public abstract class GameState
 	 */
 	public GameState run()
 	{
+		// Setup
+		this.simpleSetup();
+		
 		GameState returnVal;
 		while(true)
 		{
-			returnVal = this.tick(0);
+			returnVal = this.simpleTick(0);
+			
+			if(Display.isCloseRequested())
+			{
+				returnVal = this.getNewShutdownGameState();
+			}
 			
 			if(returnVal != null)
 			{
+				this.simpleCleanup();
 				return returnVal;
 			}
 		}
 	}
 	
-	// Override this method for logic-based states
-	protected abstract GameState tick(int delta);
+	// Subclasses can override what to return when close is requested
+	protected GameState getNewShutdownGameState()
+	{
+		return new GameStateShutdown();
+	}
+	
+	/* NOTE: Methods overridden with the prefix "simple" implies that there is some underlying handling of these, 
+	 *       and that you aren't overriding any actual handing.
+	 */
+
+	// Override these methods
+	protected abstract GameState simpleTick(int delta);
+	protected abstract void simpleSetup();
+	protected abstract void simpleCleanup();
 }

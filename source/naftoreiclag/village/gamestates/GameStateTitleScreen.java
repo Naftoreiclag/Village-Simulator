@@ -9,8 +9,18 @@ package naftoreiclag.village.gamestates;
 public class GameStateTitleScreen extends GameState
 {
 	@Override
-	protected GameState tick(int delta)
+	protected GameState simpleTick(int delta)
 	{
-		return new GameStateShutdown();
+		return new GameStateOverworld();
+	}
+
+	@Override
+	protected void simpleSetup()
+	{
+	}
+
+	@Override
+	protected void simpleCleanup()
+	{
 	}
 }

@@ -9,8 +9,22 @@ package naftoreiclag.village.gamestates;
 public class GameStateOverworld extends GameState
 {
 	@Override
-	protected GameState tick(int delta)
+	protected GameState simpleTick(int delta)
 	{
 		return new GameStateShutdown();
+	}
+
+	@Override
+	protected void simpleSetup()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void simpleCleanup()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

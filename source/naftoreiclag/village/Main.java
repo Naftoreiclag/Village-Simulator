@@ -51,28 +51,6 @@ public class Main implements Runnable
 		}
 		
 		System.out.println(Runtime.getRuntime().availableProcessors());
-		
-		map = new Hills();
-		map.loadDataFromFile("foo");
-		
-		camera = new PlayerCamera(90, ((float) width) / ((float) height), 0.1f, 1000f);
-		camera2 = new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f);
-		player = new Player();
-		player.map = map;
-		camera.setPlayer(player);
-		renderer = new OverworldRenderer(camera, width, height, map, player);
-
-		renderer.setup();
-		
-		while(!Display.isCloseRequested())
-		{
-			player.input();
-			camera.updatePositionToPlayer();
-			camera2.handleUserInput();
-			renderer.render();
-		}
-
-		renderer.cleanup();
 	
 		cleanupStaticDisplay();
 		
