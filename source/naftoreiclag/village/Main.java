@@ -14,7 +14,7 @@ import naftoreiclag.village.rendering.renderer.OverworldRenderer;
 import org.lwjgl.opengl.Display;
 
 // I named this class "Main" just so java newbies can find the
-// main method faster! Aren't I so nice? :)
+// main method faster! Amn't I so nice? :)
 
 public class Main implements Runnable
 {
