@@ -26,7 +26,6 @@ public abstract class CommonRenderer extends Renderer
 	@Override
 	public void setup()
 	{
-		setupLWJGLDisplay();
 		setupOpenGL();
 		
 		TextureLib.loadDebugTexture();
@@ -68,26 +67,6 @@ public abstract class CommonRenderer extends Renderer
 	protected abstract void simpleSetup();
 	
 	protected abstract void simpleRender();
-
-	private void setupLWJGLDisplay()
-	{
-		try
-		{
-			Display.setDisplayMode(new DisplayMode(width, height));
-			Display.setFullscreen(false);
-			Display.setVSyncEnabled(true);
-			Display.create();
-		}
-		catch(LWJGLException e)
-		{
-			e.printStackTrace();
-			
-			Display.destroy();
-			System.exit(1);
-		}
-		
-		glViewport(0, 0, width, height);
-	}
 
 	protected void setupOpenGL()
 	{

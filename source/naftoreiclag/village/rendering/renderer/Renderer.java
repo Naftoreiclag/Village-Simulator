@@ -8,6 +8,8 @@ package naftoreiclag.village.rendering.renderer;
 
 import naftoreiclag.village.rendering.camera.Camera;
 
+// I just love saying "Renderer", don't you? /sarcasm
+
 public abstract class Renderer
 {
 	protected int width;
