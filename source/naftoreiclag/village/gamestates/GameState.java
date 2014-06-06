@@ -6,8 +6,27 @@
 
 package naftoreiclag.village.gamestates;
 
+import org.lwjgl.opengl.Display;
+
 public abstract class GameState
 {
-	// Like run() in Runnable, but returns a new GameState for the Main class to run (to prevent a stack overflow error)
-	public abstract GameState run();
+	/* Like run() in Runnable, but returns a new GameState for the Main class to run (to prevent a stack overflow error)
+	 * Most subclasses should not override this; they should override tick instead.
+	 */
+	public GameState run()
+	{
+		GameState returnVal;
+		while(true)
+		{
+			returnVal = this.tick(0);
+			
+			if(returnVal != null)
+			{
+				return returnVal;
+			}
+		}
+	}
+	
+	// Override this method for logic-based states
+	protected abstract GameState tick(int delta);
 }

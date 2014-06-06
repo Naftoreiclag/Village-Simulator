@@ -9,8 +9,8 @@ package naftoreiclag.village.gamestates;
 public class GameStateOverworld extends GameState
 {
 	@Override
-	public GameState run()
+	protected GameState tick(int delta)
 	{
-		return null;
+		return new GameStateShutdown();
 	}
 }

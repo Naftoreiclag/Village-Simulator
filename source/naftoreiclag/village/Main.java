@@ -37,14 +37,14 @@ public class Main implements Runnable
 	{
 		setupStaticDisplay();
 		
-		GameState game = new GameStateTitleScreen();
+		GameState state = new GameStateTitleScreen();
 		
 		boolean running = true;
 		while(running)
 		{
-			game = game.run();
+			state = state.run();
 			
-			if(game == null)
+			if(state == null)
 			{
 				running = false;
 			}
@@ -74,8 +74,7 @@ public class Main implements Runnable
 
 		renderer.cleanup();
 	
-		// Blow up display (Destroy it!)
-		Display.destroy();
+		cleanupStaticDisplay();
 		
 		System.exit(0);
 	}
@@ -98,6 +97,11 @@ public class Main implements Runnable
 		}
 		
 		glViewport(0, 0, width, height);
+	}
+	
+	private void cleanupStaticDisplay()
+	{
+		Display.destroy();
 	}
 
 	// This is where the magic begins
