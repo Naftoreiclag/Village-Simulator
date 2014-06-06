@@ -16,7 +16,7 @@ import org.lwjgl.opengl.Display;
 // I named this class "Main" just so java newbies can find the
 // main method faster! Aren't I so nice? :)
 
-public class Main
+public class Main implements Runnable
 {
 	Hills map;
 	PlayerCamera camera;
@@ -24,8 +24,11 @@ public class Main
 	OverworldRenderer renderer;
 	Player player;
 	
+	@Override
 	public void run()
 	{
+		System.out.println(Runtime.getRuntime().availableProcessors());
+		
 		map = new Hills();
 		map.loadDataFromFile("foo");
 		
@@ -57,7 +60,7 @@ public class Main
 	// This is where the magic begins
 	public static void main(String[] args)
 	{
-		Main m = new Main();
-		m.run();
+		Main main = new Main();
+		main.run();
 	}
 }
