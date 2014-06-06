@@ -55,13 +55,7 @@ public abstract class CommonRenderer extends Renderer
 	@Override
 	public void cleanup()
 	{
-		// We are no longer using VBOs
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	
-		// Blow up display (Destroy it!)
-		Display.destroy();
+		cleanupOpenGL();
 	}
 
 	protected abstract void simpleSetup();
@@ -94,6 +88,14 @@ public abstract class CommonRenderer extends Renderer
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	}
+	
+	protected void cleanupOpenGL()
+	{
+		// We are no longer using VBOs
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
 	protected abstract void setupLights();

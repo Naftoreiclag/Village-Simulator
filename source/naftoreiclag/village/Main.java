@@ -35,6 +35,8 @@ public class Main implements Runnable
 	@Override
 	public void run()
 	{
+		setupStaticDisplay();
+		
 		GameState game = new GameStateTitleScreen();
 		
 		boolean running = true;
@@ -60,7 +62,6 @@ public class Main implements Runnable
 		camera.setPlayer(player);
 		renderer = new OverworldRenderer(camera, width, height, map, player);
 
-		setupLWJGLDisplay();
 		renderer.setup();
 		
 		while(!Display.isCloseRequested())
@@ -72,11 +73,14 @@ public class Main implements Runnable
 		}
 
 		renderer.cleanup();
+	
+		// Blow up display (Destroy it!)
+		Display.destroy();
 		
 		System.exit(0);
 	}
 
-	private void setupLWJGLDisplay()
+	private void setupStaticDisplay()
 	{
 		try
 		{
