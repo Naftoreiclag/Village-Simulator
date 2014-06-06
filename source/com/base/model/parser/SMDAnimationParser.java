@@ -3,6 +3,7 @@
  * Distributed under the MIT License (http://www.opensource.org/licenses/mit-license.php)
  * See accompanying file SMDIMP_LICENSE
  */
+
 package com.base.model.parser;
 
 import com.base.model.smd.SmdSkeleton;
