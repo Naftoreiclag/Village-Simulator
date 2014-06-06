@@ -7,6 +7,8 @@
 package naftoreiclag.village;
 
 import naftoreiclag.village.environment.Hills;
+import naftoreiclag.village.gamestates.GameState;
+import naftoreiclag.village.gamestates.GameStateTitleScreen;
 import naftoreiclag.village.rendering.camera.DebugCamera;
 import naftoreiclag.village.rendering.camera.PlayerCamera;
 import naftoreiclag.village.rendering.renderer.OverworldRenderer;
@@ -27,6 +29,19 @@ public class Main implements Runnable
 	@Override
 	public void run()
 	{
+		GameState game = new GameStateTitleScreen();
+		
+		boolean running = true;
+		while(running)
+		{
+			game = game.run();
+			
+			if(game == null)
+			{
+				running = false;
+			}
+		}
+		
 		System.out.println(Runtime.getRuntime().availableProcessors());
 		
 		map = new Hills();
