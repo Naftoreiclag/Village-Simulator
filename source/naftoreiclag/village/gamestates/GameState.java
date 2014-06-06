@@ -6,8 +6,6 @@
 
 package naftoreiclag.village.gamestates;
 
-import org.lwjgl.opengl.Display;
-
 public abstract class GameState
 {
 	/* Like run() in Runnable, but returns a new GameState for the Main class to run (to prevent a stack overflow error)
