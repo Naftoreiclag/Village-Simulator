@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import naftoreiclag.village.gamestates.GameState;
 import naftoreiclag.village.gamestates.GameStateMechanicPlayground;
+import naftoreiclag.village.gamestates.GameStateOverworld;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -28,7 +29,7 @@ public class Main implements Runnable
 	{
 		setupStaticDisplay();
 		
-		GameState state = new GameStateMechanicPlayground();
+		GameState state = new GameStateOverworld();
 		
 		boolean running = true;
 		while(running)

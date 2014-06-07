@@ -8,7 +8,6 @@ package naftoreiclag.village.rendering.camera;
 
 import naftoreiclag.village.Player;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class PlayerCamera extends Camera3D

@@ -17,7 +17,7 @@ public class GameStateOverworld extends GameState
 {
 	public GameStateOverworld()
 	{
-		super(50);
+		super(0);
 	}
 	
 	Hills map;
