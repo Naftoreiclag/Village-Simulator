@@ -18,9 +18,6 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class Main implements Runnable
 {
-	int width = 640;
-	int height = 480;
-	
 	@Override
 	public void run()
 	{
@@ -48,7 +45,7 @@ public class Main implements Runnable
 	{
 		try
 		{
-			Display.setDisplayMode(new DisplayMode(width, height));
+			Display.setDisplayMode(new DisplayMode(UserSettings.width, UserSettings.height));
 			Display.setFullscreen(false);
 			Display.setVSyncEnabled(true);
 			Display.create();

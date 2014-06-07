@@ -7,6 +7,7 @@
 package naftoreiclag.village.gamestates;
 
 import naftoreiclag.village.Player;
+import naftoreiclag.village.UserSettings;
 import naftoreiclag.village.environment.Hills;
 import naftoreiclag.village.rendering.camera.DebugCamera;
 import naftoreiclag.village.rendering.camera.PlayerCamera;
@@ -24,9 +25,6 @@ public class GameStateOverworld extends GameState
 	DebugCamera camera2;
 	OverworldRenderer renderer;
 	Player player;
-
-	int width = 640;
-	int height = 480;
 	
 	@Override
 	protected GameState simpleStep(long delta)
@@ -45,8 +43,8 @@ public class GameStateOverworld extends GameState
 		map = new Hills();
 		map.loadDataFromFile("foo");
 		
-		camera = new PlayerCamera(90, ((float) width) / ((float) height), 0.1f, 1000f);
-		camera2 = new DebugCamera(90, ((float) width) / ((float) height), 0.1f, 1000f);
+		camera = new PlayerCamera(90, ((float) UserSettings.width) / ((float) UserSettings.height), 0.1f, 1000f);
+		camera2 = new DebugCamera(90, ((float) UserSettings.width) / ((float) UserSettings.height), 0.1f, 1000f);
 		player = new Player();
 		player.map = map;
 		camera.setPlayer(player);
