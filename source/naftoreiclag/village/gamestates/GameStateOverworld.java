@@ -48,7 +48,7 @@ public class GameStateOverworld extends GameState
 		player = new Player();
 		player.map = map;
 		camera.setPlayer(player);
-		renderer = new OverworldRenderer(camera, width, height, map, player);
+		renderer = new OverworldRenderer(camera, UserSettings.width, UserSettings.height, map, player);
 
 		renderer.setup();
 		
