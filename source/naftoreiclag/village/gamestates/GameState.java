@@ -47,10 +47,10 @@ public abstract class GameState
 		}
 	}
 	
-	//
+	// Minimum number of milliseconds that must occur between steps
 	public final long minimumTimeBetweenSteps;
 	
-	//
+	// It's the constructor, dummy!
 	protected GameState(long minimumTimeBetweenSteps)
 	{
 		this.minimumTimeBetweenSteps = minimumTimeBetweenSteps;

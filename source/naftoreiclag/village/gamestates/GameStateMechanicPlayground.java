@@ -18,7 +18,7 @@ public class GameStateMechanicPlayground extends GameState
 	@Override
 	protected GameState simpleStep(long delta)
 	{
-		System.out.println(delta);
+		System.out.println("Crude SPS: " + 1000L / delta);
 		
 		return null;
 	}

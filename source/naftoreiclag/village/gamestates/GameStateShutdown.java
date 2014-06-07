@@ -14,7 +14,7 @@ public class GameStateShutdown extends GameState
 {
 	public GameStateShutdown()
 	{
-		super(50);
+		super(0);
 	}
 	
 	@Override
