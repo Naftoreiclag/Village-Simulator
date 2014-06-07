@@ -12,6 +12,11 @@ package naftoreiclag.village.gamestates;
 
 public class GameStateShutdown extends GameState
 {
+	public GameStateShutdown()
+	{
+		super(50);
+	}
+	
 	@Override
 	public GameState run()
 	{

@@ -10,6 +10,11 @@ package naftoreiclag.village.gamestates;
 
 public class GameStateMechanicPlayground extends GameState
 {
+	public GameStateMechanicPlayground()
+	{
+		super(50);
+	}
+
 	@Override
 	protected GameState simpleStep(long delta)
 	{

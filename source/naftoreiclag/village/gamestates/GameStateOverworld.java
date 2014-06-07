@@ -14,6 +14,11 @@ import naftoreiclag.village.rendering.renderer.OverworldRenderer;
 
 public class GameStateOverworld extends GameState
 {
+	public GameStateOverworld()
+	{
+		super(50);
+	}
+	
 	Hills map;
 	PlayerCamera camera;
 	DebugCamera camera2;

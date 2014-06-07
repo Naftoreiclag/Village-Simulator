@@ -8,6 +8,11 @@ package naftoreiclag.village.gamestates;
 
 public class GameStateTitleScreen extends GameState
 {
+	public GameStateTitleScreen()
+	{
+		super(50);
+	}
+	
 	@Override
 	protected GameState simpleStep(long delta)
 	{
