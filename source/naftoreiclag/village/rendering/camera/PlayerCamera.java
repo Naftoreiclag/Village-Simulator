@@ -26,7 +26,7 @@ public class PlayerCamera extends Camera3D
 	}
 	
 	@Override
-	public void doLWJGLStuff()
+	public void setup()
 	{
 		Mouse.setGrabbed(true);
 	}

@@ -34,7 +34,7 @@ public abstract class Camera3D extends Camera
 	}
 	
 	@Override
-	public void doOpenGLStuff()
+	public void setup()
 	{
 		glPushAttrib(GL_TRANSFORM_BIT);
 		glMatrixMode(GL_PROJECTION);

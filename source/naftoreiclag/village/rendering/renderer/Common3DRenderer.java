@@ -31,7 +31,7 @@ public abstract class Common3DRenderer extends Renderer
 		TextureLib.loadDebugTexture();
 		
 	    setupLights();
-	    setupCamera();
+	    camera.setup();
 	    
 	    simpleSetup();
 	}
@@ -108,10 +108,4 @@ public abstract class Common3DRenderer extends Renderer
 	}
 
 	protected abstract void setupLights();
-
-	private void setupCamera()
-	{
-		camera.doLWJGLStuff();
-		camera.doOpenGLStuff();
-	}
 }

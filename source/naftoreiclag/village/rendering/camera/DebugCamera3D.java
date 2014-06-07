@@ -19,7 +19,7 @@ public class DebugCamera3D extends Camera3D
 	}
 	
 	@Override
-	public void doLWJGLStuff()
+	public void setup()
 	{
 		Mouse.setGrabbed(true);
 	}

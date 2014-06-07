@@ -8,15 +8,6 @@ package naftoreiclag.village.rendering.camera;
 
 public abstract class Camera
 {
-	public void doLWJGLStuff()
-	{
-	}
-	
-	public void doOpenGLStuff()
-	{
-	}
-
-	public void applyMatrix()
-	{
-	}
+	public abstract void setup();
+	public abstract void applyMatrix();
 }
