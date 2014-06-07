@@ -10,6 +10,52 @@ import org.lwjgl.opengl.Display;
 
 public abstract class GameState
 {
+	// Delta information
+	public static class DeltaStopwatch
+	{
+		// Get the time in milliseconds
+		public static long getTime()
+		{
+			// Get the time, then convert it to milliseconds, then return it
+			return System.nanoTime() / 1000000;
+		}
+		
+		// Keep track of whenever the timer was last reset
+		private long timeWhenTimerWasLastReset;
+		
+		// Reset the timer to zero
+		public void reset()
+		{
+			timeWhenTimerWasLastReset = getTime();
+		}
+		
+		// Time elapsed since getDelta() was last called (No reset, useful for waiting until delta will exceed a minimum value.)
+		public long getDuration()
+		{
+			long timeWhenThisMethodWasCalled = getTime();
+			long howLongAgoWasTheLastReset = timeWhenThisMethodWasCalled - timeWhenTimerWasLastReset;
+			return howLongAgoWasTheLastReset;
+		}
+
+		// Time elapsed since getDelta() was last called (It resets the timer)
+		public long getDurationAndReset()
+		{
+			long timeWhenThisMethodWasCalled = getTime();
+			long howLongAgoWasTheLastReset = timeWhenThisMethodWasCalled - timeWhenTimerWasLastReset;
+			timeWhenTimerWasLastReset = timeWhenThisMethodWasCalled;
+			return howLongAgoWasTheLastReset;
+		}
+	}
+	
+	//
+	public final long minimumTimeBetweenSteps;
+	
+	//
+	protected GameState(long minimumTimeBetweenSteps)
+	{
+		this.minimumTimeBetweenSteps = minimumTimeBetweenSteps;
+	}
+	
 	/* Like run() in Runnable, but returns a new GameState for the Main class to run (to prevent a stack overflow error)
 	 * Most subclasses should not override this; they should override tick instead.
 	 */
@@ -19,23 +65,20 @@ public abstract class GameState
 		this.simpleSetup();
 		
 		// Init delta tracking
-		getDelta();
+		DeltaStopwatch d = new DeltaStopwatch();
 		
 		// Begin ticking and handle return value
 		GameState returnVal;
 		while(true)
 		{
-			// Get the delta
-			long delta = getDelta();
-			
-			// However, do not execute a step too quickly
-			if(delta < 1)
+			// Do not execute a step too quickly
+			if(d.getDuration() < minimumTimeBetweenSteps)
 			{
 				continue;
 			}
 			
 			// Perform tick and get return value
-			returnVal = this.simpleStep();
+			returnVal = this.simpleStep(d.getDurationAndReset());
 			
 			// However, we must check for some special escape cases.
 			
@@ -63,42 +106,6 @@ public abstract class GameState
 	protected GameState getNewShutdownGameState()
 	{
 		return new GameStateShutdown();
-	}
-
-	public static class DeltaStopwatch
-	{
-		// Get the time in milliseconds
-		public static long getTime()
-		{
-			// Get the time, then convert it to milliseconds, then return it
-			return System.nanoTime() / 1000000;
-		}
-		
-		// Keep track of whenever the timer was last reset
-		private long timeWhenTimerBegan;
-		
-		// Reset the time
-		public void reset()
-		{
-			timeWhenTimerBegan = getTime();
-		}
-		
-		// Time elapsed since getDelta() was last called (No reset, useful for waiting until delta will exceed a minimum value.)
-		public long duration()
-		{
-			long time = getTime();
-			long delta = time - timeWhenTimerBegan;
-			return delta;
-		}
-
-		// Time elapsed since getDelta() was last called (It resets the timer)
-		public long getDelta()
-		{
-			long time = getTime();
-			long delta = time - timeWhenTimerBegan;
-			timeWhenTimerBegan = time;
-			return delta;
-		}
 	}
 
 	/* NOTE: Methods overridden with the prefix "simple" imply that there is some underlying handling of these, 
