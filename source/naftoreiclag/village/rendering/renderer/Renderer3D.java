@@ -16,9 +16,9 @@ import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public abstract class Common3DRenderer extends Renderer
+public abstract class Renderer3D extends Renderer
 {
-	public Common3DRenderer(Camera camera, int width, int height)
+	public Renderer3D(Camera camera, int width, int height)
 	{
 		super(camera, width, height);
 	}

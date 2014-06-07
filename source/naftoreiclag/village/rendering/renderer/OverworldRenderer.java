@@ -17,7 +17,7 @@ import naftoreiclag.village.rendering.util.TBuffy;
 import naftoreiclag.village.rendering.util.ObjLoader;
 import static org.lwjgl.opengl.GL11.*;
 
-public class OverworldRenderer extends Common3DRenderer
+public class OverworldRenderer extends Renderer3D
 {
 	Hills map;
 	Player player;

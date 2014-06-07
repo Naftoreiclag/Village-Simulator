@@ -13,9 +13,9 @@ import org.lwjgl.opengl.Display;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public abstract class Common2DRenderer extends Renderer
+public abstract class Renderer2D extends Renderer
 {
-	public Common2DRenderer(Camera camera, int width, int height)
+	public Renderer2D(Camera camera, int width, int height)
 	{
 		super(camera, width, height);
 	}
