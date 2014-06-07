@@ -51,7 +51,6 @@ public class GameStateOverworld extends GameState
 		renderer = new OverworldRenderer(camera, UserSettings.width, UserSettings.height, map, player);
 
 		renderer.setup();
-		
 	}
 
 	@Override

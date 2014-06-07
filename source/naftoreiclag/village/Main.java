@@ -6,6 +6,9 @@
 
 package naftoreiclag.village;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import naftoreiclag.village.gamestates.GameState;
 import naftoreiclag.village.gamestates.GameStateMechanicPlayground;
 
@@ -18,6 +21,8 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class Main implements Runnable
 {
+	private static final Logger logger = Logger.getLogger(Main.class.getName());
+	
 	@Override
 	public void run()
 	{
@@ -49,11 +54,14 @@ public class Main implements Runnable
 			Display.setFullscreen(false);
 			Display.setVSyncEnabled(true);
 			Display.create();
+			logger.log(Level.INFO, "Static display successfully set up.");
 		}
 		catch(LWJGLException e)
 		{
-			e.printStackTrace();
-			
+			logger.log(Level.SEVERE, "Static display could not be set up.");
+			logger.log(Level.SEVERE, e.toString(), e);
+
+			logger.log(Level.SEVERE, "System will now forcibly exit.");
 			Display.destroy();
 			System.exit(1);
 		}
@@ -62,6 +70,7 @@ public class Main implements Runnable
 	private void cleanupStaticDisplay()
 	{
 		Display.destroy();
+		logger.log(Level.INFO, "Static display cleaned up.");
 	}
 
 	// This is where the magic begins

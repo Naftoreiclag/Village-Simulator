@@ -16,9 +16,9 @@ import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public abstract class CommonRenderer extends Renderer
+public abstract class Common3DRenderer extends Renderer
 {
-	public CommonRenderer(Camera camera, int width, int height)
+	public Common3DRenderer(Camera camera, int width, int height)
 	{
 		super(camera, width, height);
 	}
@@ -99,6 +99,12 @@ public abstract class CommonRenderer extends Renderer
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		
+		// Disable textures
+		glDisable(GL_TEXTURE_2D);
+		
+		// Disable three-dee
+		glDisable(GL_DEPTH_TEST);
 	}
 
 	protected abstract void setupLights();
