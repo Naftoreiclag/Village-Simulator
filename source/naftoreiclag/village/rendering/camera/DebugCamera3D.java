@@ -9,11 +9,11 @@ package naftoreiclag.village.rendering.camera;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class DebugCamera extends Camera
+public class DebugCamera3D extends Camera3D
 {
 	public float speed = 0.2f;
 	
-	public DebugCamera(float fov, float aspectRatio, float zNear, float zFar)
+	public DebugCamera3D(float fov, float aspectRatio, float zNear, float zFar)
 	{
 		super(fov, aspectRatio, zNear, zFar);
 	}

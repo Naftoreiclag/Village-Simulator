@@ -11,7 +11,7 @@ import naftoreiclag.village.Player;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class PlayerCamera extends Camera
+public class PlayerCamera extends Camera3D
 {
 	Player track = null;
 	
