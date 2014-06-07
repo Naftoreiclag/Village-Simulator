@@ -17,12 +17,9 @@ public class GameStateShutdown extends GameState
 	{
 		return null;
 	}
-
-	// Dumb specialties. Can't Java just implicitly add "return null" for unoverrided methods!?
-	// IN HINDSIGHT: I'm dumb.
 	
 	@Override
-	protected GameState simpleTick(int _) { return null; }
+	protected GameState simpleStep(long _) { return null; }
 	@Override
 	protected void simpleSetup() { }
 	@Override

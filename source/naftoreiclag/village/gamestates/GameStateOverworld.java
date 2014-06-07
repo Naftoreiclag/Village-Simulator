@@ -24,7 +24,7 @@ public class GameStateOverworld extends GameState
 	int height = 480;
 	
 	@Override
-	protected GameState simpleTick(int delta)
+	protected GameState simpleStep(long delta)
 	{
 		player.input();
 		camera.updatePositionToPlayer();

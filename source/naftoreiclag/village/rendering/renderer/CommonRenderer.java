@@ -64,6 +64,9 @@ public abstract class CommonRenderer extends Renderer
 
 	protected void setupOpenGL()
 	{
+		// Viewport
+		glViewport(0, 0, width, height);
+		
 		// Enable something else
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();

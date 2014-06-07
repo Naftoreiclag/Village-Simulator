@@ -6,13 +6,8 @@
 
 package naftoreiclag.village;
 
-import static org.lwjgl.opengl.GL11.glViewport;
-import naftoreiclag.village.environment.Hills;
 import naftoreiclag.village.gamestates.GameState;
-import naftoreiclag.village.gamestates.GameStateTitleScreen;
-import naftoreiclag.village.rendering.camera.DebugCamera;
-import naftoreiclag.village.rendering.camera.PlayerCamera;
-import naftoreiclag.village.rendering.renderer.OverworldRenderer;
+import naftoreiclag.village.gamestates.GameStateMechanicPlayground;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -29,11 +24,9 @@ public class Main implements Runnable
 	@Override
 	public void run()
 	{
-		System.out.println(Runtime.getRuntime().availableProcessors());
-		
 		setupStaticDisplay();
 		
-		GameState state = new GameStateTitleScreen();
+		GameState state = new GameStateMechanicPlayground();
 		
 		boolean running = true;
 		while(running)
@@ -67,8 +60,6 @@ public class Main implements Runnable
 			Display.destroy();
 			System.exit(1);
 		}
-		
-		glViewport(0, 0, width, height);
 	}
 	
 	private void cleanupStaticDisplay()

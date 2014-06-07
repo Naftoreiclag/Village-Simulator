@@ -9,7 +9,7 @@ package naftoreiclag.village.gamestates;
 public class GameStateTitleScreen extends GameState
 {
 	@Override
-	protected GameState simpleTick(int delta)
+	protected GameState simpleStep(long delta)
 	{
 		return new GameStateOverworld();
 	}
