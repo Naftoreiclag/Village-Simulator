@@ -8,12 +8,17 @@ package naftoreiclag.village.rendering.camera;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public abstract class Camera2D extends Camera
+public class Camera2D extends Camera
 {
 	public float x;
 	public float y;
 	
 	public float roll;
+
+	@Override
+	public void setup()
+	{
+	}
 
 	@Override
 	public void applyMatrix()

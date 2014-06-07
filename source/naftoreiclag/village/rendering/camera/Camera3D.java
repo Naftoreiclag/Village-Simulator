@@ -9,7 +9,7 @@ package naftoreiclag.village.rendering.camera;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
-public abstract class Camera3D extends Camera
+public class Camera3D extends Camera
 {
 	public float x;
 	public float y;
