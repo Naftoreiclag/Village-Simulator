@@ -49,8 +49,10 @@ public abstract class Renderer2D extends Renderer
 	@Override
 	public void cleanup()
 	{
+		simpleCleanup();
 	}
 
 	protected abstract void simpleSetup();
 	protected abstract void simpleRender();
+	protected abstract void simpleCleanup();
 }

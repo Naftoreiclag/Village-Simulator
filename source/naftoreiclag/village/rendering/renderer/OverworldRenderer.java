@@ -52,7 +52,13 @@ public class OverworldRenderer extends Renderer3D
 	@Override
 	protected void simpleSetup()
 	{
-		loadTextures();
+		TextureLib.loadTexture("camograss");
+		TextureLib.loadTexture("oilstone");
+		TextureLib.loadTexture("oilgranite");
+		TextureLib.loadTexture("oilgranite_ridges");
+		TextureLib.loadTexture("moss");
+		TextureLib.loadTexture("camograss_side");
+		TextureLib.loadTexture("camograss_tall");
 		
 		// Map data
 		map = new Hills();
@@ -70,27 +76,17 @@ public class OverworldRenderer extends Renderer3D
 		map.tallgrass.upload();
 		
 		// OBJ loading test
-		
-		loadOBJ();
+
+		trunk = ObjLoader.loadObj("resources/noobtree.obj", "resources/noobtree_wood.png");
+		leaves = ObjLoader.loadObj("resources/noobtree_leaves.obj", "resources/moss.png");
+		playerModel = ObjLoader.loadObj("resources/body.obj", "resources/karl.png");
 		
 		Random r = new Random();
 		for(int i = 0; i < 10; ++ i)
 		{
 			trees[i] = new Tree(r.nextInt(64), r.nextInt(64));
 		}
-		
-		setupLights();
-	}
 
-	private void loadOBJ()
-	{
-		trunk = ObjLoader.loadObj("resources/noobtree.obj", "resources/noobtree_wood.png");
-		leaves = ObjLoader.loadObj("resources/noobtree_leaves.obj", "resources/moss.png");
-		playerModel = ObjLoader.loadObj("resources/body.obj", "resources/karl.png");
-	}
-
-	protected void setupLights()
-	{
 		glEnable(GL_LIGHTING);
 	    glEnable(GL_LIGHT0);
 	    
@@ -128,14 +124,9 @@ public class OverworldRenderer extends Renderer3D
 		//torus.render();
 	}
 
-	private void loadTextures()
+	@Override
+	protected void simpleCleanup()
 	{
-		TextureLib.loadTexture("camograss");
-		TextureLib.loadTexture("oilstone");
-		TextureLib.loadTexture("oilgranite");
-		TextureLib.loadTexture("oilgranite_ridges");
-		TextureLib.loadTexture("moss");
-		TextureLib.loadTexture("camograss_side");
-		TextureLib.loadTexture("camograss_tall");
+		
 	}
 }

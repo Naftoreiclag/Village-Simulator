@@ -28,8 +28,6 @@ public abstract class Renderer
 	}
 	
 	public abstract void setup();
-	
 	public abstract void render();
-	
 	public abstract void cleanup();
 }

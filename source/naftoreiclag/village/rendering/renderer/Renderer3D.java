@@ -78,6 +78,8 @@ public abstract class Renderer3D extends Renderer
 	@Override
 	public void cleanup()
 	{
+		simpleCleanup();
+		
 		// We are no longer using VBOs
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
@@ -91,6 +93,6 @@ public abstract class Renderer3D extends Renderer
 	}
 
 	protected abstract void simpleSetup();
-	
 	protected abstract void simpleRender();
+	protected abstract void simpleCleanup();
 }
