@@ -8,7 +8,7 @@ package naftoreiclag.village.rendering.renderer;
 
 
 import naftoreiclag.village.rendering.TextureLib;
-import naftoreiclag.village.rendering.camera.Camera;
+import naftoreiclag.village.rendering.camera.Camera3D;
 
 import org.lwjgl.opengl.Display;
 
@@ -16,9 +16,12 @@ import static org.lwjgl.opengl.GL11.*;
 
 public abstract class Renderer3D extends Renderer
 {
-	public Renderer3D(Camera camera, int width, int height)
+	Camera3D camera;
+	
+	public Renderer3D(Camera3D camera, int width, int height)
 	{
 		super(camera, width, height);
+		this.camera = camera;
 	}
 	
 	@Override

@@ -7,6 +7,7 @@
 package naftoreiclag.village.rendering.camera;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.gluOrtho2D;
 
 public class Camera2D extends Camera
 {
@@ -18,6 +19,11 @@ public class Camera2D extends Camera
 	@Override
 	public void setup()
 	{
+		glPushAttrib(GL_TRANSFORM_BIT);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluOrtho2D(0, 1, 0, 1);
+		glPopAttrib();
 	}
 
 	@Override

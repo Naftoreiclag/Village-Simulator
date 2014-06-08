@@ -17,14 +17,14 @@ public abstract class Renderer
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 	
-	public Camera camera;
+	/* Note: The constructor requires a camera, even though it is not stored
+	 *       to ensure that all subclasses accept a camera in its constructor.
+	 */
 	
 	public Renderer(Camera camera, int width, int height)
 	{
 		this.width = width;
 		this.height = height;
-		
-		this.camera = camera;
 	}
 	
 	public abstract void setup();

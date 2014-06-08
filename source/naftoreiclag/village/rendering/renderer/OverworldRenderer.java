@@ -11,7 +11,7 @@ import java.util.Random;
 import naftoreiclag.village.Player;
 import naftoreiclag.village.environment.Hills;
 import naftoreiclag.village.rendering.TextureLib;
-import naftoreiclag.village.rendering.camera.Camera;
+import naftoreiclag.village.rendering.camera.Camera3D;
 import naftoreiclag.village.rendering.model.Model;
 import naftoreiclag.village.rendering.util.TBuffy;
 import naftoreiclag.village.rendering.util.ObjLoader;
@@ -41,7 +41,7 @@ public class OverworldRenderer extends Renderer3D
 		}
 	}
 	
-	public OverworldRenderer(Camera camera, int width, int height, Hills map, Player player)
+	public OverworldRenderer(Camera3D camera, int width, int height, Hills map, Player player)
 	{
 		super(camera, width, height);
 		
