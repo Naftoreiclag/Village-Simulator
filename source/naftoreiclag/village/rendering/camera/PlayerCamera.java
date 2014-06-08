@@ -27,6 +27,7 @@ public class PlayerCamera extends Camera3D
 	@Override
 	public void setup()
 	{
+		super.setup();
 		Mouse.setGrabbed(true);
 	}
 	
