@@ -24,44 +24,6 @@ public abstract class Renderer3D extends Renderer
 	@Override
 	public void setup()
 	{
-		setupOpenGL();
-		
-		TextureLib.loadDebugTexture();
-		
-	    setupLights();
-	    camera.setup();
-	    
-	    simpleSetup();
-	}
-
-	@Override
-	public void render()
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		
-		glPushMatrix();
-	
-			camera.applyMatrix();
-			simpleRender();
-		
-		glPopMatrix();
-	
-		Display.update();
-		Display.sync(60);
-	}
-
-	@Override
-	public void cleanup()
-	{
-		cleanupOpenGL();
-	}
-
-	protected abstract void simpleSetup();
-	
-	protected abstract void simpleRender();
-
-	protected void setupOpenGL()
-	{
 		// Viewport
 		glViewport(0, 0, width, height);
 		
@@ -89,9 +51,32 @@ public abstract class Renderer3D extends Renderer
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		
+		TextureLib.loadDebugTexture();
+	    
+	    camera.setup();
+
+	    simpleSetup();
 	}
+
+	@Override
+	public void render()
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		
+		glPushMatrix();
 	
-	protected void cleanupOpenGL()
+			camera.applyMatrix();
+			simpleRender();
+		
+		glPopMatrix();
+	
+		Display.update();
+		Display.sync(60);
+	}
+
+	@Override
+	public void cleanup()
 	{
 		// We are no longer using VBOs
 		glDisableClientState(GL_VERTEX_ARRAY);
@@ -105,5 +90,7 @@ public abstract class Renderer3D extends Renderer
 		glDisable(GL_DEPTH_TEST);
 	}
 
-	protected abstract void setupLights();
+	protected abstract void simpleSetup();
+	
+	protected abstract void simpleRender();
 }

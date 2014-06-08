@@ -78,6 +78,8 @@ public class OverworldRenderer extends Renderer3D
 		{
 			trees[i] = new Tree(r.nextInt(64), r.nextInt(64));
 		}
+		
+		setupLights();
 	}
 
 	private void loadOBJ()

@@ -54,11 +54,14 @@ public class TextureLib
 	//
 	public static void loadDebugTexture()
 	{
-		debugTexture = slickLoad("debug");
-		
-		if(debugTexture == null)
+		if(debugTexture != null)
 		{
-			// TODO: crash
+			debugTexture = slickLoad("debug");
+		
+			if(debugTexture == null)
+			{
+				// TODO: crash
+			}
 		}
 	}
 	

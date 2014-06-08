@@ -21,6 +21,7 @@ public class DebugCamera3D extends Camera3D
 	@Override
 	public void setup()
 	{
+		super.setup();
 		Mouse.setGrabbed(true);
 	}
 	

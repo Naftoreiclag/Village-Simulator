@@ -23,11 +23,8 @@ public abstract class Renderer2D extends Renderer
 	@Override
 	public void setup()
 	{
-		setupOpenGL();
-		
 		TextureLib.loadDebugTexture();
 		
-	    setupLights();
 	    camera.setup();
 	    
 	    simpleSetup();
@@ -52,20 +49,8 @@ public abstract class Renderer2D extends Renderer
 	@Override
 	public void cleanup()
 	{
-		cleanupOpenGL();
 	}
 
 	protected abstract void simpleSetup();
-	
 	protected abstract void simpleRender();
-
-	protected void setupOpenGL()
-	{
-	}
-	
-	protected void cleanupOpenGL()
-	{
-	}
-
-	protected abstract void setupLights();
 }
