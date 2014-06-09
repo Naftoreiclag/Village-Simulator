@@ -127,6 +127,7 @@ public class OverworldRenderer extends Renderer3D
 	@Override
 	protected void simpleCleanup()
 	{
-		
+	    glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHTING);
 	}
 }

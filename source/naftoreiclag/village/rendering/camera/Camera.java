@@ -8,6 +8,7 @@ package naftoreiclag.village.rendering.camera;
 
 public abstract class Camera
 {
+	// Note: Do not call either method outside of a Renderer. The Renderer will handle it for you.
 	public abstract void setup();
 	public abstract void applyMatrix();
 }

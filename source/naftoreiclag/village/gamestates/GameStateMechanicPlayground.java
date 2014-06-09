@@ -6,10 +6,57 @@
 
 package naftoreiclag.village.gamestates;
 
+import naftoreiclag.village.UserSettings;
+import naftoreiclag.village.rendering.TextureLib;
+import naftoreiclag.village.rendering.camera.Camera2D;
+import naftoreiclag.village.rendering.model.FlatInterleavedModel;
+import naftoreiclag.village.rendering.model.InterleavedModel;
+import naftoreiclag.village.rendering.model.Model;
+import naftoreiclag.village.rendering.renderer.Renderer2D;
+import naftoreiclag.village.rendering.util.TBuffy;
+
 // To stop getting a headache over 3D stuff
 
 public class GameStateMechanicPlayground extends GameState
 {
+	public static class TestRenderer extends Renderer2D
+	{
+		public TestRenderer(Camera2D camera, int width, int height)
+		{
+			super(camera, width, height);
+		}
+		
+		Model test;
+
+		@Override
+		protected void simpleSetup()
+		{
+			test = new FlatInterleavedModel(
+					TBuffy.floaty(
+							0f, 0f, 0f, 0f, 
+							1f, 0f, 1f, 0f, 
+							1f, 1f, 1f, 1f, 
+							0f, 1f, 0f, 1f),
+					TBuffy.inty(0, 2, 1, 0, 3, 2),
+					6);
+			test.setTexture(TextureLib.getDebugTexture());
+		}
+
+		@Override
+		protected void simpleRender()
+		{
+			test.render();
+		}
+
+		@Override
+		protected void simpleCleanup()
+		{
+		}
+	}
+	
+	TestRenderer renderer;
+	Camera2D camera;
+	
 	public GameStateMechanicPlayground()
 	{
 		super(50);
@@ -24,10 +71,15 @@ public class GameStateMechanicPlayground extends GameState
 	@Override
 	protected void simpleSetup()
 	{
+		camera = new Camera2D();
+		renderer = new TestRenderer(camera, UserSettings.width, UserSettings.height);
+		
+		renderer.setup();
 	}
 
 	@Override
 	protected void simpleCleanup()
 	{
+		renderer.cleanup();
 	}
 }

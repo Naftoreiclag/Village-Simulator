@@ -10,7 +10,7 @@ import org.lwjgl.opengl.Display;
 
 public abstract class GameState
 {
-	// Delta information
+	// Delta information, used to syncronize steps
 	public static class DeltaStopwatch
 	{
 		// Get the time in milliseconds

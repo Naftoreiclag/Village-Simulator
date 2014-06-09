@@ -35,6 +35,12 @@ public class TextureLib
 		}
 	}
 	
+	//
+	public static int getDebugTexture()
+	{
+		return debugTexture.getTextureID();
+	}
+	
 	// Load a texture and then return its handle
 	public static int loadTexture(String name)
 	{

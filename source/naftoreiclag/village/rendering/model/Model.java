@@ -19,6 +19,10 @@ import java.nio.IntBuffer;
 
 // Abstract class for all Models.
 
+/* Note: There is no need for Model3D or Model2D because the abstraction of
+ *       the buffers allows for either to be used.
+ */
+
 public abstract class Model
 {
 	public final FloatBuffer verts;
@@ -42,6 +46,7 @@ public abstract class Model
 		this.texId = texId;
 	}
 	
+	// Send data to GPU for rendering
 	public void upload()
 	{
 		vertHandle = glGenBuffers();
@@ -60,8 +65,10 @@ public abstract class Model
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW); // Send data
 	}
 	
+	// This is really the only thing that needs to be overridden, since all models use VBO's
 	public abstract void render();
 	
+	// Tell GPU to free up that memory
 	public void cleanup()
 	{
 		// Free up memory that we used
