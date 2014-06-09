@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import naftoreiclag.village.UserSettings;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera2D;
+import naftoreiclag.village.rendering.model.FlatInterleavedModel;
 import naftoreiclag.village.rendering.model.InterleavedModel;
 import naftoreiclag.village.rendering.model.Model;
 import naftoreiclag.village.rendering.renderer.Renderer2D;
@@ -35,7 +36,7 @@ public class GameStateMechanicPlayground extends GameState
 		@Override
 		protected void simpleSetup()
 		{
-			/*
+			
 			test = new FlatInterleavedModel(
 					TBuffy.floaty(
 							0f, 0f, 0f, 0f, 
@@ -44,7 +45,8 @@ public class GameStateMechanicPlayground extends GameState
 							0f, 1f, 0f, 1f),
 					TBuffy.inty(0, 2, 1, 0, 3, 2),
 					6);
-			*/
+			
+			/*
 			test = new InterleavedModel(
 					TBuffy.floaty(
 							0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 
@@ -53,6 +55,7 @@ public class GameStateMechanicPlayground extends GameState
 							0f, 1f, 0f, 0f, 0f, 0f, 0f, 1f),
 					TBuffy.inty(0, 2, 1, 0, 3, 2),
 					6);
+			*/
 			test.setTexture(TextureLib.getDebugTexture());
 			
 			test.upload();

@@ -44,7 +44,6 @@ public abstract class Renderer2D extends Renderer
 		
 		// Enable vertex buffer objects
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 		TextureLib.loadDebugTexture();
@@ -77,14 +76,10 @@ public abstract class Renderer2D extends Renderer
 		
 		// We are no longer using VBOs
 		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 		// Disable textures
 		glDisable(GL_TEXTURE_2D);
-		
-		// Disable three-dee
-		glDisable(GL_DEPTH_TEST);
 	}
 
 	protected abstract void simpleSetup();
