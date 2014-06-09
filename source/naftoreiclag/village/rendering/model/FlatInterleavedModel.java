@@ -36,8 +36,8 @@ public class FlatInterleavedModel extends InterleavedModel
 	{
 		glBindTexture(GL_TEXTURE_2D, texId);
 		glBindBuffer(GL_ARRAY_BUFFER, vertHandle);
-		glVertexPointer(2, GL_FLOAT, 8 << 2, 0 << 2);
-		glTexCoordPointer(2, GL_FLOAT, 8 << 2, 2 << 2);
+		glVertexPointer(2, GL_FLOAT, 4 << 2, 0 << 2);
+		glTexCoordPointer(2, GL_FLOAT, 4 << 2, 2 << 2);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexHandle);
 		glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0L);
 	}

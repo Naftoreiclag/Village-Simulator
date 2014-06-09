@@ -11,12 +11,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 public class TextureLib
 {
+	private static final Logger logger = Logger.getLogger(TextureLib.class.getName());
+	
 	private static Texture debugTexture = null;
 	public final static Map<String, Texture> lib = new HashMap<String, Texture>();
 	
@@ -60,14 +64,16 @@ public class TextureLib
 	//
 	public static void loadDebugTexture()
 	{
-		if(debugTexture != null)
+		if(debugTexture == null)
 		{
 			debugTexture = slickLoad("debug");
 		
 			if(debugTexture == null)
 			{
-				// TODO: crash
+				logger.log(Level.SEVERE, "Debug texture could not be loaded!");
 			}
+			
+			logger.log(Level.INFO, "Debug texture loaded");
 		}
 	}
 	

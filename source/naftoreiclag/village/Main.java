@@ -29,7 +29,7 @@ public class Main implements Runnable
 	{
 		setupStaticDisplay();
 		
-		GameState state = new GameStateOverworld();
+		GameState state = new GameStateMechanicPlayground();
 		
 		boolean running = true;
 		while(running)
