@@ -48,6 +48,8 @@ public abstract class Renderer2D extends Renderer
 		
 		TextureLib.loadDebugTexture();
 	    
+		camera.width = this.width;
+		camera.height = this.height;
 	    camera.setup();
 
 	    simpleSetup();

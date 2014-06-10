@@ -14,6 +14,9 @@ public class Camera2D extends Camera
 	public float x;
 	public float y;
 	
+	public float width;
+	public float height;
+	
 	public float roll;
 
 	@Override
@@ -22,7 +25,7 @@ public class Camera2D extends Camera
 		glPushAttrib(GL_TRANSFORM_BIT);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluOrtho2D(0, 1, 0, 1);
+		gluOrtho2D(0, width, height, 0);
 		glPopAttrib();
 	}
 
