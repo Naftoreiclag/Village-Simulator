@@ -24,9 +24,9 @@ import java.nio.IntBuffer;
 // Same as InterleavedModel, except without normals and only 2-Dimensional.
 // This is a static model with standard features.
 
-public class FlatInterleavedModel extends InterleavedModel
+public class InterleavedSprite extends Model
 {
-	public FlatInterleavedModel(FloatBuffer verts, IntBuffer indices, int numIndices)
+	public InterleavedSprite(FloatBuffer verts, IntBuffer indices, int numIndices)
 	{
 		super(verts, indices, numIndices);
 	}

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import naftoreiclag.village.UserSettings;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera2D;
-import naftoreiclag.village.rendering.model.FlatInterleavedModel;
+import naftoreiclag.village.rendering.model.InterleavedSprite;
 import naftoreiclag.village.rendering.model.Model;
 import naftoreiclag.village.rendering.renderer.Renderer2D;
 import naftoreiclag.village.rendering.util.TBuffy;
@@ -37,7 +37,7 @@ public class GameStateTestGame extends GameState
 		@Override
 		protected void simpleSetup()
 		{
-			test = new FlatInterleavedModel(
+			test = new InterleavedSprite(
 					TBuffy.floaty(
 							  0f,   0f, 0f, 0f, 
 							100f,   0f, 1f, 0f, 
