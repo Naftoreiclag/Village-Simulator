@@ -6,6 +6,8 @@
 
 package naftoreiclag.village.gamestates;
 
+import static org.lwjgl.opengl.GL11.glClearColor;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,9 +21,9 @@ import naftoreiclag.village.rendering.util.TBuffy;
 
 // To stop getting a headache over 3D stuff
 
-public class GameStateMechanicPlayground extends GameState
+public class GameStateTestGame extends GameState
 {
-	private static final Logger logger = Logger.getLogger(GameStateMechanicPlayground.class.getName());
+	private static final Logger logger = Logger.getLogger(GameStateTestGame.class.getName());
 	
 	public static class TestRenderer extends Renderer2D
 	{
@@ -43,16 +45,6 @@ public class GameStateMechanicPlayground extends GameState
 							  0f, 100f, 0f, 1f),
 					TBuffy.inty(0, 2, 1, 0, 3, 2),
 					6);
-			/*
-			test = new InterleavedModel(
-					TBuffy.floaty(
-							0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 
-							1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 
-							1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 
-							0f, 1f, 0f, 0f, 0f, 0f, 0f, 1f),
-					TBuffy.inty(0, 2, 1, 0, 3, 2),
-					6);
-			*/
 			test.setTexture(TextureLib.getDebugTexture());
 			
 			test.upload();
@@ -74,9 +66,9 @@ public class GameStateMechanicPlayground extends GameState
 	TestRenderer renderer;
 	Camera2D camera;
 	
-	public GameStateMechanicPlayground()
+	public GameStateTestGame()
 	{
-		super(50);
+		super(0);
 	}
 
 	@Override
@@ -94,6 +86,8 @@ public class GameStateMechanicPlayground extends GameState
 		renderer = new TestRenderer(camera, UserSettings.width, UserSettings.height);
 		
 		renderer.setup();
+		
+		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class GameStateOverworld extends GameState
 	@Override
 	protected GameState simpleStep(long delta)
 	{
-		player.input();
+		player.input(delta);
 		camera.updatePositionToPlayer();
 		camera2.handleUserInput();
 		renderer.render();

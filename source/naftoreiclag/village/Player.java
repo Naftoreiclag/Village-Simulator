@@ -18,31 +18,31 @@ public class Player
 	
 	public float direction;
 	
-	float spd = 0.05f;
+	float spd = 0.005f;
 	
 	public Hills map;
 	
-	public void input()
+	public void input(long delta)
 	{
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W))
 		{
 			direction = (float) directTo(direction, 180f, 0.05f);
-			z -= spd;
+			z -= spd * delta;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S))
 		{
 			direction = (float) directTo(direction, 0f, 0.05f);
-			z += spd;
+			z += spd * delta;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
 			direction = (float) directTo(direction, 270f, 0.05f);
-			x -= spd;
+			x -= spd * delta;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
 			direction = (float) directTo(direction, 90f, 0.05f);
-			x += spd;
+			x += spd * delta;
 		}
 		
 		y = getFoo(x, z);

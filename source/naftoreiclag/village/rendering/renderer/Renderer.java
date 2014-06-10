@@ -6,6 +6,7 @@
 
 package naftoreiclag.village.rendering.renderer;
 
+import static org.lwjgl.opengl.GL11.glClearColor;
 import naftoreiclag.village.rendering.camera.Camera;
 
 // I just love saying "Renderer", don't you? /sarcasm

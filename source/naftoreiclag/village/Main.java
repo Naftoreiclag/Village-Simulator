@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import naftoreiclag.village.gamestates.GameState;
-import naftoreiclag.village.gamestates.GameStateMechanicPlayground;
+import naftoreiclag.village.gamestates.GameStateTestGame;
 import naftoreiclag.village.gamestates.GameStateOverworld;
 
 import org.lwjgl.LWJGLException;
@@ -29,7 +29,7 @@ public class Main implements Runnable
 	{
 		setupStaticDisplay();
 		
-		GameState state = new GameStateMechanicPlayground();
+		GameState state = new GameStateTestGame();
 		
 		boolean running = true;
 		while(running)
