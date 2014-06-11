@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import naftoreiclag.village.gamestates.GameState;
 import naftoreiclag.village.gamestates.GameStateTestGame;
-import naftoreiclag.village.gamestates.GameStateOverworld;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
