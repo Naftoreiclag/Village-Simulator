@@ -27,10 +27,26 @@ public class Vector2d
 		return new Vector2d(this.a, this.b);
 	}
 	
+	public Vector2d setZero()
+	{
+		this.a = 0;
+		this.b = 0;
+		
+		return this;
+	}
+	
 	public Vector2d addLocal(Vector2d other)
 	{
 		this.a += other.a;
 		this.b += other.b;
+		
+		return this;
+	}
+	
+	public Vector2d addLocalMultiplied(Vector2d other, double multiplicant)
+	{
+		this.a += other.a * multiplicant;
+		this.b += other.b * multiplicant;
 		
 		return this;
 	}

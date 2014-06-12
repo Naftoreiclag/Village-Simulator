@@ -11,23 +11,28 @@ import java.util.List;
 
 public class Space
 {
+	// The objects which reside in this space
 	public List<Circle> circles = new ArrayList<Circle>();
 	public List<Line> lines = new ArrayList<Line>();
 	
-	public void simulate()
+	// Increment physics simulation by a certain amount
+	public void simulate(long delta)
 	{
 		for(Circle circle : circles)
 		{
-			circle.loc.addLocal(circle.velocity);
+			// Move it
+			circle.loc.addLocalMultiplied(circle.velocity, delta);
 			
-			boolean recheck = true;
+			// Remember whether the current state is suspected to be dirty (circles in illegal positions)
+			boolean suspectedDirty = true;
 			
-			int numChex = 0;
-			
-			while(recheck)
+			// Repeat until it is proven clean
+			while(suspectedDirty)
 			{
-				numChex ++;
-				recheck = false;
+				// If nothing illegal is found on the circle, then this value will stay false.
+				suspectedDirty = false;
+				
+				// Check relation of this circle to surrounding lines.
 				for(Line line : lines)
 				{
 					// What
@@ -58,7 +63,7 @@ public class Space
 						{
 							circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(AC);
 							
-							recheck = true;
+							suspectedDirty = true;
 							break;
 						}
 					}
@@ -74,16 +79,14 @@ public class Space
 						{
 							circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(DC);
 	
-							recheck = true;
+							suspectedDirty = true;
 							break;
 						}
 					}
 				}
 			}
 			
-			System.out.println(numChex);
-			
-			circle.velocity.multiply(0.0d);
+			circle.velocity.setZero();
 		}
 	}
 	

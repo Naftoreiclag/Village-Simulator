@@ -10,10 +10,13 @@ import naftoreiclag.village.collision.Space;
 
 /* A room is a space in which entities may reside.
  * The entities themselves are not stored within the class instance.
+ * However, static objects (walls, furniture, etc), are stored here.
  */
 
 public class Room
 {
 	private Hills hills;
 	private Space space;
+	
+	
 }
