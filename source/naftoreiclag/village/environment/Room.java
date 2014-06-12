@@ -6,7 +6,14 @@
 
 package naftoreiclag.village.environment;
 
+import naftoreiclag.village.collision.Space;
+
+/* A room is a space in which entities may reside.
+ * The entities themselves are not stored within the class instance.
+ */
+
 public class Room
 {
-	Hills hills;
+	private Hills hills;
+	private Space space;
 }
