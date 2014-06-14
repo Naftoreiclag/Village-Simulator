@@ -86,8 +86,86 @@ public class Space
 				}
 			}
 			
+			// Check
+			
 			circle.velocity.setZero();
 		}
+	}
+	
+	//
+	public void simulateCircle(Circle circle, long delta)
+	{
+		// Move it
+		circle.loc.addLocalMultiplied(circle.velocity, delta);
+		
+		// Remember whether the current state is suspected to be dirty (circles in illegal positions)
+		boolean suspectedDirty = true;
+		
+		// Repeat until it is proven clean
+		while(suspectedDirty)
+		{
+			// If nothing illegal is found on the circle, then this value will stay false.
+			suspectedDirty = false;
+			
+			// Check relation of this circle to surrounding lines.
+			for(Line line : lines)
+			{
+				// Get the lines between important points
+				Vector2d AC = circle.loc.subtract(line.a);
+				Vector2d AB = line.b.subtract(line.a);
+
+				// Find the length of AB (the line)
+				double AB_distsq = (AB.a * AB.a) + (AB.b * AB.b);
+				
+				// See if we can get away with a cheaper check by using the dot product
+				double AC_dot_AB = (AC.a * AB.a) + (AC.b * AB.b);
+				double fractonOfDC = AC_dot_AB / AB_distsq; // This is a value that expresses D as a point on line AB where D is the closest point to C
+
+				// Past point B
+				if(fractonOfDC > 1)
+				{
+					continue;
+				}
+				
+				// Past point A
+				else if(fractonOfDC < 0)
+				{
+					// Get distance squared of AC
+					double AC_distsq = AC.magnitudeSquared();
+					
+					// If it is less than the square of the radius (circle collides with point A)
+					if(AC_distsq <= circle.radsq)
+					{
+						// Move it out of the way somehow
+						circle.loc.addLocal(AC.divide(Math.sqrt(AC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(AC);
+						
+						// Since we moved the circle in question, it's possible it moved into an illegal position
+						suspectedDirty = true;
+						break;
+					}
+				}
+				
+				// Within the line
+				else
+				{
+					// See if the distance between D and C is less than the radius
+					Vector2d D = line.a.add(AB.multiply(fractonOfDC));
+					Vector2d DC = circle.loc.subtract(D);
+					double DC_distsq = DC.magnitudeSquared();
+					if(DC_distsq <= circle.radsq)
+					{
+						// Move it out of the way somehow
+						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + 0.5d)).subtractLocal(DC);
+
+						// Since we moved the circle in question, it's possible it moved into an illegal position
+						suspectedDirty = true;
+						break;
+					}
+				}
+			}
+		}
+		
+		circle.velocity.setZero();
 	}
 	
 	// I had to use uppercase letters here to avoid (more) confusion
