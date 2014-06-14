@@ -163,6 +163,59 @@ public class Space
 					}
 				}
 			}
+			
+			// To make pushing non-insane to do, there is no "sliding" between pushable circles.
+			
+			for(Circle otherCircle : circles)
+			{
+				Vector2d DC = circle.loc.subtract(otherCircle.loc);
+				double DC_distsq = DC.magnitudeSquared();
+				
+				if(DC_distsq < (circle.rad + otherCircle.rad) * (circle.rad + otherCircle.rad))
+				{
+					// Other circle is totally immobile
+					if(otherCircle.pushResistance == -1)
+					{
+						// Move it out of the way somehow
+						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+
+						// Since we moved the circle in question, it's possible it moved into an illegal position
+						suspectedDirty = true;
+						break;
+					}
+					
+					// If this circle has infinite push strength
+					else if(circle.pushStrength == -1)
+					{
+						// Move other one out of the way somehow
+						otherCircle.velocity = (DC.divide(Math.sqrt(DC_distsq) * -1d).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+						
+						// Since we moved the other one, we need to make sure it's new position is not dirty.
+						simulateCircle(otherCircle, delta);
+					}
+					
+					// Both circles have finite strength/resistance
+					else
+					{
+						// 
+						double knockback = otherCircle.pushResistance / (circle.pushStrength + otherCircle.pushResistance);
+						
+						// Move it out of the way somehow
+						circle.loc.addLocal(DC.divide(Math.sqrt(DC_distsq) * knockback).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+
+						// Since we moved the circle in question, it's possible it moved into an illegal position
+						suspectedDirty = true;
+						
+						// Move other one out of the way somehow
+						otherCircle.velocity = (DC.divide(Math.sqrt(DC_distsq) * -1 * (1 - knockback)).multiplyLocal(circle.rad + otherCircle.rad + 0.5d)).subtractLocal(DC);
+						
+						// Since we moved the other one, we need to make sure it's new position is not dirty.
+						simulateCircle(otherCircle, delta);
+						
+						break;
+					}
+				}
+			}
 		}
 		
 		circle.velocity.setZero();

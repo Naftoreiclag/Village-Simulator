@@ -11,20 +11,22 @@ public class Circle
 	public Vector2d loc;
 	public final double rad;
 	public final double radsq;
-	public final double weight;
+	public final double pushStrength;
+	public final double pushResistance;
 	
 	public Vector2d velocity = new Vector2d();
 	
-	public Circle(Vector2d loc, double rad, double weight)
+	public Circle(Vector2d loc, double rad, double strength, double weight)
 	{
 		this.loc = loc;
 		this.rad = rad;
 		this.radsq = rad * rad;
-		this.weight = weight;
+		this.pushStrength = strength;
+		this.pushResistance = weight;
 	}
 	
-	public Circle(double x, double y, double rad, double weight)
+	public Circle(double x, double y, double rad, double strength, double weight)
 	{
-		this(new Vector2d(x, y), rad, weight);
+		this(new Vector2d(x, y), rad, strength, weight);
 	}
 }
