@@ -6,7 +6,11 @@
 
 package naftoreiclag.village.gamestates;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +41,8 @@ public class GameStateTestGame extends GameState
 		@Override
 		protected void simpleSetup()
 		{
+			TextureLib.loadTexture("sticky");
+			
 			test = new InterleavedSprite(
 					TBuffy.floaty(
 							  0f,   0f, 0f, 0f, 
@@ -45,7 +51,7 @@ public class GameStateTestGame extends GameState
 							  0f, 100f, 0f, 1f),
 					TBuffy.inty(0, 2, 1, 0, 3, 2),
 					6);
-			test.setTexture(TextureLib.getDebugTexture());
+			test.setTexture(TextureLib.getTextureFromName("sticky"));
 			
 			test.upload();
 		}
@@ -53,7 +59,9 @@ public class GameStateTestGame extends GameState
 		@Override
 		protected void simpleRender()
 		{
+			glEnable(GL_BLEND);
 			test.render();
+			glDisable(GL_BLEND);
 		}
 
 		@Override
@@ -74,7 +82,7 @@ public class GameStateTestGame extends GameState
 	@Override
 	protected GameState simpleStep(long delta)
 	{
-		logger.log(Level.INFO, "Crude FPS:" + (1000 / delta));
+		logger.log(Level.INFO, "Crude FPS:" + (1000 / (delta + 1)));
 		renderer.render();
 		return null;
 	}
