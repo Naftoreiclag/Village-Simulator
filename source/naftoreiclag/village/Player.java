@@ -6,21 +6,16 @@
 
 package naftoreiclag.village;
 
-import naftoreiclag.village.environment.Hills;
-
 import org.lwjgl.input.Keyboard;
 
 public class Player
 {
 	public float x;
-	public float y = 2.5f;
 	public float z;
 	
 	public float direction;
 	
 	float spd = 0.005f;
-	
-	public Hills map;
 	
 	public void input(long delta)
 	{
@@ -44,8 +39,6 @@ public class Player
 			direction = (float) directTo(direction, 90f, 0.05f);
 			x += spd * delta;
 		}
-		
-		y = getFoo(x, z);
 	}
 
 	public double directTo(double aaa, double bbb, float amnt)
@@ -62,49 +55,5 @@ public class Player
 		double midDir = Math.toDegrees(Math.atan2(cy, cx));
 
 		return midDir;
-	}
-
-	
-	private float getFoo(float x, float z)
-	{
-		if(x >= 0 && z >= 0 && x < Hills.size && z < Hills.size)
-		{
-			
-			// M  y  D
-			//
-			// h  P  s
-			//
-			// B  g  N
-			
-			x /= Hills.horzu;
-			z /= Hills.horzu;
-			
-			int xi = (int) x;
-			int zi = (int) z;
-			
-			float m = map.map[xi][zi];
-			float d = map.map[xi + 1][zi];
-			float b = map.map[xi][zi + 1];
-			float n = map.map[xi+1][zi+1];
-			
-			float xr = x - xi;
-			float zr = z - zi;
-			
-			float md = d - m;
-			float bn = n - b;
-			
-			float y = m + (md * xr);
-			float g = b + (bn * xr);
-			
-			float yg = g - y;
-			
-			float p = y + (yg * zr);
-			
-			return p * Hills.vertu;
-		}
-		else
-		{
-			return 0;
-		}
 	}
 }
