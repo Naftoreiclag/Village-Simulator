@@ -14,7 +14,7 @@ public class Circle
 	public final double pushStrength;
 	public final double pushResistance;
 	
-	public Vector2d velocity = new Vector2d();
+	public Vector2d motion = new Vector2d();
 	
 	public Circle(Vector2d loc, double rad, double strength, double weight)
 	{
