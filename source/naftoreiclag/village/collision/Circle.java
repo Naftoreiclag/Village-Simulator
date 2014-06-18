@@ -12,8 +12,10 @@ public class Circle
 	public final double rad;
 	public final double radsq;
 	public final double pushStrength;
+	// How well it resists other circles pushing it. If this is -1, then it cannot be moved.
 	public final double pushResistance;
 	
+	// Describes where it relatively wants to be in the next tick
 	public Vector2d motion = new Vector2d();
 	
 	public Circle(Vector2d loc, double rad, double strength, double weight)

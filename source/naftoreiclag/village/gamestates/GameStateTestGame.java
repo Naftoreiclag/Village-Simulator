@@ -11,11 +11,17 @@ import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import naftoreiclag.village.Player;
 import naftoreiclag.village.UserSettings;
+import naftoreiclag.village.collision.Line;
+import naftoreiclag.village.collision.Space;
+import naftoreiclag.village.environment.Hills;
+import naftoreiclag.village.environment.Room;
 import naftoreiclag.village.rendering.TextureLib;
 import naftoreiclag.village.rendering.camera.Camera2D;
 import naftoreiclag.village.rendering.model.InterleavedSprite;
@@ -36,40 +42,46 @@ public class GameStateTestGame extends GameState
 			super(camera, width, height);
 		}
 		
-		Model test;
+		Model playerModel;
+		Player player;
 
 		@Override
 		protected void simpleSetup()
 		{
 			TextureLib.loadTexture("sticky");
 			
-			test = new InterleavedSprite(
+			playerModel = new InterleavedSprite(
 					TBuffy.floaty(
-							  0f,   0f, 0f, 0f, 
-							100f,   0f, 1f, 0f, 
-							100f, 100f, 1f, 1f, 
-							  0f, 100f, 0f, 1f),
+							-25f, -25f, 0f, 0f, 
+							 25f, -25f, 1f, 0f, 
+							 25f,  25f, 1f, 1f, 
+							-25f,  25f, 0f, 1f),
 					TBuffy.inty(0, 2, 1, 0, 3, 2),
 					6);
-			test.setTexture(TextureLib.getTextureFromName("sticky"));
+			playerModel.setTexture(TextureLib.getTextureFromName("sticky"));
 			
-			test.upload();
+			playerModel.upload();
 		}
 
 		@Override
 		protected void simpleRender()
 		{
 			glEnable(GL_BLEND);
-			test.render();
+    		glTranslatef((float) player.collision.loc.a, (float) player.collision.loc.b, 0.0f);
+			playerModel.render();
 			glDisable(GL_BLEND);
 		}
 
 		@Override
 		protected void simpleCleanup()
 		{
-			test.cleanup();
+			playerModel.cleanup();
 		}
 	}
+	
+	Space space;
+	
+	Player player;
 	
 	TestRenderer renderer;
 	Camera2D camera;
@@ -83,6 +95,9 @@ public class GameStateTestGame extends GameState
 	protected GameState simpleStep(long delta)
 	{
 		logger.log(Level.INFO, "Crude FPS:" + (1000 / (delta + 1)));
+		player.input(delta);
+		
+		space.simulate(delta);
 		renderer.render();
 		return null;
 	}
@@ -93,7 +108,15 @@ public class GameStateTestGame extends GameState
 		camera = new Camera2D();
 		renderer = new TestRenderer(camera, UserSettings.width, UserSettings.height);
 		
+		player = new Player();
+		player.spd = 0.5f;
+		
+		space = new Space();
+		space.circles.add(player.collision);
+		space.lines.add(new Line(50, 0, 50, 100));
+		
 		renderer.setup();
+		renderer.player = player;
 		
 		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	}

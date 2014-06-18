@@ -46,7 +46,7 @@ public class GameStateOverworld extends GameState
 		camera = new PlayerCamera(90, ((float) UserSettings.width) / ((float) UserSettings.height), 0.1f, 1000f);
 		camera2 = new DebugCamera3D(90, ((float) UserSettings.width) / ((float) UserSettings.height), 0.1f, 1000f);
 		player = new Player();
-		player.map = map;
+		//player.map = map;
 		camera.setPlayer(player);
 		renderer = new OverworldRenderer(camera, UserSettings.width, UserSettings.height, map, player);
 

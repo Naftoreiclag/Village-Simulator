@@ -6,54 +6,38 @@
 
 package naftoreiclag.village;
 
+import naftoreiclag.village.collision.Circle;
+
 import org.lwjgl.input.Keyboard;
 
 public class Player
 {
-	public float x;
-	public float z;
+	public float spd = 0.005f;
 	
-	public float direction;
+	public Circle collision;
 	
-	float spd = 0.005f;
+	public Player()
+	{
+		collision = new Circle(0, 0, 25, 1, 1);
+	}
 	
 	public void input(long delta)
 	{
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W))
 		{
-			direction = (float) directTo(direction, 180f, 0.05f);
-			z -= spd * delta;
+			collision.motion.b += -spd;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S))
 		{
-			direction = (float) directTo(direction, 0f, 0.05f);
-			z += spd * delta;
+			collision.motion.b += spd;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
-			direction = (float) directTo(direction, 270f, 0.05f);
-			x -= spd * delta;
+			collision.motion.a += -spd;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
-			direction = (float) directTo(direction, 90f, 0.05f);
-			x += spd * delta;
+			collision.motion.a += spd;
 		}
-	}
-
-	public double directTo(double aaa, double bbb, float amnt)
-	{
-		// Convert to Vectors
-		double ax = Math.cos(Math.toRadians(aaa));
-		double ay = Math.sin(Math.toRadians(aaa));
-		double bx = Math.cos(Math.toRadians(bbb));
-		double by = Math.sin(Math.toRadians(bbb));
-
-		double cx = (ax + bx) / 2d;
-		double cy = (ay + by) / 2d;
-
-		double midDir = Math.toDegrees(Math.atan2(cy, cx));
-
-		return midDir;
 	}
 }
