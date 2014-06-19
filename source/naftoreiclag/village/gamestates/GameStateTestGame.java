@@ -6,12 +6,7 @@
 
 package naftoreiclag.village.gamestates;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +22,7 @@ import naftoreiclag.village.rendering.camera.Camera2D;
 import naftoreiclag.village.rendering.model.InterleavedSprite;
 import naftoreiclag.village.rendering.model.Model;
 import naftoreiclag.village.rendering.renderer.Renderer2D;
+import naftoreiclag.village.rendering.util.PolygonGen;
 import naftoreiclag.village.rendering.util.TBuffy;
 
 // To stop getting a headache over 3D stuff
@@ -44,6 +40,8 @@ public class GameStateTestGame extends GameState
 		
 		Model playerModel;
 		Player player;
+		
+		Model circleTest;
 
 		@Override
 		protected void simpleSetup()
@@ -61,14 +59,24 @@ public class GameStateTestGame extends GameState
 			playerModel.setTexture(TextureLib.getTextureFromName("sticky"));
 			
 			playerModel.upload();
+			
+			circleTest = PolygonGen.makeCircle(30, 20, 16);
+			circleTest.setTexture(TextureLib.getDebugTexture());
+			circleTest.upload();
 		}
 
 		@Override
 		protected void simpleRender()
 		{
 			glEnable(GL_BLEND);
-    		glTranslatef((float) player.collision.loc.a, (float) player.collision.loc.b, 0.0f);
-			playerModel.render();
+			glPushMatrix();
+				glTranslatef(100.0f, 100.0f, 0.0f);
+				circleTest.render();
+			glPopMatrix();
+			glPushMatrix();
+	    		glTranslatef((float) player.collision.loc.a, (float) player.collision.loc.b, 0.0f);
+				playerModel.render();
+			glPopMatrix();
 			glDisable(GL_BLEND);
 		}
 
