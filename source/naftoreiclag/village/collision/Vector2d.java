@@ -121,7 +121,7 @@ public class Vector2d
 		return this.clone().divideLocal(a);
 	}
 	
-	public Vector2d negativeLocal()
+	public Vector2d inverseLocal()
 	{
 		this.a = -this.a;
 		this.b = -this.b;
@@ -129,9 +129,9 @@ public class Vector2d
 		return this;
 	}
 	
-	public Vector2d negative()
+	public Vector2d inverse()
 	{
-		return this.clone().negativeLocal();
+		return this.clone().inverseLocal();
 	}
 	
 	public double distanceSquared(Vector2d other)
@@ -162,5 +162,20 @@ public class Vector2d
 	public Vector2d normalize()
 	{
 		return this.clone().normalizeLocal();
+	}
+	
+	// Vector 90 degrees clockwise from this one
+	public Vector2d perpendicularLocal()
+	{
+		double oldA = a;
+		a = b;
+		b = -oldA;
+		
+		return this;
+	}
+	
+	public Vector2d perpendicular()
+	{
+		return this.clone().perpendicularLocal();
 	}
 }
