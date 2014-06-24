@@ -11,24 +11,26 @@ public class Circle
 	public Vector2d loc;
 	public final double rad;
 	public final double radsq;
-	public final double pushStrength;
-	// How well it resists other circles pushing it. If this is -1, then it cannot be moved.
+	
+	/* How well it resists other circles pushing it. 
+	 * If this is -1, then it cannot be moved. 
+	 * If it is 0, the other circle can push it perfectly.
+	 */
 	public final double pushResistance;
 	
 	// Describes where it relatively wants to be in the next tick
 	public Vector2d motion = new Vector2d();
 	
-	public Circle(Vector2d loc, double rad, double strength, double weight)
+	public Circle(Vector2d loc, double rad, double weight)
 	{
 		this.loc = loc;
 		this.rad = rad;
 		this.radsq = rad * rad;
-		this.pushStrength = strength;
 		this.pushResistance = weight;
 	}
 	
-	public Circle(double x, double y, double rad, double strength, double weight)
+	public Circle(double x, double y, double rad, double weight)
 	{
-		this(new Vector2d(x, y), rad, strength, weight);
+		this(new Vector2d(x, y), rad, weight);
 	}
 }

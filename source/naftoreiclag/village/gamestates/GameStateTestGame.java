@@ -140,12 +140,12 @@ public class GameStateTestGame extends GameState
 		renderer = new TestRenderer(camera, UserSettings.width, UserSettings.height);
 		
 		player = new Player();
-		player.spd = 0.5f;
+		player.spd = 0.05f;
 		
 		space = new Space();
 		space.circles.add(player.collision);
 		space.lines.add(new Line(50, 0, 100, 100));
-		test = new Circle(100, 100, 30, -1, -1);
+		test = new Circle(100, 100, 30, -1);
 		space.circles.add(test);
 		
 		renderer.setup();

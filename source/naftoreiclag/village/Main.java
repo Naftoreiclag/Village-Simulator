@@ -27,9 +27,9 @@ public class Main implements Runnable
 	public void run()
 	{
 		setupStaticDisplay();
-		
+
+		// State engine
 		GameState state = new GameStateTestGame();
-		
 		boolean running = true;
 		while(running)
 		{

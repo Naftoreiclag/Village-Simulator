@@ -18,26 +18,31 @@ public class Player
 	
 	public Player()
 	{
-		collision = new Circle(0, 0, 25, 1, 1);
+		collision = new Circle(0, 0, 25, 1);
 	}
 	
 	public void input(long delta)
 	{
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W))
 		{
-			collision.motion.b += -spd;
+			collision.motion.b += -1;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S))
 		{
-			collision.motion.b += spd;
+			collision.motion.b += 1;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
-			collision.motion.a += -spd;
+			collision.motion.a += -1;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
-			collision.motion.a += spd;
+			collision.motion.a += 1;
+		}
+		
+		if(!collision.motion.isZero())
+		{
+			collision.motion.normalizeLocal().multiplyLocal(spd);
 		}
 	}
 }

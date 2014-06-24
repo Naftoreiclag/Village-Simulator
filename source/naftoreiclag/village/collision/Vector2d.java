@@ -8,6 +8,8 @@ package naftoreiclag.village.collision;
 
 public class Vector2d
 {
+	// TODO: add some vector pool or something for recycling of Vector2d's
+	
 	public double a;
 	public double b;
 	
@@ -33,6 +35,11 @@ public class Vector2d
 		this.b = 0;
 		
 		return this;
+	}
+	
+	public boolean isZero()
+	{
+		return a == 0 && b == 0;
 	}
 	
 	public Vector2d addLocal(Vector2d other)

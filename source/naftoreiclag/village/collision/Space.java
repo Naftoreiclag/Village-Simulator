@@ -18,8 +18,6 @@ public class Space
 	// Increment physics simulation by a certain amount
 	public void simulate(long delta)
 	{
-		delta = 1L;
-		
 		for(Circle circle : circles)
 		{
 			simulateCircle(circle, delta);
@@ -227,6 +225,7 @@ public class Space
 						break;
 					}
 					
+					/*
 					// Other circle has no resistance
 					else if(otherCircle.pushResistance == 0)
 					{
@@ -236,6 +235,7 @@ public class Space
 						// Since we moved the other one, we need to make sure it's new position is not dirty.
 						simulateCircle(otherCircle, delta);
 					}
+					*/
 					
 					// Both circles have finite strength/resistance
 					// To make pushing non-insane to do, there is no "sliding" between pushable circles.
